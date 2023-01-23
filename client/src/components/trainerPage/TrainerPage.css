@@ -1,0 +1,631 @@
+.trainer-page-container {
+    /* overflow: hidden; */
+    display: flex;
+    justify-content: center;
+    /* gap: 2em; */
+    margin-top: 3em;
+    padding-top: 2em;
+
+}
+
+@media screen and (min-width: 1500px) {
+    .trainer-page-container {
+        justify-content: flex-end;
+    }
+
+    /* .popup-container {
+        margin-right: 5em;
+    } */
+}
+
+.trainer-actions-container {
+    display: inline-block;
+    width: 18em;
+    max-width: 18em;
+    align-content: center;
+    padding: 0 0 0 1em;
+    margin-right: 0.5em;
+    border-left: 1.8px dashed rgb(97, 133, 210);
+    height: 15em;
+    background-color: whitesmoke;
+    /* border-radius: 10%; */
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: 2em;
+}
+
+@media screen and (min-width: 1300px) {
+    .trainer-actions-container {
+        max-width: 14em
+    }
+}
+
+.trainer-gretting {
+    color: blue; 
+    font-size: 14px; 
+    line-height: 1.2; 
+    margin-top: 0.7em;
+}
+
+.trainer-userName {
+    overFlow: scroll;
+    /* display: table-caption; */
+    /* font-family: Montserrat, Arial, sans-serif; */
+    /* font-size: 1em; */
+    background-color: black;
+    color: transparent;
+    text-shadow: 0px 2px 3px lightgrey;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-align: center;
+}
+
+.trainer-image-home-container {
+    background-image: url("https://static.wixstatic.com/media/4103a2_aaf38e85cafe4be199c1c95da18d5e24~mv2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: -8em;
+    /* opacity: 0.7; */
+    width: 77.3em;
+    height: 80vh;
+    /* border-radius: 2em; */
+    margin-right: 2em;
+}
+
+.trainer-actions-btn {
+    font-size: 0.8em;
+    border-radius: 50em;
+    background-color: rgb(52, 73, 146);
+    color: whitesmoke;
+    width: 12em;
+}
+
+.trainer-actions-btn:hover {
+    background-color: whitesmoke;
+    color: blue;
+    cursor: pointer;
+    transition: all 300ms linear;
+}
+
+.trainer-actions-btn:focus {
+    background-color: whitesmoke;
+    color: blue;
+}
+
+.popup-container {
+    width: 80em;
+    /* height: 80vh; */
+    display: flex;
+    justify-content: center;
+}
+
+.postCourse-popup {
+    width: 30em;
+    height: 18em;
+    /* opacity: none; */
+    background-color: rgb(120, 167, 255);
+    z-index: 2;
+    position: relative;
+    top: 8vh;
+    left: calc(17% - 8rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.popup-labels {
+    height: 10em;
+    display: flex;
+    flex-wrap: wrap;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.popupForm-field {
+    width: 15em;
+    margin: 3px 0 3px 0;
+    /* padding: 15px; */
+    /* font-size: 16px; */
+    margin: 0.8em;
+    border: none;
+    border-radius: 16px;
+    font-family: "Roboto", sans-serif;
+    background-color: rgb(232, 238, 240);
+    display: flex;
+    /* flex-wrap: wrap; */
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: 0px 20px;
+    caret-color: rgb(19, 251, 251);
+}
+
+.popupForm-field:focus {
+    background-color: rgb(120, 167, 255);
+    color: white;
+}
+
+.popupForm-field:focus::-webkit-input-placeholder {
+    color: white;
+}
+
+.popupForm-field:hover::-webkit-input-placeholder {
+    color: rgb(237, 119, 23);
+    font-weight: bold;
+    font-family: Geneva, Verdana, sans-serif;
+}
+
+.popupForm-field:hover {
+    background-color: rgb(52, 73, 146);
+    color: white;
+}
+
+
+.btn-popup {
+    background: rgb(52, 73, 146);
+    color: white;
+    cursor: pointer;
+    margin: 10px 0 10px 0;
+    width: 12em;
+    height: 2.7em;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    font-family: sans-serif;
+    cursor: url(/Users/evyatarhale/GO-CODE/train-me/client/src/images/circlePointer.png), pointer;
+}
+
+.btn-popup:hover {
+    background-color: rgb(232, 238, 240);
+    color: rgb(52, 73, 146);
+    font-weight: bold;
+    border-radius: 0px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.btn-popup:focus {
+    background-color: rgb(120, 167, 255);
+    color: black;
+    font-weight: bold;
+}
+
+.file-field {
+    height: 32px;
+    outline: none;
+    border-bottom: 1.4px solid transparent;
+    font-size: 14px;
+    margin-top: 1.5em;
+    margin-left: 1.5em;
+}
+
+.error-span {
+    font-size: 12px;
+    color: red;
+    display: inline-flex;
+    width: 14em;
+    /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+}
+
+.courses-buttons-div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+    /* padding-left: 1em; */
+}
+
+.filteredButtons-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-right: 0.5em;
+}
+
+.filteredButtons {
+    margin-right: 0.2em;
+    background-color: rgb(155, 155, 198);
+    border: 2px solid rgb(120, 167, 255);
+    /* border-radius: 2em; */
+}
+
+.filteredButtons:hover {
+    background-color: rgb(52, 73, 146);
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.coursesAmount-container {
+    display: flex;
+    font-size: 15px;
+    font-family: 'Franklin Gothic Medium';
+    /* font-weight: bold; */
+    align-items: flex-end;
+    margin-right: 1em;
+    padding-left: 0.3em;
+    width: 6em;
+    border-top: 1px dashed blue;
+    /* border-bottom: 1px dotted blue; */
+    border-bottom: 1px dashed blue
+}
+
+.close-postCourse-btn {
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid rgb(185, 121, 121);
+    background-color: rgb(48, 44, 44);
+    opacity: 1;
+    height: 2em;
+    width: 2.2em;
+    margin-left: 2em;
+}
+
+.close-postCourse-btn:before {
+    content: "✖";
+    cursor: pointer;
+    color: white;
+    opacity: 0.8;
+}
+
+.close-postCourse-btn:hover {
+    background-color: red;
+}
+
+.success-posting {
+    margin-top: -2em;
+    color: rgb(52, 73, 146);
+    text-decoration: underLine;
+    text-decoration-color: rgb(226, 188, 142);
+}
+
+.message-emptyArr {
+    width: 53.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: rgb(119, 94, 143);
+}
+
+/* @media screen and (min-width: 1440px) {
+    .message-emptyArr {
+        width: 42.7em;
+    }
+} */
+
+.my-courses-form {
+    display: flex;
+    flex-direction: column;
+    width: 80em;
+
+}
+
+.myCourses-topBar {
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 5em;
+    font-family: Neue;
+}
+
+.allCoursesCards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5em;
+    padding-left: 3.3em;
+    /* justify-content: flex-start; */
+    height: 35em;
+    overflow: auto;
+}
+
+@media screen and (min-width: 1300px) {
+    .allCoursesCards-container {
+        height: 45em;
+    }
+}
+
+.allCoursesCards-container::-webkit-scrollbar {
+    height: 20px;
+    width: 6px;
+    margin-left: 0.2em;
+}
+
+.allCoursesCards-container::-webkit-scrollbar-thumb:hover {
+    background: #054572;
+    -webkit-border-radius: 1ex;
+    border-radius: 1ex;
+}
+
+.courseCard-container {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    height: 18.7em;
+    overflow: scroll;
+    margin: 0 0.4em 0 0;
+    padding-left: 0.1em;
+    /* border: 1px dashed black; */
+    /* border-left: 1px solid black; */
+    border-style: solid;
+    border-image:
+        linear-gradient(to bottom,
+            rgb(52, 73, 146),
+            rgba(0, 0, 0, 0)) 1 100%;
+    background: linear-gradient(-215deg, whitesmoke 0%, #adafbc 51%, #777b92 90%);
+
+}
+
+.course-title {
+    color: rgb(136, 116, 116);
+    padding: 0 0.3em 0 0.3em;
+    border-bottom: 1px dotted rgb(200, 90, 90);
+    /* line-height: 1.3em; */
+}
+
+.course-title .item {
+    word-wrap: break-word;
+    display: inline-block;
+    max-width: calc(100% - 4px);
+    color: rgb(70, 68, 68);
+    /* text-decoration: underLine; */
+    font-size: 12px;
+    /* line-height: 1em; */
+}
+
+.numeric-items {
+    font-size: 14px;
+    color: #334598;
+}
+
+.customers-amount {
+    font-size: 25px;
+    color: white;
+    -webkit-text-stroke: 1.2px black;
+    background-color: rgb(70, 83, 125);
+    font-weight: bold;
+    border: 1px dotted black;
+    border-radius: 50%;
+    width: 2em;
+    display: flex;
+    justify-content: center;
+    margin-left: 6em;
+    margin-top: -1em;
+}
+
+.customers-line {
+    font-size: 12px;
+    color: rgb(14, 109, 14);
+}
+
+.viewCustomers-btn {
+    font-size: 0.8em;
+    border-radius: 50em;
+    /* background-color: rgb(52, 73, 146); */
+    background: linear-gradient(-215deg, whitesmoke 0%, #adafbc 51%, #777b92 90%);
+    color: rgb(7, 6, 6);
+    width: 12em;
+    margin-left: 2.2em;
+    margin-bottom: 0.5em;
+    border: 1px dashed rgb(45, 103, 158);
+    cursor: pointer;
+}
+
+.viewCustomers-btn:hover {
+    border: 2px dashed rgb(13, 12, 12);
+    color: rgb(84, 62, 35);
+    font-weight: bold;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 0.4em 2em 0em;
+    padding-bottom: 0.2em;
+    border-style: solid;
+    border-image:
+        linear-gradient(to top,
+            rgb(73, 90, 151),
+            rgba(0, 0, 0, 0)) 1 10%;
+}
+
+.card-btn {
+    color: white;
+    background-color: rgb(52, 73, 146);
+    border-radius: 2em;
+    cursor: url(/Users/evyatarhale/GO-CODE/train-me/client/src/images/circlePointer.png), pointer;
+}
+
+.card-btn:hover {
+    background-color: red;
+}
+
+.customers-modal-card {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 1em 1em 1em;
+    margin: 0.2em 0.2em 0.2em 0.2em;
+    border: 1px dashed white;
+    border-radius: 5px;
+}
+
+.mailToAll-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1em;
+    font-size: 0.8em;
+    border-radius: 50em;
+    background: linear-gradient(255deg, whitesmoke -15%, #adafbc 51%, #8d91aa 90%);
+    color: rgb(119, 114, 114);
+    /* width: 10em; */
+    border: 1px dashed rgb(45, 103, 158);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mailToAll-btn:hover {
+    border: 1px dotted rgb(59, 34, 250);
+    color: rgb(125, 103, 103);
+    transition: all 800ms linear;
+    background: linear-gradient(-200deg, whitesmoke 0%, #adafbc 51%, #777b92 90%);
+    text-decoration: underline;
+    -webkit-text-decoration-color: rgb(246, 244, 244);
+    /* Safari */
+    text-decoration-color: rgb(246, 244, 244);
+}
+
+.my-customers-form {
+    display: flex;
+    flex-direction: column;
+    width: 80em;
+}
+
+.allCoursesCustomers-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0.5em;
+}
+
+.allCardsAndTitlesHolder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.allCoursesCustomers-course-title-holder {
+    display: flex;
+    justify-content: center;
+    color: blue;
+    font-weight: bold;
+    font-family: fantasy;
+    height: 1.5em;
+}
+
+.allCoursesCustomers-allCardsHolder {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1em 1em 0 1em;
+    margin-bottom: 1em;
+
+}
+
+.allCoursesCustomers-cardholder {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 1em 1em 1em;
+    padding: 0.4em 1em 0.4em 1em;
+    border-radius: 10px;
+    background-color: rgb(245, 237, 227);
+    box-shadow: inset 20px 20px 50px 10px rgb(239, 199, 206), 0 0 10px black;
+}
+
+.allCoursesCustomers-card-row {
+    /* padding-left: 0.2em; */
+    display: flex;
+    justify-content: center;
+}
+
+.mail-btn {
+    display: flex;
+    justify-content: center;
+    font-size: 0.8em;
+    border-radius: 50em;
+    background: linear-gradient(-200deg, whitesmoke 0%, #adafbc 51%, #777b92 90%);
+    color: rgb(248, 244, 244);
+    width: 10em;
+    border: 1px dashed rgb(45, 103, 158);
+    cursor: pointer;
+}
+
+.mail-btn:hover {
+    border: 1px dotted rgb(59, 34, 250);
+    color: rgb(121, 75, 75);
+    font-weight: bold;
+}
+
+.dashed-BorderBetweenCourses {
+    border-bottom: 3px dotted rgba(61, 81, 126, 0.689);
+    margin: 0 5em 2em 5em;
+}
+
+.allCustomers-counter {
+    display: flex;
+    background-color: gray;
+    font-size: 20px;
+    justify-content: center;
+    margin: 0 2em 0 2em;
+    border: 2px solid pink;
+    border-right: none;
+    border-left: none;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+}
+
+.close-emptyData-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    height: 1.5em;
+    width: 1.5em;
+    margin-right: 1.5em;
+    color: rgb(54, 54, 50);
+    border: 1px solid red;
+    border-radius: 50%;
+    margin-bottom: 3em;
+}
+
+.close-emptyData-message:hover {
+    color: red;
+    background-color: black;
+    cursor: pointer;
+}
+
+.my-courses-form {
+    width: 80em;
+}
+
+.close-allCoursesCostomers-container {
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid rgb(185, 121, 121);
+    background-color: rgb(48, 44, 44);
+    opacity: 1;
+    height: 2em;
+    width: 2em;
+    margin-left: 2em;
+    cursor: pointer;
+}
+
+.close-allCoursesCostomers-container:before {
+    content: "✖";
+    cursor: pointer;
+    color: white;
+    opacity: 0.8;
+}
+
+.close-allCoursesCostomers-container:hover {
+    background-color: red;
+}
+
+.customersAmount-insideTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dotted rgb(42, 51, 36);
+    border-radius: 50%;
+    margin-left: 1em;
+    width: 2em;
+    font-family: Arial, sans-serif;
+    font-size: 25px;
+    filter: drop-shadow(15px 12px 0.8px rgb(191, 150, 191));
+}

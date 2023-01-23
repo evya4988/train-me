@@ -1,0 +1,171 @@
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.btn-modal {
+    color: white;
+    background-color: rgb(52, 73, 146);
+    border-radius: 2em;
+    width: 4.7em;
+    cursor: url(/Users/evyatarhale/GO-CODE/train-me/client/src/images/circlePointer.png), pointer;
+    /* padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px; */
+}
+
+.btn-modal:hover {
+    color: white;
+    background-color: rgb(52, 146, 76)
+}
+
+.modal, .overlay-customers, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 7.2vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    z-index: 1;
+
+}
+
+.overlay {
+    background: rgba(49, 49, 49, 0.8);
+}
+
+.modal-content-container {
+    display: flex;
+    position: absolute;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.8;
+    background: #f1f1f1;
+    box-shadow: 2px 0px 20px 8px rgb(34, 31, 83) inset;
+    border-radius: 3px;
+    z-index: 2;
+
+}
+
+.modal-labels {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1.5em;
+    height: 13rem;
+    width: 20rem;
+}
+
+.modal-with-image {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3em;
+    height: 26rem;
+    width: 20rem;
+}
+
+.modal-form-field {
+    border-radius: 10px;
+    caret-color: rgb(104, 190, 5);
+    padding: 0px 7px;
+    margin-top: 0.3em;
+    width: 12rem;
+}
+
+.modal-with-image {
+    height: 28rem;
+    top: 0;
+}
+
+
+.modal-form-field:focus {
+    background-color: rgb(190, 179, 213);
+    color: rgb(17, 16, 16);
+}
+
+.modal-form-field:hover::placeholder {
+    background-color: rgb(144, 120, 192);
+    color: white;
+}
+
+.close-update-modal-container {
+    /* display: flex;
+    justify-content: space-around; */
+    position: absolute;
+    bottom: 0.1em;
+    right: 4em;
+    /* padding: 5px 7px; */
+}
+
+.close-modal {
+    background-color: rgb(100, 100, 205);
+    margin: 1em;
+    color: rgb(52, 50, 50);
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    background-color: rgb(180, 95, 95);
+    color: whitesmoke;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.close-modal:focus {
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: white;
+}
+
+.update-modal {
+    background-color: rgb(100, 100, 205);
+    margin: 1em;
+    color: rgb(52, 50, 50);
+    cursor: pointer;
+}
+
+.update-modal:hover {
+    background-color: rgb(61, 101, 57);
+    color: whitesmoke;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.update-modal:focus {
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: white;
+    background-color: green;
+}
+
+.modal-customer-container {
+    height: 30rem;
+    width: 40rem;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+    padding: 3em 1em 3em 1em;
+    /* padding-top: 3em; */
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    line-height: 1.8;
+    /* background: #f1f1f1; */
+    box-shadow: 2px 0px 20px 8px rgb(195, 240, 198) inset;
+    border-radius: 15px;
+}
+
+.overlay-customers {
+    background: rgba(52, 54, 52, 0.534);
+}

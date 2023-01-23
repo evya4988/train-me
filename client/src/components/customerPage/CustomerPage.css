@@ -1,0 +1,72 @@
+.customer-page-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2em;
+    margin-top: 3em;
+    padding-top: 2em;
+
+    /* width: auto; */
+    /* height: 100vh; */
+}
+
+.customer-actions-container {
+    display: block;
+    width: 15em;
+    align-content: center;
+    padding: 0 1em 0 1em;
+    border-left: 1.8px dashed rgb(81, 197, 75);
+    height: 15em;
+}
+
+.customer-gretting {
+    color: blue;
+    font-size: 14px;
+    line-height: 1.2;
+    margin-top: 0.7em;
+}
+
+
+.customer-userName {
+    overFlow: scroll;
+    display: table-caption;
+    /* font-family: Montserrat, Arial, sans-serif; */
+    /* font-size: 1em; */
+    background-color: black;
+    color: transparent;
+    text-shadow: 0px 2px 3px lightgrey;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-align: center;
+}
+
+.customer-image-home-container {
+    background-image: url("https://images.pexels.com/photos/7590968/pexels-photo-7590968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* margin-top: -8em; */
+    opacity: 0.7;
+    width: 50em;
+    height: 80vh;
+    border-radius: 2em;
+    /* margin-right: 2em; */
+}
+
+.customer-actions-btn {
+    font-size: 0.8em;
+    border-radius: 50em;
+    background-color: green;
+    color: whitesmoke;
+    width: 12em;
+}
+
+.customer-actions-btn:hover {
+    background-color: whitesmoke;
+    color: green;
+    cursor: pointer;
+    transition: all 300ms linear;
+}
+
+.customer-actions-btn:focus {
+    background-color: whitesmoke;
+    color: green;
+}

@@ -1,0 +1,102 @@
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.remove-btn-modal {
+    color: white;
+    background-color: rgb(52, 73, 146);
+    border-radius: 2em;
+    width: 4.7em;
+    cursor: url(/Users/evyatarhale/GO-CODE/train-me/client/src/images/circlePointer.png), pointer;
+    /* padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px; */
+}
+
+.remove-btn-modal:hover {
+    color: white;
+    background-color: rgb(165, 46, 46);
+}
+
+.modal, .overlay-customers, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 7.2vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlay {
+    background: rgba(49, 49, 49, 0.8);
+}
+
+.removeBtn-modal-content-container {
+    display: flex;
+    position: absolute;
+    top: 41%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    line-height: 1.8;
+    z-index: 2;
+}
+
+.close-remove-modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 0.5em;
+    position: absolute;
+    bottom: 0.1em;
+    right: 4em;
+    color: rgb(51, 48, 48);
+    background-color: white;
+}
+
+.remove-close-modal {
+    background-color: rgb(152, 152, 214);
+    margin: 1em;
+    color: rgb(52, 50, 50);
+    cursor: pointer;
+}
+
+.remove-close-modal:hover {
+    background-color: rgb(52, 50, 50);
+    color: rgb(152, 152, 214);
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.remove-close-modal:focus {
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: white;
+}
+
+.remove-modal {
+    background-color: rgb(152, 152, 214);
+    margin: 1em;
+    color: rgb(165, 46, 46);
+    cursor: pointer;
+}
+
+.remove-modal:hover {
+    background-color: rgb(180, 95, 95);
+    color: whitesmoke;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.remove-modal:focus {
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: white;
+    background-color: green;
+}

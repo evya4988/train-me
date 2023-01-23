@@ -1,0 +1,37 @@
+.centered {
+    position: fixed;
+    top: 20%;
+    width: 35rem;
+    height: 8rem;
+    border-radius: 5px;
+    font-size: 30px;
+    margin-top: 6rem;
+    margin-left: 25%;
+    text-align: center;
+    background-color: lightslategray;
+    color: rgb(141, 54, 54);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+@media screen and (max-width: 950px) {
+    .centered {
+        height: 10rem;
+        width: 20rem;
+
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .centered {
+        height: 10rem;
+        width: 15rem;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .centered {
+        height: 15rem;
+        width: 10rem;
+
+    }
+}

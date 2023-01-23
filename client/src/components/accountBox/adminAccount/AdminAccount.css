@@ -1,0 +1,19 @@
+.adminBox {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(46, 45, 45);
+    padding-bottom: 15em;
+    margin-top: 3em;
+}
+
+@media screen and (max-width: 822px) {
+    .adminBox {
+        margin-top: 6em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .adminBox {
+        margin-top: 8em;
+    }
+}

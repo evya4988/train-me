@@ -1,0 +1,79 @@
+/* body {
+  overflow: hidden;
+} */
+
+.home-page-container {
+  /* background-color: #282c34; */
+  min-height: 120vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  /* padding-top: 1em; */
+  margin-top: 3em;
+  /* padding-right: 1.5em; */
+
+  /* background-image: url("https://images.pexels.com/photos/207779/pexels-photo-207779.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); */
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+
+  background-repeat: no-repeat;
+  /* background-image: url("https://media.istockphoto.com/photos/personal-trainer-guiding-woman-doing-barbell-squats-at-gym-picture-id616121640?k=20&m=616121640&s=612x612&w=0&h=uu26D6gUs5w3JEXGbX9tCc3YcxCMlMOA13ane0or2Nc="); */
+}
+
+.detailAndImage-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+  padding: 2em 0 2em 0;
+  /* margin-right: 2em; */
+  background-color: whitesmoke;
+  border-radius: 2em;
+}
+
+.allPersonalTrainers-Details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: space-evenly;
+  width: 28em;
+  height: 20em;
+  margin-left: 2em;
+}
+
+.PersonalTrainersDetailes-title {
+  font-size: 3.3em;
+  color: rgb(59, 57, 57);
+  font-weight:500;
+  line-height: 1em;
+}
+
+.PersonalTrainers-Detailes {
+  line-height: 1em;
+  color:rgb(91, 90, 90)
+}
+
+.PersonalTrainers-btn {
+  margin-top: 1.5em;
+  background-color: rgba(255, 77, 0, 0.886);
+  color: white;
+  width: 17em;
+  height: 3.5em;
+  border-radius: 0.5em;
+  border: none;
+  opacity: 0.7;
+}
+
+.PersonalTrainers-btn:hover {
+  opacity: 1;
+  transition: 1s ease;
+}
+
+.PersonalTrainersImage {
+  width: 38em;
+  border-radius: 20%;
+}
