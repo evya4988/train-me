@@ -13,26 +13,31 @@ module.exports = {
         const { name, category, pictureToDB, cost, description, lessontime, date, trainer, customers } =
             req.body;
 
+        // console.log(name, category, pictureToDB, cost, description, lessontime, date, trainer, customers);
         let cloImageResult = '';
-        await cloudinary.uploader.upload(pictureToDB,
-            {
-                folder: "trainme_courses_avatar",
-                upload_preset: 'unsigned_upload_course',
-                public_id: `${name}${date}_avatar`,
-                allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
-            },
-            function (error, result) {
-                if (error) {
-                    console.log("error from cloudinary");
-                    console.log(error);
-                } else {
-                    cloImageResult = result;
-                    // console.log("result.public_id : " + result.public_id)
-                    console.log("No Error from cloudinary");
+        console.log("here!!!!");
+        try{
+            await cloudinary.uploader.upload(pictureToDB,
+                {
+                    folder: "trainme_courses_avatar",
+                    upload_preset: 'unsigned_upload_course',
+                    public_id: `${name}${date}_avatar`,
+                    allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
+                },
+                function (error, result) {
+                    if (error) {
+                        console.log("error from cloudinary");
+                        console.log(error);
+                    } else {
+                        cloImageResult = result;
+                        // console.log("result.public_id : " + result.public_id)
+                        console.log("No Error from cloudinary");
+                    }
                 }
-            }
-        );
-
+            );
+        } catch (err) {
+            console.log("Error to Upload to cloudinary: ", err);
+        }
         const picture = {
             image: pictureToDB,
             public_id: cloImageResult.public_id
@@ -48,6 +53,7 @@ module.exports = {
             trainer,
             customers
         });
+
 
         newCourse
             .save()

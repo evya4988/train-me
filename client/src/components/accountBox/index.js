@@ -32,26 +32,23 @@ const BoxContainer = styled.div`
   border-radius: 19px;
   background-color: whitesmoke;
   margin-right: 2.5em;
-  box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
+  box-shadow: 0 0 5px rgba(15, 15, 15, 0.8);
   position: relative;
   overflow: scroll;
   
-  /* margin-right: 3em;
-  margin-top: 4em;
-  margin-bottom: 2em; */
+  /* margin-right: 3em; */
+  margin-top: 3em;
+  /* margin-bottom: 2em; */
   opacity: 0.8;
-  margin-top: -5em;
 
-  @media (max-width: 800px) {
-  /* width: 200px; */
-    display: inline-flex;
+  @media (max-width: 800px) {    
+    /* display: inline-flex; */
     margin-top: 6em;
   }
 
   @media (max-width: 500px) {
-  width: 200px;
-    display: inline-flex;
-    margin-top: 8em;
+    /* margin-top: 8em; */
+    margin-right: 1em;
       /* max-height: 350px; */
   }
 `;
@@ -182,42 +179,42 @@ export function AccountBox() {
   return (
     <AccountContext.Provider value={contextValue}>
       {/* <AccountPageContainer> */}
-        <BoxContainer >
-          <TopContainer>
-            <BackDrop
-              initial={false}
-              animate={isExpanded ? "expanded" : "collapsed"}
-              variants={backdropVariants}
-              transition={expandingTransition}
-            />
-            {active === "signin" && (
-              <HeaderContainer>
-                <HeaderText>Welcome</HeaderText>
-                <HeaderText>Back</HeaderText>
-                <SmallText>Please sign-in to continue!</SmallText>
-              </HeaderContainer>
-            )}
-            {active === "signup as a customer" && (
-              <HeaderContainer>
-                <HeaderText>Create</HeaderText>
-                <HeaderText>Account</HeaderText>
-                <SmallText><BoldHello>Hello</BoldHello><BoldCustomer> Customer </BoldCustomer> Please sign-up to continue!</SmallText>
-              </HeaderContainer>
-            )}
-            {active === "signup as a trainer" && (
-              <HeaderContainer>
-                <HeaderText>Create</HeaderText>
-                <HeaderText>Account</HeaderText>
-                <SmallText><BoldHello>Hello</BoldHello><BoldTrainer> Trainer </BoldTrainer>Please sign-up to continue!</SmallText>
-              </HeaderContainer>
-            )}
-          </TopContainer>
-          <InnerContainer>
-            {active === "signin" && <LoginForm />}
-            {active === "signup as a customer" && <CustomerSignupForm />}
-            {active === "signup as a trainer" && <TrainerSignupForm />}
-          </InnerContainer>
-        </BoxContainer>
+      <BoxContainer >
+        <TopContainer>
+          <BackDrop
+            initial={false}
+            animate={isExpanded ? "expanded" : "collapsed"}
+            variants={backdropVariants}
+            transition={expandingTransition}
+          />
+          {active === "signin" && (
+            <HeaderContainer>
+              <HeaderText>Welcome</HeaderText>
+              <HeaderText>Back</HeaderText>
+              <SmallText>Please sign-in to continue!</SmallText>
+            </HeaderContainer>
+          )}
+          {active === "signup as a customer" && (
+            <HeaderContainer>
+              <HeaderText>Create</HeaderText>
+              <HeaderText>Account</HeaderText>
+              <SmallText><BoldHello>Hello</BoldHello><BoldCustomer> Customer </BoldCustomer> Please sign-up to continue!</SmallText>
+            </HeaderContainer>
+          )}
+          {active === "signup as a trainer" && (
+            <HeaderContainer>
+              <HeaderText>Create</HeaderText>
+              <HeaderText>Account</HeaderText>
+              <SmallText><BoldHello>Hello</BoldHello><BoldTrainer> Trainer </BoldTrainer>Please sign-up to continue!</SmallText>
+            </HeaderContainer>
+          )}
+        </TopContainer>
+        <InnerContainer>
+          {active === "signin" && <LoginForm />}
+          {active === "signup as a customer" && <CustomerSignupForm />}
+          {active === "signup as a trainer" && <TrainerSignupForm />}
+        </InnerContainer>
+      </BoxContainer>
       {/* </AccountPageContainer> */}
     </AccountContext.Provider>
   );

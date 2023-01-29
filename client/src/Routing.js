@@ -20,6 +20,7 @@ import NotFound from './views/notFound/NotFound';
 import Contact from './views/contactUs/ContactUsForm';
 import { AccountBox } from './components/accountBox/index';
 import Popup from 'reactjs-popup';
+// import "reactjs-popup/dist/index.css";
 
 
 const Routing = () => {
@@ -49,6 +50,20 @@ const Routing = () => {
     const trainerAvatarHandler = (publicId) => {
         setTrainerAvatar(publicId);
     }
+
+    /* Change left or top value to reposition the popup */
+    // const offset = {
+    //     left: 50,
+    //     top: 50,
+    // };
+
+    // const contentStyle = {
+    //     position: "fixed",
+    //     height: "600px",
+    //     width: "400px",
+    //     backgroundColor: "red"
+    // };
+
 
     const providerValues = {
         loading,
@@ -86,7 +101,9 @@ const Routing = () => {
             <BrowserRouter>
                 <div className="container-header">
                     <div className="container-logo-clock">
-                        <img className="logo" src={Logo} alt="logo-pic" />
+                        <NavLink to="/" style={{border: "none"}}>
+                            <img className="logo" src={Logo} alt="logo-pic" />
+                        </NavLink>
                         <span className="clock">{clock}</span>
                     </div>
                     <span className="container-link">
@@ -94,8 +111,6 @@ const Routing = () => {
                             <AccountPopup />
                             <div id="popup-root" />
                         </span> */}
-                        
-
 
                         {/* <NavLink to="/account" className="active-link">Account</NavLink> */}
                         <NavLink to="/" className="active-link">Home</NavLink>
@@ -103,15 +118,16 @@ const Routing = () => {
                         <NavLink to="/contact" className="active-link">Contact-Us</NavLink>
                         <NavLink to="/about" className="active-link">About</NavLink>
                         {/* <NavLink to="/questions" className="active-link">Common-Questions</NavLink> */}
+
                         <Popup trigger={<button className="active-link">Account</button>} position="bottom right">
-                            {close => (
+                            {/* {close => (
                                 <div>
-                                    <a className="close" onClick={close}>
-                                        &times
-                                    </a>
-                                    <AccountBox />
+                                    <button className="close-account-popup" onClick={close}>
+                                        &times;
+                                    </button>
                                 </div>
-                            )}
+                            )} */}
+                            <AccountBox />
                         </Popup>
                     </span>
                 </div>

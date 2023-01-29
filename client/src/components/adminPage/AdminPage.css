@@ -66,8 +66,9 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 43em;
+    width: 50em;
     padding-left: 2em;
+    justify-content: center;
     /* background-color: rgb(71, 68, 65); */
     border-radius: 2em;
     margin-bottom: 0.5em;
@@ -78,7 +79,7 @@
 
 .innerPage-topBar {
     height: 1.4em;
-    width: 36.3rem;
+    width: 50em;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -93,7 +94,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 43em;
+    width: 53em;
     border-radius: 2em;
     margin-bottom: 0.5em;
 }
@@ -101,8 +102,8 @@
 .card-container {
     display: flex;
     flex-direction: column;
-    width: 12em;
-    margin: 0 0.1em 1em 0;
+    width: 15em;
+    margin: 0 0.5em 1em 0;
     /* border: 1px dashed black; */
     /* border-left: 1px solid black; */
     border-style: solid;
@@ -115,7 +116,9 @@
 .course-card-container {
     display: flex;
     flex-direction: row;
-    width: 43em;
+    /* width: 43em; */
+    justify-content: center;
+    align-items: center;
     margin: 0 0.1em 1em 0;
     padding: 0.3em 0.3em 0.3em 0.3em;
     /* border: 5px rgb(235, 180, 180);
@@ -127,6 +130,27 @@
     background-image: url("https://w0.peakpx.com/wallpaper/550/527/HD-wallpaper-whatsapp-paper-black-background-thumbnail.jpg");
 }
 
+.courseCard-details-1 {
+    display: flex;
+    flex-direction: column;
+    width: 7em;
+    height: 7em;
+    padding: 0 0 0 0.8em;
+    justify-content: space-evenly;
+    margin-bottom: 0.5em;
+}
+
+.courseCard-details-2 {
+    display: flex;
+    flex-direction: column;
+    height: 6em;
+    width: 15em;
+    padding: 0 1em 1em 0em;
+    justify-content: space-between;
+    /* margin-bottom: 0.5em; */
+
+}
+
 .course-name {
     display: flex;
     align-items: center;
@@ -134,13 +158,16 @@
     justify-content: center;
     color: #3a3624;
     border-radius: 10px;
-    border: 5px dotted transparent;
+    border: 5px solid transparent;
     background: linear-gradient(175deg, gold, rgb(133, 158, 217)) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
-    font-family: Snell Roundhand, cursive;
+    /* font-family: Snell Roundhand, cursive; */
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 15px;
+    max-width: min-content;
+    min-width: 4em;
+    margin-bottom: 0.5em;
     /* padding: 0 0.3em 0 0.3em; */
 
 }
@@ -166,7 +193,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 2em;
+    /* margin-left: 0.3em; */
 }
 
 .course-trainerDetails {

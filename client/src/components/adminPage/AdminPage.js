@@ -554,12 +554,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                     <Img courseAvatar={item.picture.public_id} alt="Course avatar"></Img>
                   </div>
                   <Marginer direction="vertical" margin="0.5em" />
-                  <div style={{ display: "flex", flexDirection: "column", width: "7em", padding: "0.5em 0 0 0.8em", justifyContent: "space-evenly" }}>
+                  <div className='courseCard-details-1'>
                     <div className="course-name">{item.name}</div>
-                    <div className="course-titles">Category: <span className="items">{item.category}</span></div>
+                    <div className="course-titles" style={{marginBottom: "0.5em"}}>Category: <span className="items">{item.category}</span></div>
                     <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", width: "10em", padding: "0.5em 0 0 1em", justifyContent: "space-evenly" }}>
+                  <div className="courseCard-details-2">
                     <div className="course-titles">Description: <span className="items">{item.description}</span></div>
                     <div className="course-titles">Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
                   </div>

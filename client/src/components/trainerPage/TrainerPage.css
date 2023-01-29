@@ -41,9 +41,9 @@
 }
 
 .trainer-gretting {
-    color: blue; 
-    font-size: 14px; 
-    line-height: 1.2; 
+    color: blue;
+    font-size: 14px;
+    line-height: 1.2;
     margin-top: 0.7em;
 }
 
@@ -100,18 +100,21 @@
 }
 
 .postCourse-popup {
-    width: 30em;
-    height: 18em;
+    /* width: 30em;
+    height: 18em; */
+    width: 35em;
+    height: 22em;
     /* opacity: none; */
     background-color: rgb(120, 167, 255);
     z-index: 2;
     position: relative;
     top: 8vh;
-    left: calc(17% - 8rem);
+    /* left: calc(17% - 8rem); */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1em;
+    justify-content: center;
+    /* padding-top: 1em; */
     border-top-right-radius: 25px;
     border-bottom-left-radius: 25px;
 }

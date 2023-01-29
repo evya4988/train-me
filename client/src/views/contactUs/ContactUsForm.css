@@ -4,9 +4,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 55rem;
+    width: 50rem;
     margin: auto;
-    margin-bottom: 6em;
     /* box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
     padding: 10px;
     /* padding-top: 6.5em; */
@@ -26,12 +25,34 @@
     .form-container {
         display: block;
     }
+
+    .contactUs-form {
+        margin-top: 3em;
+    }
+
+    .contactUs-form {
+        margin-left: 9em;
+    }
 }
 
 @media screen and (max-width: 660px) {
+    .form-container {
+        margin-top: 0;
+    }
+
     .imageSize-m-queries {
         width: 400px;
         height: 400px;
+        /* margin-top: 0; */
+    }
+
+    .images-container {
+        height: 20em;
+        margin-top: 6em;
+    }
+
+    .contactUs-form {
+        margin-left: 4em;
     }
 }
 
@@ -39,6 +60,17 @@
     .imageSize-m-queries {
         width: 280px;
         height: 280px;
+        margin-left: 1em;
+    }
+
+    .contactUs-form {
+        margin-top: 2em;
+        margin-left: 2.5em;
+    }
+
+    .images-container {
+        height: 15em;
+        margin-top: 6em;
     }
 }
 
@@ -146,7 +178,7 @@
 
 .images-container {
     display: flex;
-    height: 30em;
+    /* height: 30em; */
     flex-direction: column;
     justify-content: space-evenly;
     padding: 10px;

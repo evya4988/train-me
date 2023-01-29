@@ -1,4 +1,6 @@
 .active-link {
+    display: flex;
+    align-items: center;
     padding-right: 1em;
     padding-left: 1em;
     /* text-decoration: none; */
@@ -126,4 +128,11 @@ a:focus {
 
 .container-logo-clock {
     display: flex;
+}
+
+.close-account-popup {
+    border: 2px solid rgb(47, 53, 143);
+    border-radius: 2em;
+    position: relative;
+    z-index: 1;
 }
