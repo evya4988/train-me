@@ -101,7 +101,7 @@ module.exports = {
                 return res.status(200).json({
                   message: "Welcome Trainer",
                   name: `${trainerUser.firstname} ${trainerUser.lastname}`,
-                  trainerUser
+                  trainerUser: `${trainerUser._id}`
                 });
               } else {
                 return res.status(422).json({ error: "Invalid Email or Password" })
@@ -127,6 +127,40 @@ module.exports = {
       return serverResponse(res, 500, { message: "internal error occured " + e });
     }
   },
+  //Shows all trainer colleagues at the Trainer page.
+  // getAllTrainersPartialData: async (req, res) => {
+  //   try {
+  //     const trainerId = req.body
+  //     // console.log("Trainer ID: ", trainerId);
+
+  //     const allTrainers = await Trainer.find({});
+  //     return serverResponse(res, 200, allTrainers);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+
+  //Shows all trainers Partial Data at the Customer page.
+  getAllTrainersPartialDataForCustomers: async (req, res) => {
+    try {
+      const allTrainers = await Trainer.find({});
+      const trainersPartialDataArr = [];
+      // console.log(trainersPartialDataArr);
+      allTrainers.map((trainer) => {
+        const tempObj = {};
+        tempObj.firstname = trainer.firstname;
+        tempObj.lastname = trainer.lastname;
+        tempObj.profilepic = trainer.profilepic;
+        tempObj.gender = trainer.gender;
+        tempObj.rating = trainer.rating;
+        trainersPartialDataArr.unshift(tempObj);
+      })
+      // console.log(trainersPartialDataArr);
+      return serverResponse(res, 200, trainersPartialDataArr);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
   getTrainerById: async (req, res) => {
     try {
@@ -150,7 +184,7 @@ module.exports = {
       }
       await Trainer.findOneAndDelete({ _id: trainerID });
 
-      const allTrainers = await Trainer.find({}); 
+      const allTrainers = await Trainer.find({});
 
       return serverResponse(res, 200, allTrainers);
     } catch (e) {

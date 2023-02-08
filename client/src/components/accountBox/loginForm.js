@@ -24,7 +24,9 @@ export function LoginForm() {
     setTrainerName,
     customerAvatarHandler,
     trainerAvatarHandler,
-    setTrainerID
+    setTrainerID,
+    setCustomerID,
+    customerID,
   } = useContext(MyContext);
 
   const navigate = useNavigate();
@@ -114,9 +116,10 @@ export function LoginForm() {
       headers: { 'content-type': 'application/json' },
       data: userDetailToValidate
     }).then((response) => {
-      console.log(response);
+      console.log("response: ", response);
       customerMessage = response.data.message;
       console.log(customerMessage);
+      setCustomerID(response.data.customerUser);
       customerAvatarHandler(`trainme_customers_avatar/${email}_avatar`);
       setCustomerName(response.data.name);
       setLoading(false);
@@ -138,10 +141,10 @@ export function LoginForm() {
       headers: { 'content-type': 'application/json' },
       data: userDetailToValidate
     }).then((response) => {
-      console.log(response);
+      console.log("response: " ,response);
       trainerMessage = response.data.message;
       console.log(trainerMessage);
-      setTrainerID(response.data.trainerUser._id);
+      setTrainerID(response.data.trainerUser);
       trainerAvatarHandler(`trainme_trainers_avatar/${email}_avatar`);
       setLoading(false);
       setTrainerName(response.data.name);

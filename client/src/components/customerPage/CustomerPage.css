@@ -10,19 +10,30 @@
 }
 
 .customer-actions-container {
-    display: block;
-    width: 15em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 13em;
+    max-width: 15em;
     align-content: center;
-    padding: 0 1em 0 1em;
+    /* padding: 0 0 0 1em; */
+    margin-right: 0.5em;
     border-left: 1.8px dashed rgb(81, 197, 75);
-    height: 15em;
+    height: 13em;
+    background-color: whitesmoke;
+    /* border-radius: 10%; */
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: 2em;
 }
 
 .customer-gretting {
-    color: blue;
+    color: rgb(108, 128, 96);
     font-size: 14px;
     line-height: 1.2;
     margin-top: 0.7em;
+    text-align: center;
 }
 
 
@@ -51,12 +62,20 @@
     /* margin-right: 2em; */
 }
 
+.action-btns-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .customer-actions-btn {
     font-size: 0.8em;
     border-radius: 50em;
     background-color: green;
     color: whitesmoke;
     width: 12em;
+    margin: 0.2em 0 0.2em 0;
 }
 
 .customer-actions-btn:hover {
@@ -69,4 +88,110 @@
 .customer-actions-btn:focus {
     background-color: whitesmoke;
     color: green;
+}
+
+.allCardsPages-customerPage-container {
+    width: 72em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5em;
+    margin-top: 2.5em;
+    padding-left: 3.3em;
+    /* justify-content: flex-start; */
+    /* height: 50em; */
+    overflow: auto;
+}
+
+.myCourses-customerPage-container {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    height: 23em;
+    overflow: scroll;
+    margin: 0 0.4em 0 0;
+    padding-left: 0.1em;
+    /* border: 1px dashed black; */
+    /* border-left: 1px solid black; */
+    border-style: solid;
+    border-image:
+        linear-gradient(to bottom,
+            rgb(52, 73, 146),
+            rgba(0, 0, 0, 0)) 1 100%;
+    background: linear-gradient(-215deg, whitesmoke 0%, #adbcad 51%, #77927a 90%);
+}
+
+.allCards-customerPage-container {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    height: 18em;
+    overflow: scroll;
+    margin: 0 0.4em 0 0;
+    padding-left: 0.1em;
+    /* border: 1px dashed black; */
+    /* border-left: 1px solid black; */
+    border-style: solid;
+    border-image:
+        linear-gradient(to bottom,
+            rgb(52, 73, 146),
+            rgba(0, 0, 0, 0)) 1 100%;
+    background: linear-gradient(-215deg, whitesmoke 0%, #adafbc 51%, #777b92 90%);
+}
+
+.trainersCards-title {
+    color: rgb(136, 116, 116);
+    padding: 0 0.3em 0 0.3em;
+    border-bottom: 1px dotted rgb(200, 90, 90);
+    /* line-height: 1.3em; */
+}
+
+.allCoursesCards-trainerLabel {
+    color: rgb(136, 116, 116);
+    padding: 0 0.3em 0 0.3em;
+    /* border-bottom: 1px dotted rgb(200, 90, 90); */
+}
+
+.trainersCards-title .data-item {
+    word-wrap: break-word;
+    display: inline-block;
+    max-width: calc(100% - 4px);
+    color: rgb(99, 98, 82);
+    /* text-decoration: underLine; */
+    font-size: 12px;
+    /* line-height: 1em; */
+}
+
+.allTrainers-topBar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-allTrainers-container {
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid rgb(185, 121, 121);
+    background-color: rgb(48, 44, 44);
+    opacity: 1;
+    height: 2em;
+    width: 2em;
+    margin-left: 2em;
+    cursor: pointer;
+}
+
+.close-allTrainers-container:before {
+    content: "✖";
+    cursor: pointer;
+    color: white;
+    opacity: 0.8;
+}
+
+.close-allTrainers-container:hover {
+    background-color: red;
+}
+
+.filterByGender-btn {
+    display: flex;
+    border: 1px solid rgb(48, 44, 44);
+    /* width: 5em; */
 }

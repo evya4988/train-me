@@ -38,6 +38,7 @@ const Routing = () => {
     const [trainerAvatar, setTrainerAvatar] = useState('');
     const [trainerName, setTrainerName] = useState('');
     const [trainerID, setTrainerID] = useState('');
+    const [customerID, setCustomerID] = useState('');
 
     const adminAvatarHandler = (publicId) => {
         setAdminAvatar(publicId);
@@ -84,6 +85,8 @@ const Routing = () => {
         adminName,
         setCustomerName,
         customerName,
+        setCustomerID,
+        customerID,
         setTrainerName,
         trainerName,
         setTrainerID,

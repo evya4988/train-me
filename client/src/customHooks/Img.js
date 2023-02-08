@@ -44,7 +44,7 @@ const Img = (props) => {
   adminImage
     .resize(thumbnail().width(150).height(150).gravity(focusOn(face())))  // Crop the image.
     .roundCorners(byRadius(30))   // Round the corners.
-    .rotate(byAngle(12))
+    .rotate(byAngle(12)).backgroundColor("whitesmoke");
   //     .offsetX(expression("width / 50"))
   //     .offsetY(expression("width / 50"))
   // );
@@ -53,7 +53,7 @@ const Img = (props) => {
   customerImage
     .resize(thumbnail().width(150).height(150).gravity(focusOn(face())))  // Crop the image.
     .roundCorners(byRadius(30))   // Round the corners.
-    .rotate(byAngle(12));
+    .rotate(byAngle(12)).backgroundColor("whitesmoke");
 
   const trainerImage = cld.image(trainerAvatar);
   trainerImage

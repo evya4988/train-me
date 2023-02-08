@@ -99,6 +99,7 @@ module.exports = {
                 return res.status(200).json({
                   message: "Welcome Customer",
                   name: `${customerUser.firstname} ${customerUser.lastname}`,
+                  customerUser: `${customerUser._id}`
                 });
               } else {
                 return res.status(422).json({ error: "Invalid Email or Password" })

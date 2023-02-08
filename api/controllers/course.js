@@ -9,14 +9,13 @@ const cloudinary = require("../../cloudinary/cloudinary");
 
 
 module.exports = {
+    /** Trainer Page */
     addNewCourse: async (req, res) => {
         const { name, category, pictureToDB, cost, description, lessontime, date, trainer, customers } =
             req.body;
 
-        // console.log(name, category, pictureToDB, cost, description, lessontime, date, trainer, customers);
         let cloImageResult = '';
-        console.log("here!!!!");
-        try{
+        try {
             await cloudinary.uploader.upload(pictureToDB,
                 {
                     folder: "trainme_courses_avatar",
@@ -71,15 +70,9 @@ module.exports = {
                     message: "internal error occured" + error
                 });
             });
-
-        // try {
-        //     await newCourse.save();
-        //     return serverResponse(res, 201, cloImageResult);
-        // } catch (e) {
-        //     return serverResponse(res, 500, { message: "internal error occurred " + e });
-        // }
     },
 
+    /** Trainer Page */
     updateCourse: async (req, res) => {
         try {
             const updates = Object.keys(req.body);
@@ -164,6 +157,7 @@ module.exports = {
     //     }
     // },
 
+    /** Admin Page */
     getAllAdminCourses: async (req, res) => {
         try {
             const allCourses = await Course.find({})
@@ -176,6 +170,7 @@ module.exports = {
         }
     },
 
+    /** Admin Page */
     getCourseById: async (req, res) => {
         try {
             console.log(req.params);
@@ -187,6 +182,7 @@ module.exports = {
         }
     },
 
+    /** Trainer Page */
     deleteCourseById: async (req, res) => {
         try {
             const courseProduct = await Course.findById(req.params.courseId);
@@ -216,13 +212,16 @@ module.exports = {
         }
     },
 
+    /** Admin Page + Trainer Page */
     getAllTrainerCourses: async (req, res) => {
         // console.log(req.body)
         let trainerID = {};
+        /** Here the request come from Admin Page. */
         if (req.body.trainerLabelID) {
             trainerID = req.body.trainerLabelID
             // console.log("trainerID from trainerLabelID: ", trainerID);
         } else {
+            /** Here the request come from Trainer Page. */
             trainerID = req.body.trainerID
             // console.log("trainerID from trainer ID: ", trainerID);
         }
@@ -230,7 +229,7 @@ module.exports = {
         // console.log("trainerID: ", trainerID)
         let filteredCoursesByTrainerId = {};
         let filteredArr = [];
-        const allCourses = await Course.find({})
+        const allCourses = await Course.find({});
         try {
             for (const i in allCourses) {
                 if (allCourses[i].trainer == trainerID) {
@@ -244,10 +243,11 @@ module.exports = {
         }
     },
 
+    /** Admin Page + Trainer Page */
     getCourseCustomersData: async (req, res) => {
         try {
             const courseItems = req.body
-            const allCustomers = await Customer.find({})
+            const allCustomers = await Customer.find({});
             const filteredCoursesArr = [];
             for (const x in allCustomers) {
                 for (const y in courseItems) {
@@ -263,7 +263,8 @@ module.exports = {
         }
     },
 
-    getAllCoursesCustomers: async (req, res) => {
+    /** Trainer Page */
+    getAllTrainerCoursesCustomers: async (req, res) => {
         const { trainerID } = req.body
         console.log("trainerID: ", trainerID)
         let filteredCoursesByTrainerId = {};
@@ -279,7 +280,7 @@ module.exports = {
             // console.log("filteredArr: ", filteredArr);
 
             /** filteredArr = all Courses that belong to this Trainer */
-            const allCustomers = await Customer.find({})
+            const allCustomers = await Customer.find({});
             const filteredCoursesCustomersObj = {};
             for (const x in filteredArr) {
                 for (const y in filteredArr[x].customers) {
@@ -303,6 +304,7 @@ module.exports = {
         }
     },
 
+    /** Trainer Page */
     getAllTrainersCoursesWithoutCustomers: async (req, res) => {
         try {
             const trainerId = req.body
@@ -330,6 +332,104 @@ module.exports = {
             return serverResponse(res, 500, { message: "internal error occurred " + e });
         }
     },
+
+    /** Customer Page */
+    getAllCoursesForCustomersPage: async (req, res) => {
+        try {
+            const allCourses = await Course.find({})
+            const allTrainers = await Trainer.find({});
+            
+            let filteredArr = [];
+            for (const course in allCourses) {
+                /** item = item inside course such as name, image, lessontime... */
+                for (const item in allCourses[course]) {
+                    if (item == 'trainer') {
+                        // console.log("allCourses[course][item]: ", allCourses[course][item]);
+                        /** allCourses[course][item] = customers array inside course*/
+                        const courseTrainer = allCourses[course][item];
+                        allTrainers.map((trainer) => {
+                            if (courseTrainer.equals(trainer._id)) {
+                                allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
+                                // console.log("trainer._id: ", trainer._id);
+                            }
+                        })
+                        filteredArr.push(allCourses[course]);
+                    }
+                }
+            }
+
+            const afterFilteringArr = [];
+            filteredArr.map((course) => {
+                const tempObj = {};
+                tempObj.name = course.name;
+                tempObj.category = course.category;
+                tempObj.description = course.description;
+                tempObj.picture = course.picture;
+                tempObj.lessontime = course.lessontime;
+                tempObj.cost = course.cost;
+                tempObj.trainer = course['trainer_name'];
+                afterFilteringArr.push(tempObj);
+            })
+            return serverResponse(res, 200, afterFilteringArr);
+        } catch (e) {
+            return serverResponse(res, 500, { message: "internal error occurred " + e });
+        }
+    },
+
+    /** Customer Page */
+    getAllCoursesRegisteredForCustomers: async (req, res) => {
+        try {
+            const customerID = req.body.customerId
+            console.log("Customer ID: ", customerID)
+            const allCourses = await Course.find({});
+            const allTrainers = await Trainer.find({});
+
+            // In this loop, i extract all the courses belonging to the same client
+            let filteredArr = [];
+            for (const course in allCourses) {
+                /** item = item inside course such as name, image, lessontime... */
+                for (const item in allCourses[course]) {
+                    if (item == 'customers') {
+                        // console.log("allCourses[course][item]: ", allCourses[course][item]);
+                        /** allCourses[course][item] = customers array inside course*/
+                        const courseCustomersId_Arr = allCourses[course][item];
+                        for (const customer_id in courseCustomersId_Arr) {
+                            // console.log("courseCustomersId_Arr[customer_id]: ", courseCustomersId_Arr[customer_id]);
+                            if (courseCustomersId_Arr[customer_id] == customerID) {
+                                // console.log("Trainer: ", allCourses[course]['trainer']);
+                                allTrainers.map((trainer) => {
+                                    if (allCourses[course]['trainer'].equals(trainer._id)) {
+                                        allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
+                                        // console.log("trainer._id: ", trainer._id);
+                                    }
+                                })
+                                filteredArr.push(allCourses[course]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // This map function puts in the array only the elements needed by the customer users.
+            const afterFilteringArr = [];
+            filteredArr.map((course) => {
+                const tempObj = {};
+                tempObj.name = course.name;
+                tempObj.category = course.category;
+                tempObj.description = course.description;
+                tempObj.picture = course.picture;
+                tempObj.lessontime = course.lessontime;
+                tempObj.cost = course.cost;
+                tempObj.trainer = course["trainer_name"];
+                afterFilteringArr.push(tempObj);
+            })
+            // console.log(afterFilteringArr);
+            // console.log("filteredArr: ", filteredArr);
+            return afterFilteringArr.length > 0 ? serverResponse(res, 200, afterFilteringArr) : serverResponse(res, 200, "empty");
+        } catch (e) {
+            return serverResponse(res, 500, { message: "internal error occured " + e });
+        }
+    }
 
     // deleteAllCourses: async (req, res) => {
     //     try {

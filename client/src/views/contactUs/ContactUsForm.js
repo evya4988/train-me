@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import './ContactUsForm.css';
 import axios from 'axios';
-import MyContext from '../../MyContext';
+// import MyContext from '../../MyContext';
 
 const ContactUsForm = () => {
-  const { contactUsData, setContactUsData } = useContext(MyContext);
+  // const { contactUsData, setContactUsData } = useContext(MyContext);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -18,6 +18,7 @@ const ContactUsForm = () => {
   const [mandatoryErrors, setMandatoryErrors] = useState([]);
   const [errors, setErrors] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [responseOk, setResponseOk] = useState('');
 
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
@@ -125,7 +126,7 @@ const ContactUsForm = () => {
     if (gender === "") {
       console.log(gender);
       isValid = false;
-      setMandatoryErrors(prevState => ({    
+      setMandatoryErrors(prevState => ({
         ...prevState,
         [gender]: "Gender field is mandatory!"
       }));
@@ -136,7 +137,7 @@ const ContactUsForm = () => {
       errorsConsole.gender = "Gender feild is mandatory!";
     }
 
-    if (contactMethod === "") {
+    if (contactMethod === "" || contactMethod === "Choose your Preferred contact method please") {
       isValid = false;
       setMandatoryErrors(prevState => ({
         ...prevState,
@@ -155,7 +156,6 @@ const ContactUsForm = () => {
       return;
     };
     isValid = true;
-    setSubmitted(true);
 
     // const newContact = { firstName, lastName, email, phone, messageTitle, message, gender, contactMethod };
     // console.log(newContact);
@@ -194,7 +194,11 @@ const ContactUsForm = () => {
       headers: { 'content-type': 'application/json' },
       data: contactToAddToDB
     })
-      .then(res => console.log('Posting a New Contact ', res.data))
+      .then(res => {
+        console.log('Posting a New Contact ', res.data);
+        setSubmitted(true);
+        setResponseOk(res.data);
+      })
       .catch(err => console.log(err));
 
   });
@@ -209,6 +213,12 @@ const ContactUsForm = () => {
           <p className="success-message">
             Success! Thank you for contacting us, We'll contact you back as soon as possible.
           </p>}
+
+        {!responseOk &&
+          <p className="success-message">
+            Gender field is Mandatory!!!
+          </p>
+        }
         <input
           className="form-field"
           type="text"
@@ -344,7 +354,7 @@ const ContactUsForm = () => {
           </p> : ''
         }
 
-        <div style={{display: 'flex', justifyContent: "center"}}>
+        <div style={{ display: 'flex', justifyContent: "center" }}>
           <button
             className="btn-container"
             type="submit" onClick={(handleSubmitContactAdding)}>Send Us a Message</button>

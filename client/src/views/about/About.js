@@ -30,20 +30,20 @@ const About = () => {
         </div>
         <div className="about-us-container">
           <p>
-            About Us
+            About Me
             <br />
             <br />
             Hello,
-            <br />Our names are Shay Barnea and Evyatar Hale, and we are a students in GO-CODE
+            <br />My name is Evyatar Hale, and I am a student in GO-CODE
             <br />Academy as part of Full Stack Web Development course.
           </p>
           <p>
-            As part of our final project we built a system,
+            As part of my final project I built a system,
             which mediates between physical training coaches and clients interested in these services,<br />
             It allows trainers to create, edit and delete their courses, and clients to view and register for these courses.
           </p>
           <p>
-            A lot of effort was given to this project, which is a product of 2 months of hard work that has taught us a lot.
+            A lot of effort was given to this project, which is a product of 2 months of hard work that has taught me a lot.
             <br />Enjoy!
           </p>
         </div>

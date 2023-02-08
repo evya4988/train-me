@@ -19,7 +19,7 @@
 }
 
 .trainer-actions-container {
-    display: inline-block;
+    /* display: inline-block;
     width: 18em;
     max-width: 18em;
     align-content: center;
@@ -27,11 +27,25 @@
     margin-right: 0.5em;
     border-left: 1.8px dashed rgb(97, 133, 210);
     height: 15em;
-    background-color: whitesmoke;
+    background-color: whitesmoke; */
     /* border-radius: 10%; */
     border-top-right-radius: 2em;
     border-bottom-right-radius: 2em;
     border-bottom-left-radius: 2em;
+
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 18em;
+    max-width: 18em;
+    align-content: center;
+    margin-right: 0.5em;
+    border-left: 1.8px dashed rgb(97, 133, 210);
+    height: 15em;
+    background-color: whitesmoke;
 }
 
 @media screen and (min-width: 1300px) {
@@ -60,6 +74,13 @@
     text-align: center;
 }
 
+.trainer-action-btns-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .trainer-image-home-container {
     background-image: url("https://static.wixstatic.com/media/4103a2_aaf38e85cafe4be199c1c95da18d5e24~mv2.png");
     background-size: cover;
@@ -78,6 +99,7 @@
     background-color: rgb(52, 73, 146);
     color: whitesmoke;
     width: 12em;
+    margin: 0.2em 0 0.2em 0;
 }
 
 .trainer-actions-btn:hover {

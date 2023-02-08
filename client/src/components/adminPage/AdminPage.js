@@ -704,7 +704,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
         }
 
         {(!coursesCardExist) &&
-          <div>
+          <div style={{width: "2.8em"}}>
             <button
               onClick={closeCoursesPageHandler}
               className="close-card-btn users-close-btn"

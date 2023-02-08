@@ -27,9 +27,9 @@
 
 @media screen and (max-width: 1500px) {
     .admin-image-home-container {
-        width: 47.1em;
+        width: 52.9em;
         height: 75vh;
-        margin-left: 3em;
+        /* margin-left: 3em; */
         border-radius: 2em;
     }
 }
@@ -39,7 +39,11 @@
     align-content: center;
     padding: 0 0 0 1em;
     border-right: 1.8px dashed rgb(135, 131, 131);
-    height: 20em;
+    height: 15em;
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: 2em;
+    background-color: whitesmoke;
 }
 
 .admin-gretting {
@@ -92,6 +96,7 @@
 
 .allAdminCoursesCards-container {
     display: flex;
+    align-items: center; 
     flex-direction: column;
     flex-wrap: wrap;
     width: 53em;
@@ -116,7 +121,7 @@
 .course-card-container {
     display: flex;
     flex-direction: row;
-    /* width: 43em; */
+    width: 50em;
     justify-content: center;
     align-items: center;
     margin: 0 0.1em 1em 0;
@@ -454,6 +459,7 @@
 
 .courses-navbar {
     font-size: 12px;
+    width: 50rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
