@@ -27,7 +27,7 @@ app.get("/admincourses", getAllAdminCourses);
 app.post("/allTrainersCourses", getAllTrainersCoursesWithoutCustomers);
 app.get("/:courseId", getCourseById);
 app.delete("/:courseId", deleteCourseById);
-app.get("/coursesForCustomers/dedicatedCourses", getAllCoursesForCustomersPage);
+app.get("/coursesForCustomers/associatedCourses", getAllCoursesForCustomersPage);
 app.post("/registeredCourses", getAllCoursesRegisteredForCustomers);
 // app.delete("/", deleteAllCourses);
 

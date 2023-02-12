@@ -10,7 +10,7 @@ const contactUsSchema = new mongoose.Schema({
   contactmethod: { type: String, required: true },
   gender: {
     type: String,
-    enum: ['male', 'female'],
+    enum: ['Male', 'Female'],
     required: true
   },
   createdat: {

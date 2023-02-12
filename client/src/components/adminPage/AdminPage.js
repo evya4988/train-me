@@ -52,6 +52,8 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     setIsTimeChecked(true);
   }
 
+  const subjectForEmail = encodeURIComponent('Mail from Our Site');
+
   useEffect(() => {
     contactUsData.length > 0 && setContactCardExist(false);
     (contactUsData.length === 0 && contactMessageFlag) && setContactUsEmpty(true);
@@ -112,8 +114,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       const contactUsUrl = 'http://localhost:8000/contactUs';
       const response = await axios.delete(contactUsUrl);
       console.log(response);
-      const data = await response.data;
-      setContactUsData(data);
+      setContactUsData([]);
       setContactUsEmpty(true);
       setContactCardExist(true);
     } catch (error) {
@@ -402,6 +403,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }
   }
   // setLoading(true);
+
   return (
     <>
       <div className="admin-page-container">
@@ -556,12 +558,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                   <Marginer direction="vertical" margin="0.5em" />
                   <div className='courseCard-details-1'>
                     <div className="course-name">{item.name}</div>
-                    <div className="course-titles" style={{marginBottom: "0.5em"}}>Category: <span className="items">{item.category}</span></div>
+                    <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
                     <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
                   </div>
                   <div className="courseCard-details-2">
                     <div className="course-titles">Description: <span className="items">{item.description}</span></div>
-                    <div className="course-titles">Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
+                    <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
                   </div>
                   <div className="course-titles courseUsers-title">
                     {
@@ -642,11 +644,11 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
             ]
           }
 
-          {contactUsEmpty &&
-            [
-              <div className="cardEmpty-message">There are not Contact messages!</div>,
-              <span className="close-message" onClick={closeMessageHandler}>✖</span>
-            ]
+          {(contactUsEmpty && contactUsData.length === 0) &&
+            <div style={{ display: "flex", justifyContent: "center"}}>
+              <div className="cardEmpty-message">There are not Contact messages!</div>
+              {/* <span className="close-message" onClick={closeMessageHandler}>✖</span> */}
+            </div>
           }
           {!contactCardExist &&
             [
@@ -656,7 +658,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                   className='sendEmail-btn'
                   onClick={() => window.location = `mailto:${contactUsData.map((contact) => {
                     return contact.email
-                  })}`}>Send E-Mail to All
+                  })}?subject=Mail from Train Me`}>Send E-Mail to All
                 </button>
                 <button onClick={deleteAllContactHandler} className="deleteAllCards-btn">Delete All</button>
                 <div className='amount-container'>Contact Amount:
@@ -667,7 +669,11 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                 <div key={item._id} className="card-container">
                   <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
                   <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
-                  <div className="titles">Email: <span className="numeric-items">{item.email}</span></div>
+                  <div className="titles">Email: <span
+                    className="numeric-items">
+                    <a href={`mailto:${item.email}?subject=Mail from Train Me`}>{item.email}</a>
+                  </span>
+                  </div>
                   <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
                   <div className="titles">Message Title: <span className="items">{item.messagetitle}</span></div>
                   <div className="titles">Message: <span className="items">{item.message}</span></div>
@@ -691,6 +697,11 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
         }
 
         {
+          (contactUsEmpty && contactUsData.length === 0) &&
+          <span className="close-message" onClick={closeMessageHandler}>✖</span>
+        }
+
+        {
           (!customerCardExist) &&
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button onClick={closeCustomerPageHandler} className="close-card-btn users-close-btn"></button>
@@ -704,7 +715,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
         }
 
         {(!coursesCardExist) &&
-          <div style={{width: "2.8em"}}>
+          <div style={{ width: "2.8em" }}>
             <button
               onClick={closeCoursesPageHandler}
               className="close-card-btn users-close-btn"

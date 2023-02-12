@@ -104,13 +104,13 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
       setMandatoryErrors(prevState => ({ ...prevState, [category]: 'category feild is mandatory!' }));
       errorsConsole.category = "category feild is mandatory!";
     }
-    if ((description && description.length < 10) || description.length > 60) {
+    if ((description && description.length < 10) || description.length > 100) {
       isValid = false;
       setErrors(prevState => ({
         ...prevState,
-        [description]: "description must be in a range of 10-60"
+        [description]: "description must be in a range of 10-100"
       }));
-      errorsConsole.description = "description must be in a range of 10-60";
+      errorsConsole.description = "description must be in a range of 10-100";
     } else if (!description) {
       isValid = false;
       setMandatoryErrors(prevState => ({
@@ -485,7 +485,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                   }
                   {errors[description] ?
                     <span className="error-span">
-                      Description must be in a range of 10- 60 characters!
+                      Description must be in a range of 10- 100 characters!
                     </span> : ''
                   }
                 </div>
@@ -733,7 +733,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                       return customer.email
                     }));
                   })
-                    }`}>Send E-Mail to All
+                    }?subject=Mail from Train Me: ${trainerName}`}>Send E-Mail to All
                 </button>
               </div>
               <div className="allCoursesCustomers-container">
@@ -756,9 +756,8 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                                   </div>
                                   <div className="allCoursesCustomers-card-row">{customer.firstname + " " + customer.lastname}</div>
                                   {/* <div className="allCoursesCustomers-card-row">{customer.email}</div> */}
-                                  {/* <ButtonMailto label="Write me an E-Mail" mailto="mailto:evyatar4988@gmail.com" /> */}
                                   <div className="allCoursesCustomers-card-row">{customer.phone}</div>
-                                  <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}`}>Send E-Mail</button>
+                                  <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}?subject=Mail from Train Me: ${trainerName} (Course: ${keyName})`}>Send E-Mail</button>
                                 </div>
                               )
                             })}

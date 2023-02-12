@@ -59,16 +59,17 @@ const CustomerPage = ({ customerAvatar }) => {
 
   const getAllTrainers = async (e) => {
     e.preventDefault();
-    if (allTrainersPartialData.length > 0) return;
+    if ((allTrainersPartialData.length > 0 && filterTrainersByGender.length === 0) || customerID === '') return;
     try {
       const allTrainersUrl = 'http://localhost:8000/trainer/trainersData/forCustomers';
       const response = await axios.get(allTrainersUrl);
-      // console.log(response);
+      console.log(response);
       const data = await response.data;
       setAllTrainersPartialData(data);
       console.log(allTrainersPartialData);
       setAllCourses([]);
       setMyCourses([]);
+      setFilterTrainersByGender([]);
     } catch (error) {
       console.log("error: ", error);
     }
@@ -76,6 +77,7 @@ const CustomerPage = ({ customerAvatar }) => {
 
   const filterByGender = () => {
     try {
+      // if (customerID === '') return;
       if (allTrainersPartialData.length > 0) {
         const tempArr = [];
         if (!isFemale) {
@@ -109,14 +111,14 @@ const CustomerPage = ({ customerAvatar }) => {
   }
 
   const getAllCourses = async () => {
-    if (allCourses.length > 0) return;
+    if (allCourses.length > 0 || customerID === '') return;
     try {
-      const allCoursesUrl = 'http://localhost:8000/course/coursesForCustomers/dedicatedCourses';
+      const allCoursesUrl = 'http://localhost:8000/course/coursesForCustomers/associatedCourses';
       const response = await axios.get(allCoursesUrl);
       // console.log(response);
       const data = await response.data;
       setAllCourses(data);
-      console.log(data);
+      // console.log(data);
       setAllTrainersPartialData([]);
       setMyCourses([]);
       setFilterTrainersByGender([]);
@@ -141,7 +143,13 @@ const CustomerPage = ({ customerAvatar }) => {
               <div>
                 <div className="allTrainers-topBar">
                   <button className="close-allTrainers-container" onClick={closeMyCoursesPage}></button>
-                  <span>My Courses Amount &gt; {myCourses.length}</span>
+                  <div style={{ display: 'flex' }}>
+                    <span className="amount-statement">My Courses Amount</span>
+                    <Marginer direction="horizontal" margin="0.3em" />
+                    &gt;
+                    <Marginer direction="horizontal" margin="0.3em" />
+                    {myCourses.length}
+                  </div>
                 </div>
                 <div>
                   <div className='allCardsPages-customerPage-container'>
@@ -150,16 +158,16 @@ const CustomerPage = ({ customerAvatar }) => {
                         return (
                           <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
                             <div className="myCourses-customerPage-container">
+                              <div className="my_all_Courses-courseName-title">{course.name}</div>
                               <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                 <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
                               </div>
-                              <div className="trainersCards-title" style={{ textAlign: 'center' }}><span className="data-item" style={{ fontSize: "20px" }}>{course.name}</span></div>
-                              <div className="trainersCards-title">Category: <span className="data-item">{course.category}</span></div>
-                              <div className="trainersCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
-                              <div className="trainersCards-title">Price: <span className="data-item">{course.cost}</span></div>
-                              <div className="trainersCards-title">Description: <span className="data-item">{course.description}</span></div>
+                              <div className="customer-myCoursesCards-title">Category<span className="data-item">{course.category}</span></div>
+                              <div className="customer-myCoursesCards-title">Lesson Time<span className="data-item">{course.lessontime}</span></div>
+                              <div className="customer-myCoursesCards-title">Price<span className="data-item">{course.cost}</span></div>
+                              <div className="customer-myCoursesCards-title">Description<span className="data-item">{course.description}</span></div>
                               <div style={{ textAlign: 'center', color: "rgb(30, 87, 125)" }}>Trainer</div>
-                              <div style={{ textAlign: 'center', color: "whitesmoke" }} className="data-item">{course.trainer}</div>
+                              <div className="trainerName-data-item">{course.trainer}</div>
                             </div>
                           </div>
                         )
@@ -168,17 +176,25 @@ const CustomerPage = ({ customerAvatar }) => {
                   </div>
                 </div>
               </div>
-              : allTrainersPartialData.length > 0 ?
+              : allTrainersPartialData.length ?
                 <div>
                   <div className="allTrainers-topBar">
                     <button className="close-allTrainers-container" onClick={closeAllTrainersPage}></button>
                     <div style={{ display: "flex" }}>
                       <button
-                        className="filterByGender-btn"
+                        // className=filterTrainersByGender.length === 0 ?"filterByGender-btn": ""
+                        className={`${filterTrainersByGender.length === 0 ? "filterByGender-btn" : isFemale ? "maleGender-btn" : "femaleGender-btn"}`}
                         onClick={filterByGender}>
-                        {filterTrainersByGender.length === 0 ? "Filter By Gender" : isFemale ? "male" : "female"}
+                        {filterTrainersByGender.length === 0 ? "Filter By Gender" : isFemale ? "Male" : "Female"}
                       </button>
-                      <span>Trainers Amount &gt;
+                      <span className='amount-statement'>
+                        {filterTrainersByGender.length === 0 ? 'Trainers Amount'
+                          : isFemale ? 'Female Trainers Amount' : 'Male Trainers Amount'}
+                      </span>
+                      <Marginer direction="horizontal" margin="0.3em" />
+                      &gt;
+                      <Marginer direction="horizontal" margin="0.3em" />
+                      <span>
                         {
                           filterTrainersByGender.length > 0 ?
                             filterTrainersByGender.length :
@@ -197,11 +213,13 @@ const CustomerPage = ({ customerAvatar }) => {
                                 <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                   <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                 </div>
-                                <div className="trainersCards-title"><span className="item">{trainer.firstname + " " + trainer.lastname}</span></div>
-                                <div className="trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div>
-                                <div className="trainersCards-title" style={{ textAlign: "center" }}>Rating:
-                                  <div className="item">Rate: {trainer.rating.rate}</div>
-                                  <div className="item">Count: {trainer.rating.count}</div>
+                                <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                <div className="customer-trainersCards-title">Rating
+                                  <div className="trainer-rating-items-">
+                                    <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                    <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -215,11 +233,13 @@ const CustomerPage = ({ customerAvatar }) => {
                                 <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                   <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                 </div>
-                                <div className="trainersCards-title"><span className="item">{trainer.firstname + " " + trainer.lastname}</span></div>
-                                <div className="trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div>
-                                <div className="trainersCards-title" style={{ textAlign: "center" }}>Rating:
-                                  <div className="item">Rate: {trainer.rating.rate}</div>
-                                  <div className="item">Count: {trainer.rating.count}</div>
+                                <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                <div className="customer-trainersCards-title">Rating
+                                  <div className="trainer-rating-items">
+                                    <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                    <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -232,22 +252,28 @@ const CustomerPage = ({ customerAvatar }) => {
                   <div>
                     <div className="allTrainers-topBar">
                       <button className="close-allTrainers-container" onClick={closeAllCoursesPage}></button>
-                      <span>All Courses Amount &gt; {allCourses.length}</span>
+                      <div style={{ display: "flex" }}>
+                        <span className="amount-statement">All Courses Amount</span>
+                        <Marginer direction="horizontal" margin="0.3em" />
+                        &gt;
+                        <Marginer direction="horizontal" margin="0.3em" />
+                        {allCourses.length}
+                      </div>
                     </div>
                     <div className='allCardsPages-customerPage-container'>
                       {
                         allCourses.map((course) => {
                           return (
                             <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                              <div className="allCards-customerPage-container">
+                              <div className="allCards-customerPage-container allCoursesCards">
+                                <div className="my_all_Courses-courseName-title">{course.name}</div>
                                 <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                   <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
                                 </div>
-                                <div className="trainersCards-title"><span className="data-item">{course.name}</span></div>
-                                <div className="trainersCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
-                                <div className="trainersCards-title">Price: <span className="data-item">{course.cost}</span></div>
-                                <div className="trainersCards-title">Description: <span className="data-item">{course.description}</span></div>
-                                <div className="allCoursesCards-trainerLabel">Trainer: <span className="data-item">{course.trainer}</span></div>
+                                <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
+                                <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
+                                <div>Description: <span className="data-item" style={{marginBottom: "1em"}}>{course.description}</span></div>
+                                <div className="allCoursesCards-trainerLabel" style={{ textAlign: "center" }}>Trainer<span className="trainerName-data-item">{course.trainer}</span></div>
                               </div>
                             </div>
                           )

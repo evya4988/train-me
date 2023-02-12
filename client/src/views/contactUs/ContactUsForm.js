@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ContactUsForm.css';
 import axios from 'axios';
 // import MyContext from '../../MyContext';
@@ -18,7 +18,6 @@ const ContactUsForm = () => {
   const [mandatoryErrors, setMandatoryErrors] = useState([]);
   const [errors, setErrors] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [responseOk, setResponseOk] = useState('');
 
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
@@ -123,7 +122,7 @@ const ContactUsForm = () => {
       errorsConsole.message = "Message feild is mandatory!";
     };
 
-    if (gender === "") {
+    if (gender === "" || gender === "Choose your Gender please") {
       console.log(gender);
       isValid = false;
       setMandatoryErrors(prevState => ({
@@ -197,11 +196,17 @@ const ContactUsForm = () => {
       .then(res => {
         console.log('Posting a New Contact ', res.data);
         setSubmitted(true);
-        setResponseOk(res.data);
       })
       .catch(err => console.log(err));
 
   });
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setSubmitted(false);
+    }, 3000);
+    return () => clearTimeout(id)
+  }, [submitted]);
 
   return (
     <div className="form-container">
@@ -214,11 +219,6 @@ const ContactUsForm = () => {
             Success! Thank you for contacting us, We'll contact you back as soon as possible.
           </p>}
 
-        {!responseOk &&
-          <p className="success-message">
-            Gender field is Mandatory!!!
-          </p>
-        }
         <input
           className="form-field"
           type="text"
@@ -329,12 +329,12 @@ const ContactUsForm = () => {
           value={gender}
           onChange={(e) => { setGender(e.target.value) }}>
           <option>Choose your Gender please</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
         </select>
         {mandatoryErrors[gender] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
-            gender feild is mandatory!
+            Gender feild is mandatory!
           </p> : ''
         }
 
