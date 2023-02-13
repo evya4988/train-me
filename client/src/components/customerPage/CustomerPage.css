@@ -177,6 +177,14 @@
     font-weight: bold;
 }
 
+.customer-trainersCards-title.rating-female-title {
+    background: linear-gradient(-215deg, #ec759a 10%, whitesmoke 51%, #ec759a 90%);
+}
+
+.customer-trainersCards-title.rating-male-title {
+    background: linear-gradient(-215deg, #404c78 10%, whitesmoke 51%, #404c78 90%);
+}
+
 .customer-trainersCards-trainerName {
     color: whitesmoke;
     text-align: center;

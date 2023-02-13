@@ -8,7 +8,7 @@ import { FileInput, PreviewPicture } from './styledHelper';
 import UpdateModal from './UpdateModal';
 import './UpdateModal.css';
 import RemoveModal from './RemoveModal';
-
+import BackToTopBtn from '../../customHooks/BackToTopBtn';
 
 const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
   const { trainerName, trainerID } = useContext(MyContext);
@@ -51,7 +51,11 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
     if (filteredCourses.length !== 0) {
       filteredCoursesByExistingCustomer();
     }
-  }, [toggleFiltered]);
+    const id = setTimeout(() => {
+      setSubmitted(false);
+    }, 3000);
+    return () => clearTimeout(id)
+  }, [toggleFiltered, submitted]);
 
   let inputFileRef = useRef(null);
   const handlePictureChange = (e) => {
@@ -226,7 +230,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
 
   const closePostCourseHandler = () => {
     setShowTrainerHomePage(true);
-    setSubmitted(false);
+    // setSubmitted(false);
     setPostCoursePage(false);
     setPicture('');
     setName('');
@@ -665,13 +669,6 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                               <span className="customers-amount" >{course.customers.length}
                                 {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
                               </span>,
-                              // <span>
-                              //   {course.customers.map((customer, index) =>
-                              //     <div style={{ height: "0.7em", display: "flex" }}>
-                              //       <span key={index} className="customers-line">{customer}</span>
-                              //     </div>
-                              //   )}
-                              // </span>
                               <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
                                 View Customer/s
                               </button>,
@@ -747,7 +744,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                             <div className="customersAmount-insideTitle">{allCoursesCustomersData[keyName].length}</div>
                           </div>
                           <div className="allCoursesCustomers-allCardsHolder">
-                            {allCoursesCustomersData[keyName].map((customer, index) => {
+                            [{allCoursesCustomersData[keyName].map((customer, index) => {
                               allCustomersCounter++;
                               return (
                                 <div key={index} className="allCoursesCustomers-cardholder">
@@ -760,7 +757,9 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                                   <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}?subject=Mail from Train Me: ${trainerName} (Course: ${keyName})`}>Send E-Mail</button>
                                 </div>
                               )
-                            })}
+                            })},
+                            {/* <BackToTopBtn /> */}
+                            ]
                           </div>
                           <div className="dashed-BorderBetweenCourses"></div>
                         </div>
@@ -828,7 +827,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                 <div className="trainer-userName">{trainerName}</div>
               </div>
               {trainerAvatar &&
-                <Img trainerAvatar={trainerAvatar} alt="Trainer avatar" style={{marginRight: "0.2em"}}></Img>
+                <Img trainerAvatar={trainerAvatar} alt="Trainer avatar" style={{ marginRight: "0.2em" }}></Img>
               }
             </div>}
           <Marginer direction="vertical" margin="1em" />

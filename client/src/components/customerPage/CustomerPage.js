@@ -4,6 +4,7 @@ import Img from '../../customHooks/Img';
 import MyContext from '../../MyContext';
 import { Marginer } from '../marginer';
 import axios from 'axios';
+import BackToTopBtn from '../../customHooks/BackToTopBtn';
 
 const CustomerPage = ({ customerAvatar }) => {
   const { customerName, customerID } = useContext(MyContext);
@@ -81,21 +82,17 @@ const CustomerPage = ({ customerAvatar }) => {
       if (allTrainersPartialData.length > 0) {
         const tempArr = [];
         if (!isFemale) {
-          allTrainersPartialData.map((trainer) => {
-            if (trainer.gender !== 'male') {
-              tempArr.push(trainer);
-            }
-          });
           setIsFemale(!isFemale);
           // console.log("Is Female: ", isFemale);
+          allTrainersPartialData.map((trainer) => {
+            return trainer.gender !== 'male' ? tempArr.push(trainer) : null
+          })
         } else {
-          allTrainersPartialData.map((trainer) => {
-            if (trainer.gender !== 'female') {
-              tempArr.push(trainer);
-            }
-          });
           setIsFemale(!isFemale);
           // console.log("Is Female: ", isFemale);
+          allTrainersPartialData.map((trainer) => {
+            return trainer.gender !== 'female' ? tempArr.push(trainer) : null
+          })
         }
         console.log(tempArr);
         setFilterTrainersByGender(tempArr);
@@ -173,6 +170,7 @@ const CustomerPage = ({ customerAvatar }) => {
                         )
                       })
                     }
+                    <BackToTopBtn />
                   </div>
                 </div>
               </div>
@@ -206,45 +204,52 @@ const CustomerPage = ({ customerAvatar }) => {
                   <div className='allCardsPages-customerPage-container'>
                     {
                       filterTrainersByGender.length > 0 ?
-                        filterTrainersByGender.map((trainer) => {
-                          return (
-                            <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                              <div className="allCards-customerPage-container">
-                                <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                  <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
-                                </div>
-                                <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
-                                {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
-                                <div className="customer-trainersCards-title">Rating
-                                  <div className="trainer-rating-items-">
-                                    <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                    <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                        [
+                          filterTrainersByGender.map((trainer) => {
+                            return (
+                              <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                <div className="allCards-customerPage-container">
+                                  <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                    <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
+                                  </div>
+                                  <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                  {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                  <div className={`${isFemale ? "customer-trainersCards-title rating-female-title" : "customer-trainersCards-title rating-male-title"}`}>Rating
+                                    <div className="trainer-rating-items">
+                                      <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                      <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          )
-                        })
+                            )
+                          }),
+                          <BackToTopBtn />
+                        ]
                         :
-                        allTrainersPartialData.map((trainer) => {
-                          return (
-                            <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                              <div className="allCards-customerPage-container">
-                                <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                  <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
-                                </div>
-                                <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
-                                {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
-                                <div className="customer-trainersCards-title">Rating
-                                  <div className="trainer-rating-items">
-                                    <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                    <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                        [
+                          allTrainersPartialData.map((trainer) => {
+                            return (
+                              <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                <div className="allCards-customerPage-container">
+                                  <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                    <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
+                                  </div>
+                                  <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                  {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                  <div className="customer-trainersCards-title">Rating
+                                    <div className="trainer-rating-items">
+                                      <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                      <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          )
-                        })
+                            )
+                          })
+                          ,
+                          <BackToTopBtn />
+                        ]
                     }
                   </div>
                 </div>
@@ -261,24 +266,25 @@ const CustomerPage = ({ customerAvatar }) => {
                       </div>
                     </div>
                     <div className='allCardsPages-customerPage-container'>
-                      {
-                        allCourses.map((course) => {
-                          return (
-                            <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                              <div className="allCards-customerPage-container allCoursesCards">
-                                <div className="my_all_Courses-courseName-title">{course.name}</div>
-                                <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                  <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
-                                </div>
-                                <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
-                                <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
-                                <div>Description: <span className="data-item" style={{marginBottom: "1em"}}>{course.description}</span></div>
-                                <div className="allCoursesCards-trainerLabel" style={{ textAlign: "center" }}>Trainer<span className="trainerName-data-item">{course.trainer}</span></div>
+                      [
+                      {allCourses.map((course) => {
+                        return (
+                          <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                            <div className="allCards-customerPage-container allCoursesCards">
+                              <div className="my_all_Courses-courseName-title">{course.name}</div>
+                              <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
                               </div>
+                              <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
+                              <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
+                              <div>Description: <span className="data-item" style={{ marginBottom: "1em" }}>{course.description}</span></div>
+                              <div className="allCoursesCards-trainerLabel" style={{ textAlign: "center" }}>Trainer<span className="trainerName-data-item">{course.trainer}</span></div>
                             </div>
-                          )
-                        })
-                      }
+                          </div>
+                        )
+                      })},
+                      <BackToTopBtn />
+                      ]
                     </div>
                   </div>
                   :

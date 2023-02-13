@@ -302,7 +302,8 @@
 
 .success-posting {
     margin-top: -2em;
-    color: rgb(52, 73, 146);
+    font-weight: bold;
+    color: rgb(245, 178, 178);
     text-decoration: underLine;
     text-decoration-color: rgb(226, 188, 142);
 }
