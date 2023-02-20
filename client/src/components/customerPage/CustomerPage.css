@@ -126,7 +126,9 @@
     justify-content: center;
     border-bottom: 1px dotted rgb(200, 90, 90);
     font-size: 20px;
-    color: #632904ae;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px black, 0 0 25px #344992, 0 0 5px rgb(3, 3, 116);
+    margin: 0 0.4em 0 0.4em
 }
 
 .allCards-customerPage-container {
@@ -148,6 +150,12 @@
 
 .allCoursesCards {
     height: 21.5em;
+    cursor: pointer;
+}
+
+.allCoursesCards:hover {
+    opacity: 0.7;
+    border: 1.5px solid rgba(214, 70, 13, 0.365);
 }
 
 .customer-myCoursesCards-title {
@@ -191,9 +199,13 @@
     margin-bottom: 1em;
 }
 
+.customer-allTrainers-trainerName {
+    font-weight: bold
+}
+
 .customer-allCoursesCards-title {
     color: rgb(136, 116, 116);
-    padding: 0 0.3em 0 0.3em;
+    margin: 0 0.4em 0 0.4em;
     border-bottom: 1px dotted rgb(200, 90, 90);
     display: flex;
     align-items: center;
@@ -214,26 +226,30 @@
 }
 
 .trainer-rating-items {
-    border-image:
+    /* border-image:
         linear-gradient(to bottom,
             rgb(76, 89, 135),
-            rgba(39, 35, 35, 0)) 1 100%;
+            rgba(39, 35, 35, 0)) 1 100%; */
+    border-bottom: 2.5px solid rgb(56, 54, 54);
     background: linear-gradient(-215deg, #777b92 10%, #adafbc 51%, #989db9 90%);
     border-radius: 2em;
     width: 10em;
     font-style: normal;
     font-weight: lighter;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgba(223, 243, 70, 0.918);
 }
 
 .item-rating-number {
-    color: rgb(76, 89, 135);
+    color: rgb(136, 116, 116);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: bold;
+    font-size: large;
 }
 
 .allCoursesCards-trainerLabel {
     color: rgb(30, 87, 125);
-    padding: 0 0.3em 0 0.3em;
+    margin: 0 0.4em 0 0.4em;
     border-top: 1px dotted rgb(200, 90, 90);
 }
 
@@ -284,6 +300,7 @@
     color: rgb(249, 246, 247);
     background-color: rgb(113, 105, 107);
     margin-right: 0.5em;
+    cursor: pointer;
     /* width: 5em; */
 }
 
@@ -295,6 +312,7 @@
     background-color: rgb(49, 62, 116);
     margin-right: 0.5em;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .femaleGender-btn {
@@ -305,6 +323,7 @@
     background-color: rgb(235, 49, 108);
     margin-right: 0.5em;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .filterByGender-btn:hover {

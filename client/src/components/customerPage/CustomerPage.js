@@ -1,22 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './CustomerPage.css';
 import Img from '../../customHooks/Img';
 import MyContext from '../../MyContext';
 import { Marginer } from '../marginer';
 import axios from 'axios';
 import BackToTopBtn from '../../customHooks/BackToTopBtn';
+import { useNavigate, useLocation } from 'react-router-dom'
+import useScrollPosition from "../../customHooks/useScrollPosition";
 
 const CustomerPage = ({ customerAvatar }) => {
-  const { customerName, customerID } = useContext(MyContext);
+  const { customerName, customerID, setCustomerCoursesDataForCoursePage } = useContext(MyContext);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  let scrollPosition = useScrollPosition();
+  const [scrollPositionToNavigate, setScrollPositionToNavigate] = useState(0);
 
-  //setting the time for once, for greeting the appropriate greeting.
+  //Setting the time once, to say the appropriate blessing depends on the time of day.
   const [time, setTime] = useState(0);
   const [isTimeChecked, setIsTimeChecked] = useState(false);
   if (!isTimeChecked) {
     const today = new Date();
     setTime(today.getHours());
-    console.log("Time is: ", time);
     setIsTimeChecked(true);
+    // console.log("Time is: ", today.getHours());
   }
 
   const [allTrainersPartialData, setAllTrainersPartialData] = useState([]);
@@ -26,6 +32,7 @@ const CustomerPage = ({ customerAvatar }) => {
   const [isFemale, setIsFemale] = useState(false);
 
   const getMyCourses = async (customerId) => {
+    if (myCourses.length > 0) return;
     console.log("id: ", customerId);
     const id = {
       customerId
@@ -39,7 +46,7 @@ const CustomerPage = ({ customerAvatar }) => {
       console.log(res);
       setMyCourses(res.data);
       console.log("res.data: ", res.data);
-      console.log("myCourses: ", myCourses);
+      // console.log("myCourses: ", myCourses);
       setAllCourses([]);
       setAllTrainersPartialData([]);
       setFilterTrainersByGender([]);
@@ -114,8 +121,9 @@ const CustomerPage = ({ customerAvatar }) => {
       const response = await axios.get(allCoursesUrl);
       // console.log(response);
       const data = await response.data;
-      setAllCourses(data);
       // console.log(data);
+      setAllCourses(data);
+      setCustomerCoursesDataForCoursePage(data);
       setAllTrainersPartialData([]);
       setMyCourses([]);
       setFilterTrainersByGender([]);
@@ -127,6 +135,25 @@ const CustomerPage = ({ customerAvatar }) => {
   const closeAllCoursesPage = () => {
     setAllCourses([]);
   }
+  
+  useEffect(() => {
+    // Set the initial scroll position when the component mounts
+    if (state !== null && state.scrollPositionToSentBack) {
+      setScrollPositionToNavigate(state.scrollPositionToSentBack);
+      setAllCourses(state.customerCoursesDataForCoursePage);
+      console.log("state from CourseDetailsInAllCourses component!!  ", state);
+    }
+
+    // Update the scroll position whenever the state property changes
+    if (state !== null && state.scrollPositionToSentBack !== scrollPosition) {
+      setScrollPositionToNavigate(state.scrollPositionToSentBack);
+    }
+  }, [state]);
+
+  // Use the scrollPosition state to set the scroll position
+  useEffect(() => {
+    window.scrollTo(0, scrollPositionToNavigate);
+  }, [scrollPositionToNavigate]);
 
   return (
     <>
@@ -183,7 +210,7 @@ const CustomerPage = ({ customerAvatar }) => {
                         // className=filterTrainersByGender.length === 0 ?"filterByGender-btn": ""
                         className={`${filterTrainersByGender.length === 0 ? "filterByGender-btn" : isFemale ? "maleGender-btn" : "femaleGender-btn"}`}
                         onClick={filterByGender}>
-                        {filterTrainersByGender.length === 0 ? "Filter By Gender" : isFemale ? "Male" : "Female"}
+                        {filterTrainersByGender.length === 0 ? "Sort by Gender" : isFemale ? "Male" : "Female"}
                       </button>
                       <span className='amount-statement'>
                         {filterTrainersByGender.length === 0 ? 'Trainers Amount'
@@ -212,7 +239,9 @@ const CustomerPage = ({ customerAvatar }) => {
                                   <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                     <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                   </div>
-                                  <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                  <div className="customer-trainersCards-trainerName">
+                                    <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
+                                  </div>
                                   {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
                                   <div className={`${isFemale ? "customer-trainersCards-title rating-female-title" : "customer-trainersCards-title rating-male-title"}`}>Rating
                                     <div className="trainer-rating-items">
@@ -235,7 +264,9 @@ const CustomerPage = ({ customerAvatar }) => {
                                   <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                     <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                   </div>
-                                  <div className="customer-trainersCards-trainerName"><span>{trainer.firstname + " " + trainer.lastname}</span></div>
+                                  <div className="customer-trainersCards-trainerName">
+                                    <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
+                                  </div>
                                   {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
                                   <div className="customer-trainersCards-title">Rating
                                     <div className="trainer-rating-items">
@@ -266,25 +297,34 @@ const CustomerPage = ({ customerAvatar }) => {
                       </div>
                     </div>
                     <div className='allCardsPages-customerPage-container'>
-                      [
                       {allCourses.map((course) => {
                         return (
-                          <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                            <div className="allCards-customerPage-container allCoursesCards">
+                          <div
+                            key={course.id}
+                            style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}
+                            onClick={() => { navigate(`/customer/newcourse/${course.id}`, { state: { scrollPosition } }) }}>
+                            <div className="allCards-customerPage-container allCoursesCards" >
                               <div className="my_all_Courses-courseName-title">{course.name}</div>
                               <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                 <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
                               </div>
                               <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
                               <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
-                              <div>Description: <span className="data-item" style={{ marginBottom: "1em" }}>{course.description}</span></div>
-                              <div className="allCoursesCards-trainerLabel" style={{ textAlign: "center" }}>Trainer<span className="trainerName-data-item">{course.trainer}</span></div>
+                              <div style={{ margin: "0 0.4em 0 0.4em", color: "rgb(136, 116, 116)", display: "flex", flexDirection: "column", alignItems: "center" }}>Description:
+                                <span className="data-item" style={{ marginBottom: "1em" }}>{course.description}
+                                </span>
+                              </div>
+                              <div
+                                className="allCoursesCards-trainerLabel"
+                                style={{ textAlign: "center" }}>Trainer
+                                <span className="trainerName-data-item">{course.trainer}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         )
-                      })},
+                      })}
                       <BackToTopBtn />
-                      ]
                     </div>
                   </div>
                   :

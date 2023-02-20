@@ -71,3 +71,10 @@
     border-radius: 1em;
     background: linear-gradient(to right, red, blue);
 }
+
+.customer-display-coursePageImage {
+    /* width: 30em; */
+    height: 25em;
+    /* border: 2px solid transparent; */
+    border-radius: 1em;
+}

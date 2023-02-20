@@ -359,6 +359,7 @@ module.exports = {
             const afterFilteringArr = [];
             filteredArr.map((course) => {
                 const tempObj = {};
+                tempObj.id = course._id;
                 tempObj.name = course.name;
                 tempObj.category = course.category;
                 tempObj.description = course.description;
@@ -367,6 +368,7 @@ module.exports = {
                 tempObj.cost = course.cost;
                 tempObj.trainer = course['trainer_name'];
                 afterFilteringArr.push(tempObj);
+                // console.log("course._id: ", course._id);
             })
             return serverResponse(res, 200, afterFilteringArr);
         } catch (e) {

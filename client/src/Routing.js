@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyContext from './MyContext';
 import {
     BrowserRouter,
@@ -21,6 +21,7 @@ import Contact from './views/contactUs/ContactUsForm';
 import { AccountBox } from './components/accountBox/index';
 import Popup from 'reactjs-popup';
 // import "reactjs-popup/dist/index.css";
+import CourseDetailsInAllCourses from './components/customerPage/productsDetail/CourseDetailsInAllCourses'
 
 
 const Routing = () => {
@@ -39,6 +40,7 @@ const Routing = () => {
     const [trainerName, setTrainerName] = useState('');
     const [trainerID, setTrainerID] = useState('');
     const [customerID, setCustomerID] = useState('');
+    const [customer_allCourses, setCustomer_allCourses] = useState([]);
 
     const adminAvatarHandler = (publicId) => {
         setAdminAvatar(publicId);
@@ -51,6 +53,15 @@ const Routing = () => {
     const trainerAvatarHandler = (publicId) => {
         setTrainerAvatar(publicId);
     }
+
+    const [customerCoursesDataForCoursePage, setCustomerCoursesDataForCoursePage] = useState([]);
+
+    
+    // useEffect(() => {
+    //     setCustomerCoursesDataForCoursePage(customer_allCourses);
+    // }, [customer_allCourses])
+    
+
 
     /* Change left or top value to reposition the popup */
     // const offset = {
@@ -92,7 +103,9 @@ const Routing = () => {
         setTrainerID,
         trainerID,
         setCoursesData,
-        coursesData
+        coursesData,
+        customerCoursesDataForCoursePage,
+        setCustomerCoursesDataForCoursePage        
     }
 
     return (
@@ -104,7 +117,7 @@ const Routing = () => {
             <BrowserRouter>
                 <div className="container-header">
                     <div className="container-logo-clock">
-                        <NavLink to="/" style={{border: "none"}}>
+                        <NavLink to="/" style={{ border: "none" }}>
                             <img className="logo" src={Logo} alt="logo-pic" />
                         </NavLink>
                         <span className="clock">{clock}</span>
@@ -140,6 +153,8 @@ const Routing = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="customer" element={<CustomerPage loading={loading} setLoading={setLoading} customerAvatar={customerAvatar} />} />
+                    <Route path="customer/newcourse/:id" element={<CourseDetailsInAllCourses exact />} />
+
                     <Route path="trainer" element={<TrainerPage loading={loading} setLoading={setLoading} trainerAvatar={trainerAvatar} />} />
                     <Route path="admin" element={<AdminPage loading={loading} setLoading={setLoading} adminAvatar={adminAvatar} />} />
                     {/* <Route path="account" element={<AccountBox />} /> */}

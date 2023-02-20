@@ -175,7 +175,7 @@ export function TrainerSignupForm() {
             }));
             errorsConsole.age = "Age feild is mandatory!";
         };
-        if (gender === "Choose your Gender please") {
+        if (gender === "Select your Gender please") {
             console.log(gender);
             isValid = false;
             setMandatoryErrors(prevState => ({
@@ -187,18 +187,18 @@ export function TrainerSignupForm() {
                 [gender]: "Gender field is mandatory!"
             }));
         }
-        if (gender === "Choose your Gender please") {
-            console.log(gender);
-            isValid = false;
-            setMandatoryErrors(prevState => ({
-                ...prevState,
-                [gender]: "Gender field is mandatory!"
-            }));
-            setErrors(prevState => ({
-                ...prevState,
-                [gender]: "Gender field is mandatory!"
-            }));
-        }
+        // if (gender === "Choose your Gender please") {
+        //     console.log(gender);
+        //     isValid = false;
+        //     setMandatoryErrors(prevState => ({
+        //         ...prevState,
+        //         [gender]: "Gender field is mandatory!"
+        //     }));
+        //     setErrors(prevState => ({
+        //         ...prevState,
+        //         [gender]: "Gender field is mandatory!"
+        //     }));
+        // }
         if (!profilePicture) {
             isValid = false;
             errorsConsole.profilePicture = "Profile picture feild is mandatory!";
@@ -384,7 +384,7 @@ export function TrainerSignupForm() {
                         placeholder="Gender"
                         value={gender}
                         onChange={(e) => { setGender(e.target.value) }}>
-                        <option>Choose your Gender please</option>
+                        <option>Select your Gender please</option>
                         <option value="male">male</option>
                         <option value="female">female</option>
                     </select>
@@ -392,7 +392,7 @@ export function TrainerSignupForm() {
                         <ErrorStyle>Gender feild is mandatory!</ErrorStyle> : ''
                     }
                     <Marginer direction="vertical" margin="0.5em" />
-                    <span style={{ fontSize: '14px', textDecoration: 'underLine', color: 'gray' }}>Choose your Avatar here</span>
+                    <span style={{ fontSize: '14px', textDecoration: 'underLine', color: 'gray' }}>Select your Avatar here</span>
                     <FileInput
                         ref={inputFileRef}
                         type="file"

@@ -52,8 +52,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     setIsTimeChecked(true);
   }
 
-  const subjectForEmail = encodeURIComponent('Mail from Our Site');
-
   useEffect(() => {
     contactUsData.length > 0 && setContactCardExist(false);
     (contactUsData.length === 0 && contactMessageFlag) && setContactUsEmpty(true);
@@ -71,8 +69,10 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
 
   const getContactUsApiAnswer = async () => {
+    // Disable 'Contact Us messages' Button when pressed again!
+    if (!contactCardExist) return;
+
     setLoading(true);
-    console.log("time from admin.js: ", time);
     try {
       const contactUsUrl = 'http://localhost:8000/contactUs';
       const response = await axios.get(contactUsUrl);
@@ -139,6 +139,9 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }
 
   const getTrainersApiAnswer = async () => {
+    // Disable 'List of Trainers' Button when pressed again!
+    if (!trainerCardExist) return;
+
     setLoading(true);
     try {
       const allTrainersUrl = 'http://localhost:8000/trainer';
@@ -191,6 +194,9 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }
 
   const getCustomersApiAnswer = async () => {
+    // Disable 'List of Customers' Button when pressed again!
+    if (!customerCardExist) return;
+
     setLoading(true);
     try {
       const allCustomersUrl = "http://localhost:8000/customer";
@@ -263,11 +269,14 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }
 
   const getCoursesApiAnswer = async () => {
+    // Disable 'List of Courses' Button when pressed again!
+    if (coursesData.length > 0 && toggleFilteredCourses) return;
+
     setLoading(true);
     try {
       const allCoursesUrl = 'http://localhost:8000/course/admincourses';
       const response = await axios.get(allCoursesUrl);
-      // console.log(response);
+      console.log(response);
       const data = await response.data;
       // console.log("data: ", data);
       setCoursesData(data[0]);
@@ -323,7 +332,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       // console.log("coursesData: ", coursesData);
 
       setCourseTrainerData(data[1]);
-      console.log("CourseTrainerData: ", courseTrainerData);
+      // console.log("CourseTrainerData: ", courseTrainerData);
 
       commonSettingDefinitionForCourses();
       setIsFilteredById(true);
@@ -369,7 +378,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     });
   }
 
-
   const closeCoursesPageHandler = () => {
     setCoursesCardExist(true);
     setCoursesData([]);
@@ -402,7 +410,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       setToggleFilteredCourses(!toggleFilteredCourses);
     }
   }
-  // setLoading(true);
 
   return (
     <>
@@ -645,7 +652,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
           }
 
           {(contactUsEmpty && contactUsData.length === 0) &&
-            <div style={{ display: "flex", justifyContent: "center"}}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="cardEmpty-message">There are not Contact messages!</div>
               {/* <span className="close-message" onClick={closeMessageHandler}>✖</span> */}
             </div>

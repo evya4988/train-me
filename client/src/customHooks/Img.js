@@ -7,6 +7,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 // Import required actions.
 // another option to check: scale, fill
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import { scale } from "@cloudinary/url-gen/actions/resize";
 import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
 // import { sepia } from "@cloudinary/url-gen/actions/effect";
 // import { source } from "@cloudinary/url-gen/actions/overlay";
@@ -31,7 +32,9 @@ const Img = (props) => {
     courseAvatar,
     customersDisplayAvatar,
     trainersDisplayAvatar,
-    courseTrainerAvatar } = props;
+    courseTrainerAvatar,
+    customerCoursePageAvatar
+  } = props;
   // Create and configure your Cloudinary instance.
   const cld = new Cloudinary({
     cloud: {
@@ -78,6 +81,12 @@ const Img = (props) => {
     .resize(thumbnail().width(150).height(150).gravity(focusOn(face())))
     .roundCorners(byRadius(30));
 
+  const customerCoursePageImage = cld.image(customerCoursePageAvatar);
+  customerCoursePageImage
+    .resize(scale().width(1200).height(1200))
+    .roundCorners(byRadius(20));
+    
+
   return (
     <>
       {adminAvatar &&
@@ -115,6 +124,11 @@ const Img = (props) => {
         <AdvancedImage
           className="course-display-trainer-image"
           cldImg={courseTrainerImage}
+        />}
+      {customerCoursePageAvatar &&
+        <AdvancedImage
+        className="customer-display-coursePageImage"
+          cldImg={customerCoursePageImage}
         />}
     </>
   )

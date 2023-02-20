@@ -1,0 +1,85 @@
+.courseDetailsPage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.courseDetails-container {
+    display: flex;
+    padding: 3em 17em 4em 17em;
+    /* width: 65rem; */
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(235, 235, 235);
+    margin-top: 4.5em;
+
+}
+
+.coursePage-allTitles {
+    display: flex;
+    height: 30rem;
+    width: 25rem;
+    margin-right: 2em;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* align-items: center; */
+}
+
+.courseName-outerDiv {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.coursePage-courseName {
+    text-align: center;
+    width: 7em;
+    color: rgb(244, 229, 144);
+    background-color: rgb(71, 65, 65);
+    margin: 0 1em 0 1em;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.coursePage-title-container {
+    display: flex;
+    align-items: center;
+    border-top: 0.5px dotted black;
+    border-bottom: 0.5px dotted black;
+    color: rgba(75, 68, 68, 0.3);
+    /* drop-shadow(.5rem .5rem 1rem #e23) */
+    text-shadow: 2px 2px rgb(179, 133, 59);
+}
+
+.coursePage-title {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: rgb(70, 48, 70);
+    text-shadow: none;
+    /* background-color: white; */
+}
+
+.coursePage-title-arrow {
+    display: flex;
+    align-items: center;
+    color: rgb(231, 203, 49);
+    margin: 0 0.6em 0 0.2em;
+}
+
+.coursePage-goBack-btn {
+    cursor: pointer;
+    border: 2px solid darkgrey;
+    background-color: lightblue;
+    font-size: large;
+}
+
+.coursePage-goBack-btn:hover {
+    background-color: black;
+    color: white;
+    border: 2px solid lightblue;
+}

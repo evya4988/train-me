@@ -593,64 +593,62 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
               {
                 filteredCourses.length > 0 ?
                   filteredCourses.map((course) =>
-                    [
-                      <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
-                        <div className="courseCard-container" key={course._id}>
-                          <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                            <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
-                          </div>
-                          <div className="course-title">Name: <span className="item">{course.name}</span></div>
-                          <div className="course-title">Category: <span className="item">{course.category}</span></div>
-                          <div className="course-title">Description: <span className="item">{course.description}</span></div>
-                          <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
-                          <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
-                          <div className="course-title">Customers:
-                            <span className="customers-amount" >{course.customers.length}
-                              {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
-                            </span>
-                            <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
-                              View Customer/s
-                            </button>
-
-                            {(customersData && customersModal) &&
-                              <div className="modal" >
-                                <div onClick={toggleCustomersModal} className="overlay-customers"></div>
-                                <div className="modal-customer-container" >
-                                  {
-                                    customersData.map((customer, index) => [
-                                      <div key={index} className="customers-modal-card">
-                                        <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
-                                        <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
-                                      </div>
-                                    ])
-                                  }
-                                </div>
-                              </div>
-                            }
-                          </div>
+                    <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
+                      <div className="courseCard-container" key={course._id}>
+                        <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                          <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
                         </div>
-                        <div className="card-actions">
-                          <UpdateModal
-                            setLoading={setLoading}
-                            loading={loading}
-                            courseId={course._id}
-                            setFilteredCourses={setFilteredCoursesArr}
-                            filteredCourses={filteredCoursesArr}
-                          />
-                          <RemoveModal
-                            courseId={course._id}
-                            loading={loading}
-                            setLoading={setLoading}
-                            setIsDataExist={setIsDataExist}
-                            setFilteredCoursesArr={setFilteredCoursesArr}
-                            toggleFiltered={toggleFiltered}
-                            setToggleFiltered={setToggleFiltered}
-                          />
+                        <div className="course-title">Name: <span className="item">{course.name}</span></div>
+                        <div className="course-title">Category: <span className="item">{course.category}</span></div>
+                        <div className="course-title">Description: <span className="item">{course.description}</span></div>
+                        <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
+                        <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
+                        <div className="course-title">Customers:
+                          <span className="customers-amount" >{course.customers.length}
+                            {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
+                          </span>
+                          <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
+                            View Customer/s
+                          </button>
+
+                          {(customersData && customersModal) &&
+                            <div className="modal" >
+                              <div onClick={toggleCustomersModal} className="overlay-customers"></div>
+                              <div className="modal-customer-container" >
+                                {
+                                  customersData.map((customer, index) => [
+                                    <div key={index} className="customers-modal-card">
+                                      <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
+                                      <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
+                                    </div>
+                                  ])
+                                }
+                              </div>
+                            </div>
+                          }
                         </div>
                       </div>
-                    ]
+                      <div className="card-actions">
+                        <UpdateModal
+                          setLoading={setLoading}
+                          loading={loading}
+                          courseId={course._id}
+                          setFilteredCourses={setFilteredCoursesArr}
+                          filteredCourses={filteredCoursesArr}
+                        />
+                        <RemoveModal
+                          courseId={course._id}
+                          loading={loading}
+                          setLoading={setLoading}
+                          setIsDataExist={setIsDataExist}
+                          setFilteredCoursesArr={setFilteredCoursesArr}
+                          toggleFiltered={toggleFiltered}
+                          setToggleFiltered={setToggleFiltered}
+                        />
+                      </div>
+                    </div>
                   ) :
-                  [filteredCoursesArr.map((course) =>
+                  filteredCoursesArr.map((course) =>
                     <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
                       <div className="courseCard-container" key={course._id}>
                         <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
@@ -703,9 +701,8 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                           setToggleFiltered={setToggleFiltered}
                         />
                       </div>
-                    </div>,
-                  ),
-                  ]
+                    </div>
+                  )
               }
             </div>
           </div>
@@ -744,7 +741,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                             <div className="customersAmount-insideTitle">{allCoursesCustomersData[keyName].length}</div>
                           </div>
                           <div className="allCoursesCustomers-allCardsHolder">
-                            [{allCoursesCustomersData[keyName].map((customer, index) => {
+                            {allCoursesCustomersData[keyName].map((customer, index) => {
                               allCustomersCounter++;
                               return (
                                 <div key={index} className="allCoursesCustomers-cardholder">
@@ -757,9 +754,8 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                                   <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}?subject=Mail from Train Me: ${trainerName} (Course: ${keyName})`}>Send E-Mail</button>
                                 </div>
                               )
-                            })},
-                            {/* <BackToTopBtn /> */}
-                            ]
+                            })}
+                            <BackToTopBtn />
                           </div>
                           <div className="dashed-BorderBetweenCourses"></div>
                         </div>
@@ -786,32 +782,35 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
               <button className="close-allCoursesCostomers-container" onClick={closeAllCoursesPage}>{ }</button>
               <div style={{ marginLeft: "auto" }}>
                 Total Courses &gt;
-                <span style={{ color: "blue", marginLeft: "0.6em" }}>{allCoursesTrainersData.length}</span>
+                <span style={{ color: "blue", marginLeft: "0.4em" }}>{allCoursesTrainersData.length}</span>
               </div>
             </div>
             <div className="allCoursesCards-container">
-              {allCoursesTrainersData.map((course) => {
-                return (
-                  <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                    <div className="courseCard-container" key={course._id}>
-                      {course.trainer === trainerID &&
-                        <div style={{ display: 'flex', justifyContent: "center", color: "lightslategray" }}>My Course</div>
-                      }
-                      <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                        <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+              {
+                allCoursesTrainersData.map((course) => {
+                  return (
+                    <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                      <div className="courseCard-container" key={course._id}>
+                        {course.trainer === trainerID &&
+                          <div style={{ display: 'flex', justifyContent: "center", color: "lightslategray" }}>My Course</div>
+                        }
+                        <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                          <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+                        </div>
+                        <div className="course-title">Name: <span className="item">{course.name}</span></div>
+                        <div className="course-title">Category: <span className="item">{course.category}</span></div>
+                        <div className="course-title">Description: <span className="item">{course.description}</span></div>
+                        <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
+                        <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
+                        {(course.trainer === trainerID && course.customers < 1)
+                          ? <div className="course-title">Customers: <span className="numeric-items" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div>
+                          : (course.trainer === trainerID && course.customers >= 1) ?
+                            <div className="course-title">Customers: <span className="customers-amount" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div> : ""}
                       </div>
-                      <div className="course-title">Name: <span className="item">{course.name}</span></div>
-                      <div className="course-title">Category: <span className="item">{course.category}</span></div>
-                      <div className="course-title">Description: <span className="item">{course.description}</span></div>
-                      <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
-                      <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
-                      {(course.trainer === trainerID && course.customers < 1)
-                        ? <div className="course-title">Customers: <span className="numeric-items" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div>
-                        : (course.trainer === trainerID && course.customers >= 1) ?
-                          <div className="course-title">Customers: <span className="customers-amount" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div> : ""}
                     </div>
-                  </div>)
-              })}
+                  )
+                })
+              }
             </div>
           </div>
           // </div>
