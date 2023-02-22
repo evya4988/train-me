@@ -83,6 +83,7 @@ module.exports = {
                 return res.status(200).json({
                   message: "Welcome Admin",
                   name: `${adminUser.firstname} ${adminUser.lastname}`,
+                  id: `${adminUser._id}`
                 });
               } else {
                 return res.status(422).json({ error: "Invalid Email or Password" })

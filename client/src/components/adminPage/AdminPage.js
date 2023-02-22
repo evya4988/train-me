@@ -32,6 +32,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   const {
     adminName,
+    adminId,
     customersData,
     setCustomersData,
     trainersData,
@@ -413,323 +414,326 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   return (
     <>
-      <div className="admin-page-container">
-        <div className="admin-actions-container">
-          {adminName &&
-            <div style={{ display: "flex" }}>
-              <div style={{ display: "block" }}>
-                {(time >= 0 && time < 12) && <span className="admin-gretting" >Good Morning</span>}
-                {(time < 16 && time >= 12) && <span className="admin-gretting" >Good AfterNoon</span>}
-                {(time <= 23 && time >= 16) && <span className="admin-gretting" >Good Evening</span>}
-                <div className="userName">{adminName}</div>
-              </div>
-              {adminAvatar &&
-                <Img adminAvatar={adminAvatar} alt="Admin avatar"></Img>
-              }
-            </div>}
-          <Marginer direction="vertical" margin="1em" />
+      {
+        adminId && adminName &&
+        <div className="admin-page-container">
+          <div className="admin-actions-container">
+            {adminName &&
+              <div style={{ display: "flex" }}>
+                <div style={{ display: "block" }}>
+                  {(time >= 0 && time < 12) && <span className="admin-gretting" >Good Morning</span>}
+                  {(time < 16 && time >= 12) && <span className="admin-gretting" >Good AfterNoon</span>}
+                  {(time <= 23 && time >= 16) && <span className="admin-gretting" >Good Evening</span>}
+                  <div className="userName">{adminName}</div>
+                </div>
+                {adminAvatar &&
+                  <Img adminAvatar={adminAvatar} alt="Admin avatar"></Img>
+                }
+              </div>}
+            <Marginer direction="vertical" margin="1em" />
 
-          <div style={{ width: "12em" }}>
-            <button className="actions-btn" onClick={() => getCustomersApiAnswer()}>
-              List of Customers
-            </button>
-            <button className="actions-btn" onClick={() => getTrainersApiAnswer()}>
-              List of Trainers
-            </button>
-            <button className="actions-btn" onClick={() => getCoursesApiAnswer()}>
-              List of Courses
-            </button>
-            <button className="actions-btn" onClick={() => getContactUsApiAnswer()}>
-              Contact Us messages
-            </button>
+            <div style={{ width: "12em" }}>
+              <button className="actions-btn" onClick={() => getCustomersApiAnswer()}>
+                List of Customers
+              </button>
+              <button className="actions-btn" onClick={() => getTrainersApiAnswer()}>
+                List of Trainers
+              </button>
+              <button className="actions-btn" onClick={() => getCoursesApiAnswer()}>
+                List of Courses
+              </button>
+              <button className="actions-btn" onClick={() => getContactUsApiAnswer()}>
+                Contact Us messages
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div
-          className={
-            `${((contactUsData.length > 0 || contactMessageFlag)
-              || (customersData.length > 0 || customerMessageFlag)
-              || (trainersData.length > 0 || trainerMessageFlag)) ?
-              "allCards-container" :
-              (coursesData.length > 0 || coursesMessageFlag) ?
-                'allAdminCoursesCards-container' :
-                'admin-image-home-container'}`
-          }
-        >
-          {customersCardEmpty &&
-            [<div className="cardEmpty-message">There are not Customers!</div>,
-            <span className="close-message" onClick={closeMessageHandler}>✖</span>]
-          }
-          {!customerCardExist &&
-            [
-              <div className="innerPage-topBar">
-                <div className="amount-container">Customers Amount:
-                  <span className="amount-item">{customersData.length}</span>
-                </div>
-              </div>,
-              loading && <section className="smooth spinner" >{ }</section>,
-              customersData.map((item) =>
-                <div key={item._id} className="card-container">
-                  <div style={{ display: "flex", justifyContent: "center" }} alt="Customer Avatar">
-                    <Img customersDisplayAvatar={item.profilepic.public_id} alt="Customer avatar"></Img>
+          <div
+            className={
+              `${((contactUsData.length > 0 || contactMessageFlag)
+                || (customersData.length > 0 || customerMessageFlag)
+                || (trainersData.length > 0 || trainerMessageFlag)) ?
+                "allCards-container" :
+                (coursesData.length > 0 || coursesMessageFlag) ?
+                  'allAdminCoursesCards-container' :
+                  'admin-image-home-container'}`
+            }
+          >
+            {customersCardEmpty &&
+              [<div className="cardEmpty-message">There are not Customers!</div>,
+              <span className="close-message" onClick={closeMessageHandler}>✖</span>]
+            }
+            {!customerCardExist &&
+              [
+                <div className="innerPage-topBar">
+                  <div className="amount-container">Customers Amount:
+                    <span className="amount-item">{customersData.length}</span>
                   </div>
-                  <Marginer direction="vertical" margin="0.5em" />
-                  <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
-                  <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
-                  <div className="titles">Email: <span className="numeric-items">{item.email}</span></div>
-                  <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
-                  <div className="titles">Age: <span className="numeric-items">{item.age}</span></div>
-                  <div className="titles">Gender: <span className="items">{item.gender}</span></div>
-                  <Marginer direction="vertical" margin="0.5em" />
-                  <button onClick={() => { deleteCustomerById(item._id) }} className="item-btn">Remove Customer</button>
-                </div>
-              ),
-              <BackToTopBtn />
-            ]
-          }
+                </div>,
+                loading && <section className="smooth spinner" >{ }</section>,
+                customersData.map((item) =>
+                  <div key={item._id} className="card-container">
+                    <div style={{ display: "flex", justifyContent: "center" }} alt="Customer Avatar">
+                      <Img customersDisplayAvatar={item.profilepic.public_id} alt="Customer avatar"></Img>
+                    </div>
+                    <Marginer direction="vertical" margin="0.5em" />
+                    <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
+                    <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
+                    <div className="titles">Email: <span className="numeric-items">{item.email}</span></div>
+                    <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
+                    <div className="titles">Age: <span className="numeric-items">{item.age}</span></div>
+                    <div className="titles">Gender: <span className="items">{item.gender}</span></div>
+                    <Marginer direction="vertical" margin="0.5em" />
+                    <button onClick={() => { deleteCustomerById(item._id) }} className="item-btn">Remove Customer</button>
+                  </div>
+                ),
+                <BackToTopBtn />
+              ]
+            }
 
-          {trainersCardEmpty &&
-            [<div className="cardEmpty-message">There are not Trainers!</div>,
-            <span className="close-message" onClick={closeMessageHandler}>✖</span>]
-          }
-          {!trainerCardExist &&
-            [
-              <div className="innerPage-topBar">
-                <button
-                  className='sendEmail-btn'
-                  onClick={() => window.location = `mailto:${trainersData.map((trainer) => {
-                    return trainer.email
-                  })}`}>Send E-Mail to All
-                </button>
-                <div className="amount-container">Trainers Amount:
-                  <span className="amount-item">{trainersData.length}</span>
-                </div>
-              </div>,
-              loading && <section className="smooth spinner" >{ }</section>,
-              trainersData.map((item) =>
-                <div key={item._id} className="card-container">
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Img trainersDisplayAvatar={item.profilepic.public_id} alt="Trainer avatar"></Img>
+            {trainersCardEmpty &&
+              [<div className="cardEmpty-message">There are not Trainers!</div>,
+              <span className="close-message" onClick={closeMessageHandler}>✖</span>]
+            }
+            {!trainerCardExist &&
+              [
+                <div className="innerPage-topBar">
+                  <button
+                    className='sendEmail-btn'
+                    onClick={() => window.location = `mailto:${trainersData.map((trainer) => {
+                      return trainer.email
+                    })}`}>Send E-Mail to All
+                  </button>
+                  <div className="amount-container">Trainers Amount:
+                    <span className="amount-item">{trainersData.length}</span>
                   </div>
-                  <Marginer direction="vertical" margin="0.5em" />
-                  <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
-                  <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
-                  <div className="titles">Email: <span className="numeric-items">{item.email}</span></div>
-                  <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
-                  <div className="titles">Age: <span className="numeric-items">{item.age}</span></div>
-                  <div className="titles">Gender: <span className="items">{item.gender}</span></div>
-                  <Marginer direction="vertical" margin="0.5em" />
-                  <button onClick={() => { deleteTrainerById(item._id) }} className="item-btn">Remove Trainer</button>
-                </div>
-              ),
-              <BackToTopBtn />
-            ]
-          }
+                </div>,
+                loading && <section className="smooth spinner" >{ }</section>,
+                trainersData.map((item) =>
+                  <div key={item._id} className="card-container">
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <Img trainersDisplayAvatar={item.profilepic.public_id} alt="Trainer avatar"></Img>
+                    </div>
+                    <Marginer direction="vertical" margin="0.5em" />
+                    <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
+                    <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
+                    <div className="titles">Email: <span className="numeric-items">{item.email}</span></div>
+                    <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
+                    <div className="titles">Age: <span className="numeric-items">{item.age}</span></div>
+                    <div className="titles">Gender: <span className="items">{item.gender}</span></div>
+                    <Marginer direction="vertical" margin="0.5em" />
+                    <button onClick={() => { deleteTrainerById(item._id) }} className="item-btn">Remove Trainer</button>
+                  </div>
+                ),
+                <BackToTopBtn />
+              ]
+            }
 
-          {coursesCardEmpty &&
-            [<span className="close-message" onClick={closeMessageHandler}>✖</span>,
-            <div className="cardEmpty-message">There are not Courses!</div>]
-          }
-          {(!coursesCardExist && courseTrainerData) &&
-            [
-              loading && <section className="smooth spinner" >{ }</section>,
-              <div className="courses-navbar">
-                <button
-                  className={toggleFilteredCourses ? "navbar-btn" : "filtered-navbar-btn"}
-                  onClick={toggleFilteredCoursesModal}
-                >{toggleFilteredCourses ? "Courses With Customers" : "All Courses"}</button>
-                <button
-                  className="navbar-btn"
-                  onClick={getAllTrainerCoursesHandler}
-                >Filter by ID <span className="cursor-filter-btn">~&#62;</span>
-                </button>
-                <input
-                  type="text"
-                  placeholder={isFilteredById ? "Enter the requested ID.." : "Incorrect ID"}
-                  className={isFilteredById ? "filterCourses-input" : "filterCourses-err"}
-                  value={trainerLabelID}
-                  onChange={(e) => { setTrainerLabelID(e.target.value) }}
-                ></input>
+            {coursesCardEmpty &&
+              [<span className="close-message" onClick={closeMessageHandler}>✖</span>,
+              <div className="cardEmpty-message">There are not Courses!</div>]
+            }
+            {(!coursesCardExist && courseTrainerData) &&
+              [
+                loading && <section className="smooth spinner" >{ }</section>,
+                <div className="courses-navbar">
+                  <button
+                    className={toggleFilteredCourses ? "navbar-btn" : "filtered-navbar-btn"}
+                    onClick={toggleFilteredCoursesModal}
+                  >{toggleFilteredCourses ? "Courses With Customers" : "All Courses"}</button>
+                  <button
+                    className="navbar-btn"
+                    onClick={getAllTrainerCoursesHandler}
+                  >Filter by ID <span className="cursor-filter-btn">~&#62;</span>
+                  </button>
+                  <input
+                    type="text"
+                    placeholder={isFilteredById ? "Enter the requested ID.." : "Incorrect ID"}
+                    className={isFilteredById ? "filterCourses-input" : "filterCourses-err"}
+                    value={trainerLabelID}
+                    onChange={(e) => { setTrainerLabelID(e.target.value) }}
+                  ></input>
 
 
-                <div className="amount-container">
-                  Courses Amount:
-                  <span className="amount-item">{coursesData.length}</span>
-                </div>
-              </div>,
-              coursesData.map((item) =>
-                <div key={item._id} className="course-card-container">
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Img courseAvatar={item.picture.public_id} alt="Course avatar"></Img>
+                  <div className="amount-container">
+                    Courses Amount:
+                    <span className="amount-item">{coursesData.length}</span>
                   </div>
-                  <Marginer direction="vertical" margin="0.5em" />
-                  <div className='courseCard-details-1'>
-                    <div className="course-name">{item.name}</div>
-                    <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
-                    <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
-                  </div>
-                  <div className="courseCard-details-2">
-                    <div className="course-titles">Description: <span className="items">{item.description}</span></div>
-                    <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
-                  </div>
-                  <div className="course-titles courseUsers-title">
-                    {
-                      courseTrainerData.map((trainer, index) => {
-                        if (trainer._id === item.trainer) {
-                          return (
-                            <>
-                              <div style={{ display: "flex", flexDirection: "row" }}>
-                                <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                  <span style={{ paddingBottom: "0.3em", fontFamily: "Lucida Sans" }}>Trainer</span>
-                                  <Img courseTrainerAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
-                                </div>
-                                <div style={{ display: "block", alignItems: "center", marginLeft: "0.5em" }}>
-                                  <div style={{ fontSize: "15px", color: "whitesmoke", marginBottom: "1em", fontFamily: "Lucida Sans", fontWeight: "bold" }}>{trainer.firstname + " " + trainer.lastname}</div>
-                                  <div className="course-trainerDetails">
-                                    <span style={{ color: "#334598" }}>ID:</span>
-                                    <span style={{ fontSize: "12px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
-                                    <div style={{ color: "#334598" }}> Rate:
-                                      {trainer.rating.rate}
-                                    </div>
-                                    <div style={{ color: "#334598" }}>Count:
-                                      {trainer.rating.count}
+                </div>,
+                coursesData.map((item) =>
+                  <div key={item._id} className="course-card-container">
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <Img courseAvatar={item.picture.public_id} alt="Course avatar"></Img>
+                    </div>
+                    <Marginer direction="vertical" margin="0.5em" />
+                    <div className='courseCard-details-1'>
+                      <div className="course-name">{item.name}</div>
+                      <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
+                      <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
+                    </div>
+                    <div className="courseCard-details-2">
+                      <div className="course-titles">Description: <span className="items">{item.description}</span></div>
+                      <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
+                    </div>
+                    <div className="course-titles courseUsers-title">
+                      {
+                        courseTrainerData.map((trainer, index) => {
+                          if (trainer._id === item.trainer) {
+                            return (
+                              <>
+                                <div style={{ display: "flex", flexDirection: "row" }}>
+                                  <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                    <span style={{ paddingBottom: "0.3em", fontFamily: "Lucida Sans" }}>Trainer</span>
+                                    <Img courseTrainerAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
+                                  </div>
+                                  <div style={{ display: "block", alignItems: "center", marginLeft: "0.5em" }}>
+                                    <div style={{ fontSize: "15px", color: "whitesmoke", marginBottom: "1em", fontFamily: "Lucida Sans", fontWeight: "bold" }}>{trainer.firstname + " " + trainer.lastname}</div>
+                                    <div className="course-trainerDetails">
+                                      <span style={{ color: "#334598" }}>ID:</span>
+                                      <span style={{ fontSize: "12px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
+                                      <div style={{ color: "#334598" }}> Rate:
+                                        {trainer.rating.rate}
+                                      </div>
+                                      <div style={{ color: "#334598" }}>Count:
+                                        {trainer.rating.count}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </>
-                          )
-                        }
-                        return null
-                      })
-                    }
-                    <Marginer direction="vertical" margin="0.5em" />
-
-                    <div className="courseCustomer-title">Customers
-                      {item.customers.length === 0 ?
-                        <div className="course-customer-length"
-                          style={{ color: "rgb(226, 98, 98)" }}
-                        > {item.customers.length} </div> :
-                        [
-                          <div
-                            className="course-customer-length"
-                            style={{ borderRadius: "50%", color: "rgb(54, 169, 71)" }}
-                          > {item.customers.length}
-                          </div>,
-                          <button
-                            className="course-customer-btn"
-                            onClick={() => { getCourseCustomersData(item.customers) }}
-                          >View Customers
-                          </button>,
-                          (customersModal && courseCustomersData) &&
-                          <div className="modal" >
-                            <div className="overlay-customers" onClick={toggleModal}></div>
-                            <div className="modal-customer-container" >
-                              {
-                                courseCustomersData.map((customerData, index) => {
-                                  return (
-                                    <div key={index} className="customers-modal-card">
-                                      <span style={{ fontSize: "15px", color: "white" }}>{customerData.firstname + " " + customerData.lastname}</span>
-                                      <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
-                                    </div>
-                                  )
-                                })
-                              }
-                            </div>
-                          </div>
-                        ]
+                              </>
+                            )
+                          }
+                          return null
+                        })
                       }
+                      <Marginer direction="vertical" margin="0.5em" />
+
+                      <div className="courseCustomer-title">Customers
+                        {item.customers.length === 0 ?
+                          <div className="course-customer-length"
+                            style={{ color: "rgb(226, 98, 98)" }}
+                          > {item.customers.length} </div> :
+                          [
+                            <div
+                              className="course-customer-length"
+                              style={{ borderRadius: "50%", color: "rgb(54, 169, 71)" }}
+                            > {item.customers.length}
+                            </div>,
+                            <button
+                              className="course-customer-btn"
+                              onClick={() => { getCourseCustomersData(item.customers) }}
+                            >View Customers
+                            </button>,
+                            (customersModal && courseCustomersData) &&
+                            <div className="modal" >
+                              <div className="overlay-customers" onClick={toggleModal}></div>
+                              <div className="modal-customer-container" >
+                                {
+                                  courseCustomersData.map((customerData, index) => {
+                                    return (
+                                      <div key={index} className="customers-modal-card">
+                                        <span style={{ fontSize: "15px", color: "white" }}>{customerData.firstname + " " + customerData.lastname}</span>
+                                        <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
+                                      </div>
+                                    )
+                                  })
+                                }
+                              </div>
+                            </div>
+                          ]
+                        }
+                      </div>
+
                     </div>
 
+                    {/* <button onClick={() => { deleteCourseById(item._id) }} className="item-btn">Remove Course</button> */}
                   </div>
+                )
+                ,
+                <BackToTopBtn />
+              ]
+            }
 
-                  {/* <button onClick={() => { deleteCourseById(item._id) }} className="item-btn">Remove Course</button> */}
-                </div>
-              )
-              ,
-              <BackToTopBtn />
-            ]
-          }
+            {(contactUsEmpty && contactUsData.length === 0) &&
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div className="cardEmpty-message">There are not Contact messages!</div>
+                {/* <span className="close-message" onClick={closeMessageHandler}>✖</span> */}
+              </div>
+            }
+            {!contactCardExist &&
+              [
+                loading && <section className="smooth spinner" >{ }</section>,
+                <div className="innerPage-topBar">
+                  <button
+                    className='sendEmail-btn'
+                    onClick={() => window.location = `mailto:${contactUsData.map((contact) => {
+                      return contact.email
+                    })}?subject=Mail from Train Me`}>Send E-Mail to All
+                  </button>
+                  <button onClick={deleteAllContactHandler} className="deleteAllCards-btn">Delete All</button>
+                  <div className='amount-container'>Contact Amount:
+                    <span className="amount-item">{contactUsData.length}</span>
+                  </div>
+                </div>,
+                contactUsData.map((item) =>
+                  <div key={item._id} className="card-container">
+                    <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
+                    <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
+                    <div className="titles">Email: <span
+                      className="numeric-items">
+                      <a href={`mailto:${item.email}?subject=Mail from Train Me`}>{item.email}</a>
+                    </span>
+                    </div>
+                    <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
+                    <div className="titles">Message Title: <span className="items">{item.messagetitle}</span></div>
+                    <div className="titles">Message: <span className="items">{item.message}</span></div>
+                    <div className="titles">Gender: <span className="items">{item.gender}</span></div>
+                    <div className="titles">Contact Method: <span className="items">{item.contactmethod}</span></div>
+                    <div className="titles">Date Created: <span className="items">{item.createdat}</span></div>
+                    <button onClick={() => { deleteContactById(item._id) }} className="item-btn" style={{ marginTop: "0.7em" }}>Remove</button>
+                    <Marginer direction="vertical" margin="0.5em" />
+                  </div>
+                ),
+                <BackToTopBtn />
+              ]
+            }
+          </div>
 
-          {(contactUsEmpty && contactUsData.length === 0) &&
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div className="cardEmpty-message">There are not Contact messages!</div>
-              {/* <span className="close-message" onClick={closeMessageHandler}>✖</span> */}
+          {
+            (!contactCardExist && contactUsData) &&
+            <div style={{ display: "block", flexDirection: "row" }}>
+              <button onClick={closeContactPageHandler} className="close-card-btn users-close-btn"></button>
             </div>
           }
-          {!contactCardExist &&
-            [
-              loading && <section className="smooth spinner" >{ }</section>,
-              <div className="innerPage-topBar">
-                <button
-                  className='sendEmail-btn'
-                  onClick={() => window.location = `mailto:${contactUsData.map((contact) => {
-                    return contact.email
-                  })}?subject=Mail from Train Me`}>Send E-Mail to All
-                </button>
-                <button onClick={deleteAllContactHandler} className="deleteAllCards-btn">Delete All</button>
-                <div className='amount-container'>Contact Amount:
-                  <span className="amount-item">{contactUsData.length}</span>
-                </div>
-              </div>,
-              contactUsData.map((item) =>
-                <div key={item._id} className="card-container">
-                  <div className="titles">First Name: <span className="items">{item.firstname}</span></div>
-                  <div className="titles">Last Name: <span className="items">{item.lastname}</span></div>
-                  <div className="titles">Email: <span
-                    className="numeric-items">
-                    <a href={`mailto:${item.email}?subject=Mail from Train Me`}>{item.email}</a>
-                  </span>
-                  </div>
-                  <div className="titles">Phone: <span className="numeric-items">{item.phone}</span></div>
-                  <div className="titles">Message Title: <span className="items">{item.messagetitle}</span></div>
-                  <div className="titles">Message: <span className="items">{item.message}</span></div>
-                  <div className="titles">Gender: <span className="items">{item.gender}</span></div>
-                  <div className="titles">Contact Method: <span className="items">{item.contactmethod}</span></div>
-                  <div className="titles">Date Created: <span className="items">{item.createdat}</span></div>
-                  <button onClick={() => { deleteContactById(item._id) }} className="item-btn" style={{ marginTop: "0.7em" }}>Remove</button>
-                  <Marginer direction="vertical" margin="0.5em" />
-                </div>
-              ),
-              <BackToTopBtn />
-            ]
+
+          {
+            (contactUsEmpty && contactUsData.length === 0) &&
+            <span className="close-message" onClick={closeMessageHandler}>✖</span>
+          }
+
+          {
+            (!customerCardExist) &&
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button onClick={closeCustomerPageHandler} className="close-card-btn users-close-btn"></button>
+            </div>
+          }
+
+          {(!trainerCardExist) &&
+            <div>
+              <button onClick={closeTrainerPageHandler} className="close-card-btn users-close-btn"></button>
+            </div>
+          }
+
+          {(!coursesCardExist) &&
+            <div style={{ width: "2.8em" }}>
+              <button
+                onClick={closeCoursesPageHandler}
+                className="close-card-btn users-close-btn"
+              ></button>
+            </div>
           }
         </div>
-
-        {
-          (!contactCardExist && contactUsData) &&
-          <div style={{ display: "block", flexDirection: "row" }}>
-            <button onClick={closeContactPageHandler} className="close-card-btn users-close-btn"></button>
-          </div>
-        }
-
-        {
-          (contactUsEmpty && contactUsData.length === 0) &&
-          <span className="close-message" onClick={closeMessageHandler}>✖</span>
-        }
-
-        {
-          (!customerCardExist) &&
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button onClick={closeCustomerPageHandler} className="close-card-btn users-close-btn"></button>
-          </div>
-        }
-
-        {(!trainerCardExist) &&
-          <div>
-            <button onClick={closeTrainerPageHandler} className="close-card-btn users-close-btn"></button>
-          </div>
-        }
-
-        {(!coursesCardExist) &&
-          <div style={{ width: "2.8em" }}>
-            <button
-              onClick={closeCoursesPageHandler}
-              className="close-card-btn users-close-btn"
-            ></button>
-          </div>
-        }
-      </div>
+      }
     </>
   )
 }

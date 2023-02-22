@@ -428,426 +428,429 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
   }
 
   return (
-    // <>
-    <MyContext.Provider value={{ filteredCoursesArr, setFilteredCoursesArr }}>
-      <div className="trainer-page-container">
-        {loading && <section className="smooth spinner" >{ }</section>}
-        {showTrainerHomePage && <div className="trainer-image-home-container"></div>}
-        {postCoursePage &&
-          <div className="popup-container">
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: "1em" }}>
-              <button className="close-postCourse-btn" onClick={() => { closePostCourseHandler(); }}>{ }</button>
-              {picture && <PreviewPicture src={picture} alt="course-image"></PreviewPicture>}
-            </div>
-            <form className="postCourse-popup">
-              <div style={{ display: "flex", flexDirection: "row", marginBottom: "2.5em" }}>
-                <div className="popup-labels">
-                  <input
-                    className="popupForm-field"
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => { setName(e.target.value) }} />
-                  {mandatoryErrors[name] ?
-                    <span className="error-span">
-                      Name field is mandatory!
-                    </span> : ''
-                  }
-                  {errors[name] ?
-                    <span className="error-span">
-                      Name must be in a range of 2 - 20 characters!
-                    </span> : ''
-                  }
-
-                  <input
-                    className="popupForm-field"
-                    type="text"
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => { setCategory(e.target.value) }} />
-                  {mandatoryErrors[category] ?
-                    <span style={{ fontSize: "12px", color: "red" }}>
-                      Category feild is mandatory!
-                    </span> : ''
-                  }
-                  {errors[category] ?
-                    <span className="error-span">
-                      Category must be in a range of 2 - 20 characters!
-                    </span> : ''
-                  }
-
-                  <input
-                    className="popupForm-field"
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => { setDescription(e.target.value) }} />
-                  {mandatoryErrors[description] ?
-                    <span style={{ fontSize: "12px", color: "red" }}>
-                      Description feild is mandatory!
-                    </span> : ''
-                  }
-                  {errors[description] ?
-                    <span className="error-span">
-                      Description must be in a range of 10- 100 characters!
-                    </span> : ''
-                  }
+    <>
+      {
+        (trainerID !== "" && trainerName !== "") &&
+        <MyContext.Provider value={{ filteredCoursesArr, setFilteredCoursesArr }}>
+          <div className="trainer-page-container">
+            {loading && <section className="smooth spinner" >{ }</section>}
+            {showTrainerHomePage && <div className="trainer-image-home-container"></div>}
+            {postCoursePage &&
+              <div className="popup-container">
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: "1em" }}>
+                  <button className="close-postCourse-btn" onClick={() => { closePostCourseHandler(); }}>{ }</button>
+                  {picture && <PreviewPicture src={picture} alt="course-image"></PreviewPicture>}
                 </div>
-                <div className="popup-labels">
-                  <input
-                    className="popupForm-field"
-                    type="number"
-                    placeholder="Lesson Time (minutes)"
-                    value={lessonTime}
-                    onChange={(e) => { setLessonTime(e.target.value) }} />
-                  {mandatoryErrors[lessonTime] ?
-                    <span style={{ fontSize: "12px", color: "red" }}>
-                      Lesson Time feild is mandatory!
-                    </span> : ''
-                  }
-                  {errors[lessonTime] ?
-                    <span className="error-span">
-                      Lesson Time must be in the range of 15-90 minutes!
-                    </span> : ''
-                  }
+                <form className="postCourse-popup">
+                  <div style={{ display: "flex", flexDirection: "row", marginBottom: "2.5em" }}>
+                    <div className="popup-labels">
+                      <input
+                        className="popupForm-field"
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => { setName(e.target.value) }} />
+                      {mandatoryErrors[name] ?
+                        <span className="error-span">
+                          Name field is mandatory!
+                        </span> : ''
+                      }
+                      {errors[name] ?
+                        <span className="error-span">
+                          Name must be in a range of 2 - 20 characters!
+                        </span> : ''
+                      }
 
-                  <input
-                    className="popupForm-field"
-                    type="number"
-                    placeholder="Price"
-                    value={cost}
-                    onChange={(e) => { setCost(e.target.value) }} />
-                  {mandatoryErrors[cost] ?
-                    <span style={{ fontSize: "12px", color: "red" }}>
-                      Price feild is mandatory!
-                    </span> : ''
-                  }
-                  {errors[cost] ?
-                    <span style={{ fontSize: "12px", color: "red" }}>
-                      price must be in a range of 0-150!
-                    </span> : ''
-                  }
-                  {/* <span style={{ fontSize: '12px', textDecoration: 'underLine', color: 'gray' }}>Upload your picture here:</span> */}
+                      <input
+                        className="popupForm-field"
+                        type="text"
+                        placeholder="Category"
+                        value={category}
+                        onChange={(e) => { setCategory(e.target.value) }} />
+                      {mandatoryErrors[category] ?
+                        <span style={{ fontSize: "12px", color: "red" }}>
+                          Category feild is mandatory!
+                        </span> : ''
+                      }
+                      {errors[category] ?
+                        <span className="error-span">
+                          Category must be in a range of 2 - 20 characters!
+                        </span> : ''
+                      }
 
-                  <FileInput
-                    ref={inputFileRef}
-                    className="file-field "
-                    type="file"
-                    placeholder="Picture"
-                    onChange={(e) => { handlePictureChange(e) }}
-                    required
-                    accept="image/png, image/jpeg, image/jpg, image/jfif"
-                  />
-                  {mandatoryErrors[picture] ?
-                    <span className="error-span">
-                      Picture feild is mandatory!
-                    </span> : ''
-                  }
-                </div>
-              </div>
-              {submitted &&
-                <span className="success-posting">
-                  Success! Course was added successfully.
-                </span>
-              }
-              <button
-                className="btn-popup"
-                type="submit"
-                onClick={(e) => { handleSubmitCourseAdding(e) }}>
-                Upload course
-              </button>
-            </form>
-          </div>
-        }
-
-        {
-          (myCoursesPage && filteredCoursesArr.length === 0) &&
-          <div className="message-emptyArr">
-            <span className="close-emptyData-message" onClick={closeMyCoursesPage}>✖</span>
-            There are not Courses yet!
-          </div>
-        }
-        {
-          (filteredCoursesArr.length > 0 && myCoursesPage) &&
-          <div className="my-courses-form" >
-            <div className="courses-buttons-div">
-              {/* {loading && <section className="smooth spinner" >{ }</section>} */}
-              <button className="close-postCourse-btn" onClick={closeMyCoursesPage}>{ }</button>
-              <div className="filteredButtons-container">
-                {
-                  !toggleFiltered
-                    ?
-                    <button className="filteredButtons" onClick={() => { filteredCoursesByExistingCustomer() }}>Courses with Customers</button>
-                    :
-                    <button className="filteredButtons" onClick={() => { unfilteredCourse() }}>Unfiltered Courses</button>
-                }
-              </div>
-              <div className="coursesAmount-container">
-                Courses Amount
-                <span style={{ color: "blue", fontSize: "30px", width: "1em" }}>
-                  {filteredCourses.length > 0 ? filteredCourses.length : filteredCoursesArr.length}
-                </span>
-              </div>
-            </div>
-            <div className="allCoursesCards-container">
-              {
-                filteredCourses.length > 0 ?
-                  filteredCourses.map((course) =>
-                    <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
-                      <div className="courseCard-container" key={course._id}>
-                        <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                          <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
-                        </div>
-                        <div className="course-title">Name: <span className="item">{course.name}</span></div>
-                        <div className="course-title">Category: <span className="item">{course.category}</span></div>
-                        <div className="course-title">Description: <span className="item">{course.description}</span></div>
-                        <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
-                        <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
-                        <div className="course-title">Customers:
-                          <span className="customers-amount" >{course.customers.length}
-                            {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
-                          </span>
-                          <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
-                            View Customer/s
-                          </button>
-
-                          {(customersData && customersModal) &&
-                            <div className="modal" >
-                              <div onClick={toggleCustomersModal} className="overlay-customers"></div>
-                              <div className="modal-customer-container" >
-                                {
-                                  customersData.map((customer, index) => [
-                                    <div key={index} className="customers-modal-card">
-                                      <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
-                                      <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
-                                    </div>
-                                  ])
-                                }
-                              </div>
-                            </div>
-                          }
-                        </div>
-                      </div>
-                      <div className="card-actions">
-                        <UpdateModal
-                          setLoading={setLoading}
-                          loading={loading}
-                          courseId={course._id}
-                          setFilteredCourses={setFilteredCoursesArr}
-                          filteredCourses={filteredCoursesArr}
-                        />
-                        <RemoveModal
-                          courseId={course._id}
-                          loading={loading}
-                          setLoading={setLoading}
-                          setIsDataExist={setIsDataExist}
-                          setFilteredCoursesArr={setFilteredCoursesArr}
-                          toggleFiltered={toggleFiltered}
-                          setToggleFiltered={setToggleFiltered}
-                        />
-                      </div>
+                      <input
+                        className="popupForm-field"
+                        type="text"
+                        placeholder="Description"
+                        value={description}
+                        onChange={(e) => { setDescription(e.target.value) }} />
+                      {mandatoryErrors[description] ?
+                        <span style={{ fontSize: "12px", color: "red" }}>
+                          Description feild is mandatory!
+                        </span> : ''
+                      }
+                      {errors[description] ?
+                        <span className="error-span">
+                          Description must be in a range of 10- 100 characters!
+                        </span> : ''
+                      }
                     </div>
-                  ) :
-                  filteredCoursesArr.map((course) =>
-                    <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
-                      <div className="courseCard-container" key={course._id}>
-                        <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                          <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
-                        </div>
-                        <div className="course-title">Name: <span className="item">{course.name}</span></div>
-                        <div className="course-title">Category: <span className="item">{course.category}</span></div>
-                        <div className="course-title">Description: <span className="item">{course.description}</span></div>
-                        <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
-                        <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
-                        <div className="course-title">Customers:
-                          {course.customers < 1 ?
-                            <span className="numeric-items">{course.customers.length}</span>
-                            :
-                            [
+                    <div className="popup-labels">
+                      <input
+                        className="popupForm-field"
+                        type="number"
+                        placeholder="Lesson Time (minutes)"
+                        value={lessonTime}
+                        onChange={(e) => { setLessonTime(e.target.value) }} />
+                      {mandatoryErrors[lessonTime] ?
+                        <span style={{ fontSize: "12px", color: "red" }}>
+                          Lesson Time feild is mandatory!
+                        </span> : ''
+                      }
+                      {errors[lessonTime] ?
+                        <span className="error-span">
+                          Lesson Time must be in the range of 15-90 minutes!
+                        </span> : ''
+                      }
+
+                      <input
+                        className="popupForm-field"
+                        type="number"
+                        placeholder="Price"
+                        value={cost}
+                        onChange={(e) => { setCost(e.target.value) }} />
+                      {mandatoryErrors[cost] ?
+                        <span style={{ fontSize: "12px", color: "red" }}>
+                          Price feild is mandatory!
+                        </span> : ''
+                      }
+                      {errors[cost] ?
+                        <span style={{ fontSize: "12px", color: "red" }}>
+                          price must be in a range of 0-150!
+                        </span> : ''
+                      }
+                      {/* <span style={{ fontSize: '12px', textDecoration: 'underLine', color: 'gray' }}>Upload your picture here:</span> */}
+
+                      <FileInput
+                        ref={inputFileRef}
+                        className="file-field "
+                        type="file"
+                        placeholder="Picture"
+                        onChange={(e) => { handlePictureChange(e) }}
+                        required
+                        accept="image/png, image/jpeg, image/jpg, image/jfif"
+                      />
+                      {mandatoryErrors[picture] ?
+                        <span className="error-span">
+                          Picture feild is mandatory!
+                        </span> : ''
+                      }
+                    </div>
+                  </div>
+                  {submitted &&
+                    <span className="success-posting">
+                      Success! Course was added successfully.
+                    </span>
+                  }
+                  <button
+                    className="btn-popup"
+                    type="submit"
+                    onClick={(e) => { handleSubmitCourseAdding(e) }}>
+                    Upload course
+                  </button>
+                </form>
+              </div>
+            }
+
+            {
+              (myCoursesPage && filteredCoursesArr.length === 0) &&
+              <div className="message-emptyArr">
+                <span className="close-emptyData-message" onClick={closeMyCoursesPage}>✖</span>
+                There are not Courses yet!
+              </div>
+            }
+            {
+              (filteredCoursesArr.length > 0 && myCoursesPage) &&
+              <div className="my-courses-form" >
+                <div className="courses-buttons-div">
+                  {/* {loading && <section className="smooth spinner" >{ }</section>} */}
+                  <button className="close-postCourse-btn" onClick={closeMyCoursesPage}>{ }</button>
+                  <div className="filteredButtons-container">
+                    {
+                      !toggleFiltered
+                        ?
+                        <button className="filteredButtons" onClick={() => { filteredCoursesByExistingCustomer() }}>Courses with Customers</button>
+                        :
+                        <button className="filteredButtons" onClick={() => { unfilteredCourse() }}>Unfiltered Courses</button>
+                    }
+                  </div>
+                  <div className="coursesAmount-container">
+                    Courses Amount
+                    <span style={{ color: "blue", fontSize: "30px", width: "1em" }}>
+                      {filteredCourses.length > 0 ? filteredCourses.length : filteredCoursesArr.length}
+                    </span>
+                  </div>
+                </div>
+                <div className="allCoursesCards-container">
+                  {
+                    filteredCourses.length > 0 ?
+                      filteredCourses.map((course) =>
+                        <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
+                          <div className="courseCard-container" key={course._id}>
+                            <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                              <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+                            </div>
+                            <div className="course-title">Name: <span className="item">{course.name}</span></div>
+                            <div className="course-title">Category: <span className="item">{course.category}</span></div>
+                            <div className="course-title">Description: <span className="item">{course.description}</span></div>
+                            <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
+                            <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
+                            <div className="course-title">Customers:
                               <span className="customers-amount" >{course.customers.length}
                                 {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
-                              </span>,
+                              </span>
                               <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
                                 View Customer/s
-                              </button>,
+                              </button>
 
-                              (customersData && customersModal) &&
-                              <div className="modal" >
-                                <div onClick={toggleCustomersModal} className="overlay-customers"></div>
-                                <div className="modal-customer-container" >
-                                  {
-                                    customersData.map((customer, index) => [
-                                      <div key={index} className="customers-modal-card">
-                                        <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
-                                        <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
-                                      </div>
-                                    ])
-                                  }
-                                </div>
-                              </div>
-
-                            ]}
-                        </div>
-                      </div>
-                      <div className="card-actions">
-                        <UpdateModal courseId={course._id} loading={loading} setLoading={setLoading} />
-                        <RemoveModal
-                          courseId={course._id}
-                          loading={loading}
-                          setLoading={setLoading}
-                          setIsDataExist={setIsDataExist}
-                          setFilteredCoursesArr={setFilteredCoursesArr}
-                          toggleFiltered={toggleFiltered}
-                          setToggleFiltered={setToggleFiltered}
-                        />
-                      </div>
-                    </div>
-                  )
-              }
-            </div>
-          </div>
-        }
-
-        {
-          (allCustomersPage && Object.keys(allCoursesCustomersData).length === 0) &&
-          <div className="message-emptyArr">
-            <span className="close-emptyData-message" onClick={closeAllCoursesCustomersPage}>✖</span>
-            There are not Customers yet!</div>
-        }
-        {
-          (allCustomersPage && Object.keys(allCoursesCustomersData).length !== 0) &&
-          [
-            <div className="my-customers-form">
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <button className="close-allCoursesCostomers-container" onClick={closeAllCoursesCustomersPage}>{ }</button>
-                <button
-                  className="mailToAll-btn"
-                  onClick={() => window.location = `mailto:${Object.keys(allCoursesCustomersData).map((keyName) => {
-                    return (allCoursesCustomersData[keyName].map((customer) => {
-                      return customer.email
-                    }));
-                  })
-                    }?subject=Mail from Train Me: ${trainerName}`}>Send E-Mail to All
-                </button>
-              </div>
-              <div className="allCoursesCustomers-container">
-                {
-                  [
-                    Object.keys(allCoursesCustomersData).map((keyName, keyIndex) => {
-                      return (
-                        <div key={keyIndex} className="allCardsAndTitlesHolder">
-                          <div className="allCoursesCustomers-course-title-holder">
-                            {keyName}
-                            <div className="customersAmount-insideTitle">{allCoursesCustomersData[keyName].length}</div>
-                          </div>
-                          <div className="allCoursesCustomers-allCardsHolder">
-                            {allCoursesCustomersData[keyName].map((customer, index) => {
-                              allCustomersCounter++;
-                              return (
-                                <div key={index} className="allCoursesCustomers-cardholder">
-                                  <div >
-                                    <Img courseAvatar={customer.profilepic.public_id} alt="Course avatar"></Img>
+                              {(customersData && customersModal) &&
+                                <div className="modal" >
+                                  <div onClick={toggleCustomersModal} className="overlay-customers"></div>
+                                  <div className="modal-customer-container" >
+                                    {
+                                      customersData.map((customer, index) => [
+                                        <div key={index} className="customers-modal-card">
+                                          <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
+                                          <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
+                                        </div>
+                                      ])
+                                    }
                                   </div>
-                                  <div className="allCoursesCustomers-card-row">{customer.firstname + " " + customer.lastname}</div>
-                                  {/* <div className="allCoursesCustomers-card-row">{customer.email}</div> */}
-                                  <div className="allCoursesCustomers-card-row">{customer.phone}</div>
-                                  <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}?subject=Mail from Train Me: ${trainerName} (Course: ${keyName})`}>Send E-Mail</button>
                                 </div>
-                              )
-                            })}
-                            <BackToTopBtn />
+                              }
+                            </div>
                           </div>
-                          <div className="dashed-BorderBetweenCourses"></div>
+                          <div className="card-actions">
+                            <UpdateModal
+                              setLoading={setLoading}
+                              loading={loading}
+                              courseId={course._id}
+                              setFilteredCourses={setFilteredCoursesArr}
+                              filteredCourses={filteredCoursesArr}
+                            />
+                            <RemoveModal
+                              courseId={course._id}
+                              loading={loading}
+                              setLoading={setLoading}
+                              setIsDataExist={setIsDataExist}
+                              setFilteredCoursesArr={setFilteredCoursesArr}
+                              toggleFiltered={toggleFiltered}
+                              setToggleFiltered={setToggleFiltered}
+                            />
+                          </div>
+                        </div>
+                      ) :
+                      filteredCoursesArr.map((course) =>
+                        <div key={course._id} style={{ display: "flex", flexDirection: "column" }}>
+                          <div className="courseCard-container" key={course._id}>
+                            <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                              <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+                            </div>
+                            <div className="course-title">Name: <span className="item">{course.name}</span></div>
+                            <div className="course-title">Category: <span className="item">{course.category}</span></div>
+                            <div className="course-title">Description: <span className="item">{course.description}</span></div>
+                            <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
+                            <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
+                            <div className="course-title">Customers:
+                              {course.customers < 1 ?
+                                <span className="numeric-items">{course.customers.length}</span>
+                                :
+                                [
+                                  <span className="customers-amount" >{course.customers.length}
+                                    {/* <div style={{ color: "#334598" }}>Customer/s ID:</div> */}
+                                  </span>,
+                                  <button className="viewCustomers-btn" onClick={() => { getCourseCustomers(course.customers) }}>
+                                    View Customer/s
+                                  </button>,
+
+                                  (customersData && customersModal) &&
+                                  <div className="modal" >
+                                    <div onClick={toggleCustomersModal} className="overlay-customers"></div>
+                                    <div className="modal-customer-container" >
+                                      {
+                                        customersData.map((customer, index) => [
+                                          <div key={index} className="customers-modal-card">
+                                            <span style={{ fontSize: "15px", color: "white" }}>{customer.firstname + " " + customer.lastname}</span>
+                                            <Img customersDisplayAvatar={customer.profilepic.public_id} alt="Customer avatar"></Img>
+                                          </div>
+                                        ])
+                                      }
+                                    </div>
+                                  </div>
+
+                                ]}
+                            </div>
+                          </div>
+                          <div className="card-actions">
+                            <UpdateModal courseId={course._id} loading={loading} setLoading={setLoading} />
+                            <RemoveModal
+                              courseId={course._id}
+                              loading={loading}
+                              setLoading={setLoading}
+                              setIsDataExist={setIsDataExist}
+                              setFilteredCoursesArr={setFilteredCoursesArr}
+                              toggleFiltered={toggleFiltered}
+                              setToggleFiltered={setToggleFiltered}
+                            />
+                          </div>
                         </div>
                       )
-                    }),
-                    <div className="allCustomers-counter">Total:
-                      <span
-                        style={{ color: "blue", marginRight: "0.2em", marginLeft: "0.7em", textShadow: "none", textDecoration: "underline" }}>
-                        {allCustomersCounter}
-                      </span>
-                      Customers
-                    </div>
-                  ]
-                }
+                  }
+                </div>
               </div>
-            </div>
-          ]
-        }
+            }
 
-        {allCoursesPage &&
-          // <div className="my-courses-form">
-          <div className="my-courses-form">
-            <div className="myCourses-topBar">
-              <button className="close-allCoursesCostomers-container" onClick={closeAllCoursesPage}>{ }</button>
-              <div style={{ marginLeft: "auto" }}>
-                Total Courses &gt;
-                <span style={{ color: "blue", marginLeft: "0.4em" }}>{allCoursesTrainersData.length}</span>
-              </div>
-            </div>
-            <div className="allCoursesCards-container">
-              {
-                allCoursesTrainersData.map((course) => {
-                  return (
-                    <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                      <div className="courseCard-container" key={course._id}>
-                        {course.trainer === trainerID &&
-                          <div style={{ display: 'flex', justifyContent: "center", color: "lightslategray" }}>My Course</div>
-                        }
-                        <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                          <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+            {
+              (allCustomersPage && Object.keys(allCoursesCustomersData).length === 0) &&
+              <div className="message-emptyArr">
+                <span className="close-emptyData-message" onClick={closeAllCoursesCustomersPage}>✖</span>
+                There are not Customers yet!</div>
+            }
+            {
+              (allCustomersPage && Object.keys(allCoursesCustomersData).length !== 0) &&
+              [
+                <div className="my-customers-form">
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <button className="close-allCoursesCostomers-container" onClick={closeAllCoursesCustomersPage}>{ }</button>
+                    <button
+                      className="mailToAll-btn"
+                      onClick={() => window.location = `mailto:${Object.keys(allCoursesCustomersData).map((keyName) => {
+                        return (allCoursesCustomersData[keyName].map((customer) => {
+                          return customer.email
+                        }));
+                      })
+                        }?subject=Mail from Train Me: ${trainerName}`}>Send E-Mail to All
+                    </button>
+                  </div>
+                  <div className="allCoursesCustomers-container">
+                    {
+                      [
+                        Object.keys(allCoursesCustomersData).map((keyName, keyIndex) => {
+                          return (
+                            <div key={keyIndex} className="allCardsAndTitlesHolder">
+                              <div className="allCoursesCustomers-course-title-holder">
+                                {keyName}
+                                <div className="customersAmount-insideTitle">{allCoursesCustomersData[keyName].length}</div>
+                              </div>
+                              <div className="allCoursesCustomers-allCardsHolder">
+                                {allCoursesCustomersData[keyName].map((customer, index) => {
+                                  allCustomersCounter++;
+                                  return (
+                                    <div key={index} className="allCoursesCustomers-cardholder">
+                                      <div >
+                                        <Img courseAvatar={customer.profilepic.public_id} alt="Course avatar"></Img>
+                                      </div>
+                                      <div className="allCoursesCustomers-card-row">{customer.firstname + " " + customer.lastname}</div>
+                                      {/* <div className="allCoursesCustomers-card-row">{customer.email}</div> */}
+                                      <div className="allCoursesCustomers-card-row">{customer.phone}</div>
+                                      <button className="mail-btn" onClick={() => window.location = `mailto:${customer.email}?subject=Mail from Train Me: ${trainerName} (Course: ${keyName})`}>Send E-Mail</button>
+                                    </div>
+                                  )
+                                })}
+                                <BackToTopBtn />
+                              </div>
+                              <div className="dashed-BorderBetweenCourses"></div>
+                            </div>
+                          )
+                        }),
+                        <div className="allCustomers-counter">Total:
+                          <span
+                            style={{ color: "blue", marginRight: "0.2em", marginLeft: "0.7em", textShadow: "none", textDecoration: "underline" }}>
+                            {allCustomersCounter}
+                          </span>
+                          Customers
                         </div>
-                        <div className="course-title">Name: <span className="item">{course.name}</span></div>
-                        <div className="course-title">Category: <span className="item">{course.category}</span></div>
-                        <div className="course-title">Description: <span className="item">{course.description}</span></div>
-                        <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
-                        <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
-                        {(course.trainer === trainerID && course.customers < 1)
-                          ? <div className="course-title">Customers: <span className="numeric-items" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div>
-                          : (course.trainer === trainerID && course.customers >= 1) ?
-                            <div className="course-title">Customers: <span className="customers-amount" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div> : ""}
-                      </div>
-                    </div>
-                  )
-                })
-              }
+                      ]
+                    }
+                  </div>
+                </div>
+              ]
+            }
+
+            {allCoursesPage &&
+              // <div className="my-courses-form">
+              <div className="my-courses-form">
+                <div className="myCourses-topBar">
+                  <button className="close-allCoursesCostomers-container" onClick={closeAllCoursesPage}>{ }</button>
+                  <div style={{ marginLeft: "auto" }}>
+                    Total Courses &gt;
+                    <span style={{ color: "blue", marginLeft: "0.4em" }}>{allCoursesTrainersData.length}</span>
+                  </div>
+                </div>
+                <div className="allCoursesCards-container">
+                  {
+                    allCoursesTrainersData.map((course) => {
+                      return (
+                        <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                          <div className="courseCard-container" key={course._id}>
+                            {course.trainer === trainerID &&
+                              <div style={{ display: 'flex', justifyContent: "center", color: "lightslategray" }}>My Course</div>
+                            }
+                            <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                              <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+                            </div>
+                            <div className="course-title">Name: <span className="item">{course.name}</span></div>
+                            <div className="course-title">Category: <span className="item">{course.category}</span></div>
+                            <div className="course-title">Description: <span className="item">{course.description}</span></div>
+                            <div className="course-title">Lesson time: <span className="numeric-items">{course.lessontime}</span></div>
+                            <div className="course-title">Price: <span className="numeric-items">{course.cost} ₪</span></div>
+                            {(course.trainer === trainerID && course.customers < 1)
+                              ? <div className="course-title">Customers: <span className="numeric-items" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div>
+                              : (course.trainer === trainerID && course.customers >= 1) ?
+                                <div className="course-title">Customers: <span className="customers-amount" style={{ marginBottom: "0.2em" }}>{course.customers}</span></div> : ""}
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+              // </div>
+            }
+
+            <div className="trainer-actions-container">
+              {trainerName &&
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+                    {(time >= 0 && time < 12) && <span className="trainer-gretting" >Good Morning</span>}
+                    {(time < 16 && time >= 12) && <span className="trainer-gretting" >Good AfterNoon</span>}
+                    {(time <= 23 && time >= 16) && <span className="trainer-gretting" >Good Evening</span>}
+                    <div className="trainer-userName">{trainerName}</div>
+                  </div>
+                  {trainerAvatar &&
+                    <Img trainerAvatar={trainerAvatar} alt="Trainer avatar" style={{ marginRight: "0.2em" }}></Img>
+                  }
+                </div>}
+              <Marginer direction="vertical" margin="1em" />
+              <div className="trainer-action-btns-container">
+                <button className="trainer-actions-btn" onClick={() => { handleCoursePopup() }} >
+                  Add a new Course
+                </button>
+                <button className="trainer-actions-btn" onClick={() => { getAllTrainerCoursesHandler(trainerID) }} >
+                  My Courses
+                </button>
+                <button className="trainer-actions-btn" onClick={() => { getAllCoursesCustomers(trainerID) }} >
+                  My Customers
+                </button>
+                <button className="trainer-actions-btn" onClick={getAllTrainersCoursesHandler} >
+                  All Courses
+                </button>
+              </div>
             </div>
           </div>
-          // </div>
-        }
-
-        <div className="trainer-actions-container">
-          {trainerName &&
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-                {(time >= 0 && time < 12) && <span className="trainer-gretting" >Good Morning</span>}
-                {(time < 16 && time >= 12) && <span className="trainer-gretting" >Good AfterNoon</span>}
-                {(time <= 23 && time >= 16) && <span className="trainer-gretting" >Good Evening</span>}
-                <div className="trainer-userName">{trainerName}</div>
-              </div>
-              {trainerAvatar &&
-                <Img trainerAvatar={trainerAvatar} alt="Trainer avatar" style={{ marginRight: "0.2em" }}></Img>
-              }
-            </div>}
-          <Marginer direction="vertical" margin="1em" />
-          <div className="trainer-action-btns-container">
-            <button className="trainer-actions-btn" onClick={() => { handleCoursePopup() }} >
-              Add a new Course
-            </button>
-            <button className="trainer-actions-btn" onClick={() => { getAllTrainerCoursesHandler(trainerID) }} >
-              My Courses
-            </button>
-            <button className="trainer-actions-btn" onClick={() => { getAllCoursesCustomers(trainerID) }} >
-              My Customers
-            </button>
-            <button className="trainer-actions-btn" onClick={getAllTrainersCoursesHandler} >
-              All Courses
-            </button>
-          </div>
-        </div>
-      </div>
-    </MyContext.Provider >
-    // </>
+        </MyContext.Provider >
+      }
+    </>
 
   )
 }

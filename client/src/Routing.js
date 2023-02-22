@@ -21,7 +21,8 @@ import Contact from './views/contactUs/ContactUsForm';
 import { AccountBox } from './components/accountBox/index';
 import Popup from 'reactjs-popup';
 // import "reactjs-popup/dist/index.css";
-import CourseDetailsInAllCourses from './components/customerPage/productsDetail/CourseDetailsInAllCourses'
+import CourseDetailsInAllCourses from './components/customerPage/productsDetail/CourseDetailsInAllCourses';
+import Img from './customHooks/Img';
 
 
 const Routing = () => {
@@ -38,9 +39,10 @@ const Routing = () => {
     const [trainersData, setTrainersData] = useState([]);
     const [trainerAvatar, setTrainerAvatar] = useState('');
     const [trainerName, setTrainerName] = useState('');
+    const [adminId, setAdminId] = useState('');
     const [trainerID, setTrainerID] = useState('');
     const [customerID, setCustomerID] = useState('');
-    const [customer_allCourses, setCustomer_allCourses] = useState([]);
+    // const [customer_allCourses, setCustomer_allCourses] = useState([]);
 
     const adminAvatarHandler = (publicId) => {
         setAdminAvatar(publicId);
@@ -56,11 +58,11 @@ const Routing = () => {
 
     const [customerCoursesDataForCoursePage, setCustomerCoursesDataForCoursePage] = useState([]);
 
-    
-    // useEffect(() => {
-    //     setCustomerCoursesDataForCoursePage(customer_allCourses);
-    // }, [customer_allCourses])
-    
+
+    useEffect(() => {
+        console.log("adminId: ", adminId);
+    }, [setAdminId, adminId])
+
 
 
     /* Change left or top value to reposition the popup */
@@ -94,6 +96,8 @@ const Routing = () => {
         trainerAvatar,
         setAdminName,
         adminName,
+        setAdminId,
+        adminId,
         setCustomerName,
         customerName,
         setCustomerID,
@@ -105,8 +109,12 @@ const Routing = () => {
         setCoursesData,
         coursesData,
         customerCoursesDataForCoursePage,
-        setCustomerCoursesDataForCoursePage        
+        setCustomerCoursesDataForCoursePage
     }
+
+    const isAdminLoggedIn = (adminAvatar !== "" && customerAvatar === "" && trainerAvatar === "")
+    const isTrainerLoggedIn = (trainerAvatar !== "" && adminAvatar === "" && customerAvatar === "")
+    const isCustomerLoggedIn = (customerAvatar !== "" && adminAvatar === "" && trainerAvatar === "")
 
     return (
         <MyContext.Provider
@@ -128,23 +136,35 @@ const Routing = () => {
                             <div id="popup-root" />
                         </span> */}
 
-                        {/* <NavLink to="/account" className="active-link">Account</NavLink> */}
                         <NavLink to="/" className="active-link">Home</NavLink>
                         {/* <NavLink to="/account" className="active-link">Account</NavLink> */}
                         <NavLink to="/contact" className="active-link">Contact-Us</NavLink>
                         <NavLink to="/about" className="active-link">About</NavLink>
                         {/* <NavLink to="/questions" className="active-link">Common-Questions</NavLink> */}
-
-                        <Popup trigger={<button className="active-link">Account</button>} position="bottom right">
-                            {/* {close => (
-                                <div>
-                                    <button className="close-account-popup" onClick={close}>
-                                        &times;
-                                    </button>
-                                </div>
-                            )} */}
-                            <AccountBox />
-                        </Popup>
+                        {
+                            (!isAdminLoggedIn && !isTrainerLoggedIn && !isCustomerLoggedIn) ?
+                                <Popup trigger={<button className="active-link">Account</button>} position="bottom right">
+                                    {/* {close => (
+                                    <div>
+                                        <button className="close-account-popup" onClick={close}>
+                                            &times;
+                                        </button>
+                                    </div>
+                                )} */}
+                                    <AccountBox />
+                                </Popup> : null
+                        }
+                        {
+                            isAdminLoggedIn ?
+                                <Img className="icon-image" usersIconAvatar={adminAvatar} alt="Admin avatar"></Img>
+                                : isTrainerLoggedIn ?
+                                    <div className="icon-image-div">
+                                        <Img className="icon-image" usersIconAvatar={trainerAvatar} alt="Admin avatar"></Img>
+                                    </div>
+                                    : isCustomerLoggedIn ?
+                                        <Img className="icon-image" usersIconAvatar={customerAvatar} alt="Admin avatar"></Img>
+                                        : null
+                        }
                     </span>
                 </div>
 

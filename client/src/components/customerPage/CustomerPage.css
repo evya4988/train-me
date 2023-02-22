@@ -154,7 +154,7 @@
 }
 
 .allCoursesCards:hover {
-    opacity: 0.7;
+    opacity: 0.9;
     border: 1.5px solid rgba(214, 70, 13, 0.365);
 }
 

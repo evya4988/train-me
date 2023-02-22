@@ -16,7 +16,7 @@ import MyContext from '../../../MyContext';
 
 export function AdminLogin() {
     const { switchToAdminSignup } = useContext(AccountContext);
-    const { adminAvatarHandler, setAdminName, loading, setLoading } = useContext(MyContext);
+    const { adminAvatarHandler, setAdminName, loading, setLoading, setAdminId } = useContext(MyContext);
 
     const navigate = useNavigate();
 
@@ -102,8 +102,11 @@ export function AdminLogin() {
         }).then((response) => {
             message = response.data.message;
             console.log(message);
+
+            console.log("res: ", response.data);
             adminAvatarHandler(`trainme_admin_avatar/${email}_avatar`);
             setAdminName(response.data.name);
+            setAdminId(response.data.id);
             setLoading(false);
             message === 'Welcome Admin' && navigate(`/admin`);
         }).catch((error) => {

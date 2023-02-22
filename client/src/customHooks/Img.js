@@ -6,12 +6,11 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 // Import required actions.
 // another option to check: scale, fill
-import { thumbnail } from "@cloudinary/url-gen/actions/resize";
-import { scale } from "@cloudinary/url-gen/actions/resize";
+import { thumbnail, scale } from "@cloudinary/url-gen/actions/resize";
 import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
 // import { sepia } from "@cloudinary/url-gen/actions/effect";
 // import { source } from "@cloudinary/url-gen/actions/overlay";
-// import { opacity, brightness } from "@cloudinary/url-gen/actions/adjust";
+import { opacity, brightness } from "@cloudinary/url-gen/actions/adjust";
 import { byAngle } from "@cloudinary/url-gen/actions/rotate"
 
 // Import required qualifiers.
@@ -33,7 +32,8 @@ const Img = (props) => {
     customersDisplayAvatar,
     trainersDisplayAvatar,
     courseTrainerAvatar,
-    customerCoursePageAvatar
+    customerCoursePageAvatar,
+    usersIconAvatar
   } = props;
   // Create and configure your Cloudinary instance.
   const cld = new Cloudinary({
@@ -86,6 +86,17 @@ const Img = (props) => {
     .resize(scale().width(1200).height(1200))
     .roundCorners(byRadius(20));
     
+  const usersIconImage = cld.image(usersIconAvatar);
+  usersIconImage
+    .resize(thumbnail().width(40).height(40).gravity(focusOn(face())))  // Crop the image.
+    .roundCorners(byRadius("max"))   // Round the corners.
+    .rotate(byAngle(12))
+    .backgroundColor("whitesmoke")
+    // .effect(opacity(100))
+
+    // .effect(brightness(10));
+  
+
 
   return (
     <>
@@ -129,6 +140,11 @@ const Img = (props) => {
         <AdvancedImage
         className="customer-display-coursePageImage"
           cldImg={customerCoursePageImage}
+        />}
+      {usersIconAvatar &&
+        <AdvancedImage
+        // className="icon-image"
+        cldImg={usersIconImage}
         />}
     </>
   )

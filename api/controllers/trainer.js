@@ -165,7 +165,18 @@ module.exports = {
   getTrainerById: async (req, res) => {
     try {
       const trainerID = req.params.trainerId;
-      const trainer = await Trainer.findOne({ _id: trainerID });
+      // console.log(trainerID);
+      const tempTrainerObj = await Trainer.findOne({ _id: trainerID });
+      const trainer = {};
+      trainer.firstname = tempTrainerObj.firstname
+      trainer.lastname = tempTrainerObj.lastname
+      trainer.email = tempTrainerObj.email
+      trainer.age = tempTrainerObj.age
+      trainer.gender = tempTrainerObj.gender
+      trainer.phone = tempTrainerObj.phone
+      trainer.profilepic = tempTrainerObj.profilepic
+      trainer.rating = tempTrainerObj.rating
+      // console.log(trainer);
       return serverResponse(res, 200, trainer);
     } catch (e) {
       return serverResponse(res, 500, { message: "internal error occured " + e });

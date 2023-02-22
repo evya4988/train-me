@@ -20,7 +20,7 @@ import CapitalizeFirstLowercaseRest from '../../../customHooks/CapitalizeFirstLo
 
 export function AdminSignup() {
     const { switchToSignin } = useContext(AccountContext);
-    const { adminAvatarHandler, setAdminName, setLoading, loading } = useContext(MyContext);
+    const { adminAvatarHandler, setAdminName, setLoading, loading, setAdminId } = useContext(MyContext);
 
     const navigate = useNavigate();
 
@@ -185,11 +185,12 @@ export function AdminSignup() {
         }).then((res) => {
             console.log('Posting a New Admin ', res.data);
             const uploadedImg = res.data.cloImageResult.public_id;
-            console.log("uploadedImg: ", uploadedImg);
+            console.log("Uploaded Img: ", uploadedImg);
             adminAvatarHandler(uploadedImg);
+            setAdminId(res.data._id);
             if (isValid) {
                 setLoading(false);
-                console.log("admin error ", adminExistErr);
+                // console.log("Admin Error ", adminExistErr);
                 navigate(`/admin`);
             } else return;
         }).catch((error) => {

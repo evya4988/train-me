@@ -6,6 +6,8 @@
     /* text-decoration: none; */
     border-radius: 50px 20px;
 
+    height: 2em;
+    opacity: 1;
     overflow: hidden;
     background: linear-gradient(to right, rgba(221, 221, 88, 0.801), midnightblue 40%, rgba(118, 118, 11, 0.472));
     -webkit-background-clip: text;
@@ -16,9 +18,12 @@
     transition: background-position 2s ease;
 }
 
+
+
 .container-link {
     display: flex;
-    margin-top: 1em;
+    justify-content: center;
+    align-items: center;
     margin-right: 1em;
 }
 
@@ -135,4 +140,10 @@ a:focus {
     border-radius: 2em;
     position: relative;
     z-index: 1;
+}
+
+.icon-image-div {
+    display: flex;
+    justify-content: center;
+    width: 4em;
 }

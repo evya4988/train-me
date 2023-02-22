@@ -347,6 +347,7 @@ module.exports = {
                         const courseTrainer = allCourses[course][item];
                         allTrainers.map((trainer) => {
                             if (courseTrainer.equals(trainer._id)) {
+                                allCourses[course]['trainer_id'] = `${trainer._id}`;
                                 allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
                                 // console.log("trainer._id: ", trainer._id);
                             }
@@ -366,6 +367,7 @@ module.exports = {
                 tempObj.picture = course.picture;
                 tempObj.lessontime = course.lessontime;
                 tempObj.cost = course.cost;
+                tempObj.trainer_id = course['trainer_id'];
                 tempObj.trainer = course['trainer_name'];
                 afterFilteringArr.push(tempObj);
                 // console.log("course._id: ", course._id);
