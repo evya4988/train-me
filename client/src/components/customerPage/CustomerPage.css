@@ -121,6 +121,10 @@
     background: linear-gradient(-215deg, whitesmoke 0%, #adbcad 51%, #77927a 90%);
 }
 
+.myCourses-customerPage-container:hover {
+    opacity: 0.8;
+}
+
 .my_all_Courses-courseName-title {
     display: flex;
     justify-content: center;

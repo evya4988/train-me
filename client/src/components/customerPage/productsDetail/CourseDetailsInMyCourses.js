@@ -2,11 +2,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import MyContext from '../../../MyContext';
 import Img from '../../../customHooks/Img';
-import './CourseDetailsInAllCourses.css';
+import './CourseDetailsInMyCourses.css';
 import axios from 'axios';
 
-const CourseDetailsInAllCourses = () => {
-    const { customerCoursesDataForCoursePage } = useContext(MyContext);
+const CourseDetailsInMyCourses = () => {
+    const { customerMyCoursesDataForCoursePage } = useContext(MyContext);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -33,31 +33,18 @@ const CourseDetailsInAllCourses = () => {
     const [counter, setCounter] = useState(0);
 
     useEffect(() => {
-        /** setting and filtering the single course item of a course in all courses. */
-        // console.log("ID: ", id);
-        if (customerCoursesDataForCoursePage.length > 0 && id !== undefined) {
-            const itemPage = customerCoursesDataForCoursePage.find((course) => course.id === id);
+        /** setting and filtering the single course item of my course. */
+        if (customerMyCoursesDataForCoursePage.length > 0 && id !== undefined) {
+            const itemPage = customerMyCoursesDataForCoursePage.find((course) => course.id === id);
+            // console.log("Item page: ", itemPage);
             setSingleCourse(itemPage);
-            console.log("itemPage: ", itemPage);
             if (counter === 0 && itemPage.trainer_id !== "") {
+                // console.log("itemPage.trainer_id: ", itemPage.trainer_id);
                 getTrainerById(itemPage.trainer_id);
                 setCounter(counter + 1);
             }
-            // console.log("CustomerCoursesDataForCoursePage: ", customerCoursesDataForCoursePage);
+            // console.log("customerMyCoursesDataForCoursePage: ", customerMyCoursesDataForCoursePage);
         }
-
-        /** setting and filtering the single course item of my course. */
-        // if (customerMyCoursesDataForCoursePage.length > 0 && id !== undefined) {
-        //     const itemPage = customerMyCoursesDataForCoursePage.find((course) => course.id === id);
-        //     // console.log("Item page: ", itemPage);
-        //     setSingleCourse(itemPage);
-        //     if (counter === 0 && itemPage.trainer_id !== "") {
-        //         // console.log("itemPage.trainer_id: ", itemPage.trainer_id);
-        //         getTrainerById(itemPage.trainer_id);
-        //         setCounter(counter + 1);
-        //     }
-        //     // console.log("CustomerCoursesDataForCoursePage: ", customerCoursesDataForCoursePage);
-        // }
 
         /** Setting a state with the scroll position of the prev page to locate it and navigate to it. */
         if (state !== null) {
@@ -65,11 +52,11 @@ const CourseDetailsInAllCourses = () => {
             setScrollPositionToSentBack(state.scrollPosition);
             // scrollPositionToSentBack !== -1 && console.log("State from CustomerPage component!!  ", scrollPositionToSentBack);
         }
-    }, [customerCoursesDataForCoursePage, id, state, scrollPositionToSentBack])
+    }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack])
 
     return (
         singleCourse.picture !== undefined ?
-            <div className="courseDetailsPage-container" >
+            <div className="courseDetailsPage-container">
                 <div className="courseDetails-container">
                     <div className="coursePage-allTitles">
                         <div className='courseName-outerDiv'><div className="coursePage-courseName">{singleCourse.name}</div></div>
@@ -134,9 +121,9 @@ const CourseDetailsInAllCourses = () => {
                             </div>
                         </div>
                     </div>}
-                <button className="coursePage-goBack-btn" onClick={() => navigate('/customer', { state: { customerCoursesDataForCoursePage, scrollPositionToSentBack } })}>	&#171; Back</button>
+                <button className="coursePage-goBack-btn" onClick={() => navigate('/customer', { state: { customerMyCoursesDataForCoursePage, scrollPositionToSentBack } })}>	&#171; Back</button>
             </div> : null
     )
 }
 
-export default CourseDetailsInAllCourses
+export default CourseDetailsInMyCourses

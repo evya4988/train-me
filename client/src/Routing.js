@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MyContext from './MyContext';
 import {
     BrowserRouter,
@@ -22,6 +22,7 @@ import { AccountBox } from './components/accountBox/index';
 import Popup from 'reactjs-popup';
 // import "reactjs-popup/dist/index.css";
 import CourseDetailsInAllCourses from './components/customerPage/productsDetail/CourseDetailsInAllCourses';
+import CourseDetailsInMyCourses from './components/customerPage/productsDetail/CourseDetailsInMyCourses';
 import Img from './customHooks/Img';
 
 
@@ -42,7 +43,8 @@ const Routing = () => {
     const [adminId, setAdminId] = useState('');
     const [trainerID, setTrainerID] = useState('');
     const [customerID, setCustomerID] = useState('');
-    // const [customer_allCourses, setCustomer_allCourses] = useState([]);
+    const [customerCoursesDataForCoursePage, setCustomerCoursesDataForCoursePage] = useState([]);
+    const [customerMyCoursesDataForCoursePage, setCustomerMyCoursesDataForCoursePage] = useState([]);
 
     const adminAvatarHandler = (publicId) => {
         setAdminAvatar(publicId);
@@ -55,13 +57,6 @@ const Routing = () => {
     const trainerAvatarHandler = (publicId) => {
         setTrainerAvatar(publicId);
     }
-
-    const [customerCoursesDataForCoursePage, setCustomerCoursesDataForCoursePage] = useState([]);
-
-
-    useEffect(() => {
-        console.log("adminId: ", adminId);
-    }, [setAdminId, adminId])
 
 
 
@@ -109,7 +104,9 @@ const Routing = () => {
         setCoursesData,
         coursesData,
         customerCoursesDataForCoursePage,
-        setCustomerCoursesDataForCoursePage
+        setCustomerCoursesDataForCoursePage,
+        customerMyCoursesDataForCoursePage,
+        setCustomerMyCoursesDataForCoursePage,
     }
 
     const isAdminLoggedIn = (adminAvatar !== "" && customerAvatar === "" && trainerAvatar === "")
@@ -173,7 +170,8 @@ const Routing = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="customer" element={<CustomerPage loading={loading} setLoading={setLoading} customerAvatar={customerAvatar} />} />
-                    <Route path="customer/newcourse/:id" element={<CourseDetailsInAllCourses exact />} />
+                    <Route path="customer/allcourses/:id" element={<CourseDetailsInAllCourses exact />} />
+                    <Route path="customer/mycourses/:id" element={<CourseDetailsInMyCourses exact />} />
 
                     <Route path="trainer" element={<TrainerPage loading={loading} setLoading={setLoading} trainerAvatar={trainerAvatar} />} />
                     <Route path="admin" element={<AdminPage loading={loading} setLoading={setLoading} adminAvatar={adminAvatar} />} />

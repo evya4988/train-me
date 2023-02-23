@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useScrollPosition from "../../customHooks/useScrollPosition";
 
 const CustomerPage = ({ customerAvatar }) => {
-  const { customerName, customerID, setCustomerCoursesDataForCoursePage } = useContext(MyContext);
+  const { customerName, customerID, setCustomerCoursesDataForCoursePage, setCustomerMyCoursesDataForCoursePage } = useContext(MyContext);
   const navigate = useNavigate();
   const { state } = useLocation();
   let scrollPosition = useScrollPosition();
@@ -47,6 +47,7 @@ const CustomerPage = ({ customerAvatar }) => {
       setMyCourses(res.data);
       console.log("res.data: ", res.data);
       // console.log("myCourses: ", myCourses);
+      setCustomerMyCoursesDataForCoursePage(res.data)
       setAllCourses([]);
       setAllTrainersPartialData([]);
       setFilterTrainersByGender([]);
@@ -117,11 +118,11 @@ const CustomerPage = ({ customerAvatar }) => {
   const getAllCourses = async () => {
     if (allCourses.length > 0 || customerID === '') return;
     try {
-      const allCoursesUrl = 'http://localhost:8000/course/coursesForCustomers/associatedCourses';
+      const allCoursesUrl = 'http://localhost:8000/course/customer/allCoursesForCustomerPage';
       const response = await axios.get(allCoursesUrl);
       // console.log(response);
       const data = await response.data;
-      // console.log(data);
+      console.log(data);
       setAllCourses(data);
       setCustomerCoursesDataForCoursePage(data);
       setAllTrainersPartialData([]);
@@ -138,11 +139,12 @@ const CustomerPage = ({ customerAvatar }) => {
 
   useEffect(() => {
     // Set the initial scroll position when the component mounts
-    if (state !== null && state.scrollPositionToSentBack) {
-      setScrollPositionToNavigate(state.scrollPositionToSentBack);
-      setAllCourses(state.customerCoursesDataForCoursePage);
-      // console.log("state from CourseDetailsInAllCourses component!!  ", state);
-    }
+      if (state !== null) {
+        console.log("State: ", state);
+        setScrollPositionToNavigate(state.scrollPositionToSentBack);
+        state.customerCoursesDataForCoursePage && setAllCourses(state.customerCoursesDataForCoursePage);
+        state.customerMyCoursesDataForCoursePage && setMyCourses(state.customerMyCoursesDataForCoursePage);
+      }
 
     // Update the scroll position whenever the state property changes
     if (state !== null && state.scrollPositionToSentBack !== scrollPosition) {
@@ -182,8 +184,11 @@ const CustomerPage = ({ customerAvatar }) => {
                       {
                         myCourses.map((course) => {
                           return (
-                            <div key={course._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                              <div className="myCourses-customerPage-container">
+                            <div key={course.id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+
+                              <div
+                                onClick={() => { navigate(`/customer/mycourses/${course.id}`, { state: { scrollPosition } }) }}
+                                className="myCourses-customerPage-container">
                                 <div className="my_all_Courses-courseName-title">{course.name}</div>
                                 <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                   <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
@@ -234,9 +239,9 @@ const CustomerPage = ({ customerAvatar }) => {
                       {
                         filterTrainersByGender.length > 0 ?
                           [
-                            filterTrainersByGender.map((trainer) => {
+                              filterTrainersByGender.map((trainer, index) => {
                               return (
-                                <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
                                   <div className="allCards-customerPage-container">
                                     <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                       <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
@@ -259,9 +264,9 @@ const CustomerPage = ({ customerAvatar }) => {
                           ]
                           :
                           [
-                            allTrainersPartialData.map((trainer) => {
+                            allTrainersPartialData.map((trainer, index) => {
                               return (
-                                <div key={trainer._id} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
                                   <div className="allCards-customerPage-container">
                                     <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                       <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
@@ -304,7 +309,7 @@ const CustomerPage = ({ customerAvatar }) => {
                             <div
                               key={course.id}
                               style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}
-                              onClick={() => { navigate(`/customer/newcourse/${course.id}`, { state: { scrollPosition } }) }}>
+                              onClick={() => { navigate(`/customer/allcourses/${course.id}`, { state: { scrollPosition } }) }}>
                               <div className="allCards-customerPage-container allCoursesCards" >
                                 <div className="my_all_Courses-courseName-title">{course.name}</div>
                                 <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>

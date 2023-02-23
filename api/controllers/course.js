@@ -379,7 +379,7 @@ module.exports = {
     },
 
     /** Customer Page */
-    getAllCoursesRegisteredForCustomers: async (req, res) => {
+    getAllCustomerCoursesRegistered: async (req, res) => {
         try {
             const customerID = req.body.customerId
             console.log("Customer ID: ", customerID)
@@ -402,6 +402,7 @@ module.exports = {
                                 allTrainers.map((trainer) => {
                                     if (allCourses[course]['trainer'].equals(trainer._id)) {
                                         allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
+                                        allCourses[course]['trainer_id'] = `${trainer._id}`;
                                         // console.log("trainer._id: ", trainer._id);
                                     }
                                 })
@@ -416,6 +417,7 @@ module.exports = {
             const afterFilteringArr = [];
             filteredArr.map((course) => {
                 const tempObj = {};
+                tempObj.id = course._id
                 tempObj.name = course.name;
                 tempObj.category = course.category;
                 tempObj.description = course.description;
@@ -423,6 +425,7 @@ module.exports = {
                 tempObj.lessontime = course.lessontime;
                 tempObj.cost = course.cost;
                 tempObj.trainer = course["trainer_name"];
+                tempObj.trainer_id = course['trainer_id'];
                 afterFilteringArr.push(tempObj);
             })
             // console.log(afterFilteringArr);

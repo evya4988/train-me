@@ -45,7 +45,7 @@
     border-right: 2px solid black;
 }
 
-.coursePage-title-container {
+.coursePage-allCourseTitles-container {
     display: flex;
     align-items: center;
     border-top: 0.5px dotted black;
@@ -56,6 +56,10 @@
 }
 
 .coursePage-title {
+    margin-top: -0.1em;
+}
+
+.coursePage-title-name {
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -68,7 +72,26 @@
     display: flex;
     align-items: center;
     color: rgb(231, 203, 49);
-    margin: 0 0.6em 0 0.2em;
+    margin: -0.1em 0.6em 0 0.2em;
+}
+
+.coursePage-allCourse-trainerTitles-container {
+    display: flex;
+    align-items: center;
+    border-top: 0.5px dotted black;
+    border-bottom: 0.5px dotted black;
+    color: rgba(75, 68, 68, 0.3);
+    /* drop-shadow(.5rem .5rem 1rem #e23) */
+    text-shadow: 2px 2px rgb(59, 103, 179);
+}
+
+.c-rating-elements {
+    display: flex;
+    justify-content: space-evenly;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 22px;
+    width: 6em;
+    text-shadow: none;
 }
 
 .coursePage-goBack-btn {
@@ -76,8 +99,8 @@
     border: 2px solid darkgrey;
     background-color: rgba(60, 63, 73, 0.623);
     font-size: large;
-    width: 5em;
-    height: 3em;
+    width: 4em;
+    height: 2.4em;
     position: fixed;
     left: 20px;
     top: 115px;
@@ -91,7 +114,7 @@
     background-color: black;
     color: white;
     border: 2px solid white;
-    transition: ease-in-out 1s;
+    transition: ease-in-out 0.7s;
 }
 
 .coursePage-trainerDetails-container {
