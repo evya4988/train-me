@@ -203,6 +203,26 @@ module.exports = {
     }
   },
 
+  getAllTrainersForContactUsForm: async (req, res) => {
+    try {
+      const allTrainers = await Trainer.find({});
+      const filteredTrainersData = [];
+      allTrainers.map((trainer) => {
+        const tempObj = {};
+        tempObj.id = trainer._id;
+        tempObj.firstName = trainer.firstname;
+        tempObj.lastName = trainer.lastname;
+        tempObj.email = trainer.email;
+        tempObj.phone = trainer.phone;
+        tempObj.gender = trainer.gender;
+        filteredTrainersData.push(tempObj);
+      })
+      return serverResponse(res, 200, filteredTrainersData);
+    } catch (e) {
+      return serverResponse(res, 500, { message: "internal error occured " + e });
+    }
+  },
+
   // TODO?
   updateTrainer: (req, res) => {
     const trainerID = req.params.trainerId;

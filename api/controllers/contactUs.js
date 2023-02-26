@@ -16,6 +16,7 @@ module.exports = {
   PostContact: async (req, res) => {
     try {
       const newPostOfContact = new ContactUs({ ...req.body });
+      
       await newPostOfContact.save();
       return serverResponse(res, 201, newPostOfContact);
     } catch (e) {

@@ -29,6 +29,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   const [toggleFilteredCourses, setToggleFilteredCourses] = useState(true);
   const [trainerLabelID, setTrainerLabelID] = useState('');
   const [isFilteredById, setIsFilteredById] = useState(true);
+  const [isFilteredContactsBtnPressed, setIsFilteredContactsBtnPressed] = useState(false);
 
   const {
     adminName,
@@ -138,6 +139,30 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       console.log(error);
     }
   }
+
+  // const filterContactUsByTrainers = () => {
+  //   console.log("contactUsData: ", contactUsData);
+  //   const tempArr = contactUsData;
+  //   console.log("tempArr: ", tempArr);
+  //   tempArr.map((contact) => {
+  //     let tempObj = {}
+  //     if (contact.user === "trainer") {
+  //       tempObj = contact;
+  //       console.log("tempObj: ", tempObj);
+  //     }
+  //     return tempArr.push(tempObj);
+  //   })
+  //   // setContactUsData(tempArr);
+  //   console.log("tempArr is: ", tempArr);
+  // }
+
+  // const filterContactUsByCustomers = () => {
+
+  // }
+
+  // const filterContactUsByVisitors = () => {
+
+  // }
 
   const getTrainersApiAnswer = async () => {
     // Disable 'List of Trainers' Button when pressed again!
@@ -412,6 +437,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }
   }
 
+
   return (
     <>
       {
@@ -562,18 +588,20 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                 </div>,
                 coursesData.map((item) =>
                   <div key={item._id} className="course-card-container">
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <Img courseAvatar={item.picture.public_id} alt="Course avatar"></Img>
-                    </div>
-                    <Marginer direction="vertical" margin="0.5em" />
-                    <div className='courseCard-details-1'>
-                      <div className="course-name">{item.name}</div>
-                      <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
-                      <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
-                    </div>
-                    <div className="courseCard-details-2">
-                      <div className="course-titles">Description: <span className="items">{item.description}</span></div>
-                      <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
+                    <div className="courseCard-course-section">
+                      <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Img courseAvatar={item.picture.public_id} alt="Course avatar"></Img>
+                      </div>
+                      <Marginer direction="vertical" margin="0.5em" />
+                      <div className='courseCard-details-1'>
+                        <div className="course-name">{item.name}</div>
+                        <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
+                        <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
+                      </div>
+                      <div className="courseCard-details-2">
+                        <div className="course-titles">Description: <span className="items">{item.description}</span></div>
+                        <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
+                      </div>
                     </div>
                     <div className="course-titles courseUsers-title">
                       {
@@ -664,6 +692,16 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
               [
                 loading && <section className="smooth spinner" >{ }</section>,
                 <div className="innerPage-topBar">
+                  {/* {isFilteredContactsBtnPressed &&
+                    [<button onClick={() => { filterContactUsByTrainers() }}>Trainers</button>,
+                    <button onClick={() => { filterContactUsByCustomers() }}>Customers</button>,
+                    <button onClick={() => { filterContactUsByVisitors() }}>Visitors</button>]
+                  } */}
+                  <button
+                    className='sendEmail-btn'
+                    onClick={() => { setIsFilteredContactsBtnPressed(!isFilteredContactsBtnPressed) }}>
+                    {!isFilteredContactsBtnPressed ? 'Filter Contact' : 'Unfiltered'}
+                  </button>
                   <button
                     className='sendEmail-btn'
                     onClick={() => window.location = `mailto:${contactUsData.map((contact) => {

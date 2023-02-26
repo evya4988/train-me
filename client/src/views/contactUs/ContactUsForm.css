@@ -107,9 +107,23 @@
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
     font-family: "Roboto", sans-serif;
-    background-color: #a9af8a8e;
-    color: rgb(92, 62, 3);
+    background-color: #a3afb6f3;
+    color: rgb(38, 48, 63);
+    font-weight: bold;
     caret-color: rgb(51, 25, 215);
+}
+
+.existUser-field {
+    background-color: #000000ca;
+    color: rgb(186, 182, 182);
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0.8;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    letter-spacing: 1px;
+    text-indent: 10px;
 }
 
 .label-select-holder {
@@ -121,8 +135,9 @@
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
     font-family: "Roboto", sans-serif;
-    background-color: #a9af8a8e;
-    color: rgb(100, 118, 144);
+    background-color: #a3afb6f3;
+    color: rgb(38, 48, 63);
+    font-weight: bold;
 }
 
 /* .label-field {

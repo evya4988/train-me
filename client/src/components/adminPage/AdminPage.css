@@ -121,18 +121,27 @@
 .course-card-container {
     display: flex;
     flex-direction: row;
-    width: 50em;
+    width: 52em;
     justify-content: center;
     align-items: center;
     margin: 0 0.1em 1em 0;
     padding: 0.3em 0.3em 0.3em 0.3em;
     /* border: 5px rgb(235, 180, 180);
     border-style: dashed; */
-    border: 10px rgb(235, 180, 180);
+    border: 10px rgba(203, 213, 207, 0.448);
     border-style: ridge;
     border-radius: 20px;
-    /* background-color: black; */
     background-image: url("https://w0.peakpx.com/wallpaper/550/527/HD-wallpaper-whatsapp-paper-black-background-thumbnail.jpg");
+}
+
+.courseCard-course-section {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(169, 151, 151, 0.56);
+    border-bottom-left-radius: 2em;
+    border-top-left-radius: 2em;
+    padding: 1em 0 1em 0.5em;
+
 }
 
 .courseCard-details-1 {
@@ -254,7 +263,7 @@
 
 .admin-numeric-items {
     font-size: 16px;
-    color: #7488e3;
+    color: #312b31;
 }
 
 .admin-price {
@@ -463,7 +472,7 @@
 
 .courses-navbar {
     font-size: 12px;
-    width: 50rem;
+    width: 52rem;
     height: 2.4em;
     display: flex;
     justify-content: flex-end;

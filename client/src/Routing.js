@@ -23,7 +23,8 @@ import Popup from 'reactjs-popup';
 // import "reactjs-popup/dist/index.css";
 import CourseDetailsInAllCourses from './components/customerPage/productsDetail/CourseDetailsInAllCourses';
 import CourseDetailsInMyCourses from './components/customerPage/productsDetail/CourseDetailsInMyCourses';
-import Img from './customHooks/Img';
+// import Img from './customHooks/Img';
+import IconNavigate from './components/usersIconNavigation/IconNavigate';
 
 
 const Routing = () => {
@@ -127,16 +128,13 @@ const Routing = () => {
                         </NavLink>
                         <span className="clock">{clock}</span>
                     </div>
-                    <span className="container-link">
-                        {/* <span>
-                            <AccountPopup />
-                            <div id="popup-root" />
-                        </span> */}
 
+                    <span className="container-link">
                         <NavLink to="/" className="active-link">Home</NavLink>
                         {/* <NavLink to="/account" className="active-link">Account</NavLink> */}
-                        <NavLink to="/contact" className="active-link">Contact-Us</NavLink>
-                        <NavLink to="/about" className="active-link">About</NavLink>
+                        {isAdminLoggedIn ? null :
+                        [<NavLink to="/contact" className="active-link">Contact-Us</NavLink>,
+                        <NavLink to="/about" className="active-link">About</NavLink>] }
                         {/* <NavLink to="/questions" className="active-link">Common-Questions</NavLink> */}
                         {
                             (!isAdminLoggedIn && !isTrainerLoggedIn && !isCustomerLoggedIn) ?
@@ -149,18 +147,7 @@ const Routing = () => {
                                     </div>
                                 )} */}
                                     <AccountBox />
-                                </Popup> : null
-                        }
-                        {
-                            isAdminLoggedIn ?
-                                <Img className="icon-image" usersIconAvatar={adminAvatar} alt="Admin avatar"></Img>
-                                : isTrainerLoggedIn ?
-                                    <div className="icon-image-div">
-                                        <Img className="icon-image" usersIconAvatar={trainerAvatar} alt="Admin avatar"></Img>
-                                    </div>
-                                    : isCustomerLoggedIn ?
-                                        <Img className="icon-image" usersIconAvatar={customerAvatar} alt="Admin avatar"></Img>
-                                        : null
+                                </Popup> : <IconNavigate />
                         }
                     </span>
                 </div>

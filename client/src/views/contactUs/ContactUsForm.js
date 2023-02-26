@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ContactUsForm.css';
 import axios from 'axios';
-// import MyContext from '../../MyContext';
+import MyContext from '../../MyContext';
 
 const ContactUsForm = () => {
-  // const { contactUsData, setContactUsData } = useContext(MyContext);
+  const { customerID, trainerID } = useContext(MyContext);
+  const [customerDetails, setCustomerDetails] = useState({});
+  const [trainerDetails, setTrainerDetails] = useState({});
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -14,6 +16,7 @@ const ContactUsForm = () => {
   const [message, setMessage] = useState('');
   const [gender, setGender] = useState('');
   const [contactMethod, setContactMethod] = useState('');
+  const [currentUser, setCurrentUser] = useState('');
 
   const [mandatoryErrors, setMandatoryErrors] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -30,26 +33,21 @@ const ContactUsForm = () => {
     let errorsConsole = {};
     setErrors([]);
     setMandatoryErrors([]);
-    if ((firstName && firstName.length < 2) || firstName.length > 20) {
+
+    if (!firstName) {
+      setMandatoryErrors(prev => [...prev, 'Name feild is mandatory!']);
+      isValid = false;
+      errorsConsole.firstName = "Name feild is mandatory!";
+    } else if ((firstName && firstName.length < 2) || firstName.length > 20) {
       setErrors(prevState => ({
         ...prevState,
         [firstName]: "this is redundant" // I need better way to show the error.
       }));
       isValid = false;
       console.log("errors" + errors.firstName);
-    } else if (!firstName) {
-      setMandatoryErrors(prev => [...prev, 'Name feild is mandatory!']);
-      isValid = false;
-      errorsConsole.firstName = "Name feild is mandatory!";
     }
-    if ((lastName && lastName.length < 2) || lastName.length > 20) {
-      isValid = false;
-      setErrors(prevState => ({
-        ...prevState,
-        [lastName]: "Last Name must be in a range of 2-20 characters!"
-      }));
-      errorsConsole.lastName = "Last Name must in a range of 2-20 characters!";
-    } else if (!lastName) {
+
+    if (!lastName) {
       isValid = false;
       let updatedValue = {};
       updatedValue = { "lastName": "Last Name feild is mandatory!" };
@@ -58,7 +56,15 @@ const ContactUsForm = () => {
         ...updatedValue
       }));
       errorsConsole.lastName = "Last Name feild is mandatory!";
+    } else if ((lastName && lastName.length < 2) || lastName.length > 20) {
+      isValid = false;
+      setErrors(prevState => ({
+        ...prevState,
+        [lastName]: "Last Name must be in a range of 2-20 characters!"
+      }));
+      errorsConsole.lastName = "Last Name must in a range of 2-20 characters!";
     }
+
     if (!email) {
       errorsConsole.email = "Email feild is mandatory!";
       isValid = false;
@@ -74,21 +80,36 @@ const ContactUsForm = () => {
       }));
       errorsConsole.email = "This is not a valid email!";
     };
-    if ((phone && phone.length < 7) || phone.length > 12) {
-      isValid = false;
-      setErrors(prevState => ({
-        ...prevState,
-        [phone]: "Phone numbers must be in a range of 7-12"
-      }));
-      errorsConsole.phone = "Phone numbers must be in a range of 7-12";
-    } else if (!phone) {
+
+    if (!phone) {
       isValid = false;
       setMandatoryErrors(prevState => ({
         ...prevState,
         [phone]: "Phone feild is mandatory!"
       }));
       errorsConsole.phone = "Phone feild is mandatory!";
-    };
+    } else if ((phone && phone.length < 7) || phone.length > 12) {
+      isValid = false;
+      setErrors(prevState => ({
+        ...prevState,
+        [phone]: "Phone numbers must be in a range of 7-12"
+      }));
+      errorsConsole.phone = "Phone numbers must be in a range of 7-12";
+    }
+
+    if (gender === "" || gender === "Choose your Gender please") {
+      console.log(gender);
+      isValid = false;
+      setMandatoryErrors(prevState => ({
+        ...prevState,
+        [gender]: "Gender field is mandatory!"
+      }));
+      // setErrors(prevState => ({
+      //   ...prevState,
+      //   [gender]: "Gender field is mandatory!"
+      // }));
+      errorsConsole.gender = "Gender feild is mandatory!";
+    }
 
     if ((messageTitle && messageTitle.length < 3) || messageTitle.length > 20) {
       isValid = false;
@@ -122,20 +143,6 @@ const ContactUsForm = () => {
       errorsConsole.message = "Message feild is mandatory!";
     };
 
-    if (gender === "" || gender === "Choose your Gender please") {
-      console.log(gender);
-      isValid = false;
-      setMandatoryErrors(prevState => ({
-        ...prevState,
-        [gender]: "Gender field is mandatory!"
-      }));
-      // setErrors(prevState => ({
-      //   ...prevState,
-      //   [gender]: "Gender field is mandatory!"
-      // }));
-      errorsConsole.gender = "Gender feild is mandatory!";
-    }
-
     if (contactMethod === "" || contactMethod === "Choose your Preferred contact method please") {
       isValid = false;
       setMandatoryErrors(prevState => ({
@@ -146,6 +153,7 @@ const ContactUsForm = () => {
       //   ...prevState,
       //   [contactMethod]: "contactMethod field is mandatory!"
       // }));
+      errorsConsole.contactMethod = "contactMethod feild is mandatory!";
     }
 
     if (!isValid) {
@@ -156,9 +164,22 @@ const ContactUsForm = () => {
     };
     isValid = true;
 
-    // const newContact = { firstName, lastName, email, phone, messageTitle, message, gender, contactMethod };
-    // console.log(newContact);
-    // setContactUsData((prev) => [newContact, ...prev]);
+    const capitalizeFirstLowercaseRest = str => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const contactToAddToDB = {
+      firstname: capitalizeFirstLowercaseRest(firstName),
+      lastname: capitalizeFirstLowercaseRest(lastName),
+      email: email,
+      phone: phone,
+      messagetitle: messageTitle,
+      message: message,
+      gender: gender,
+      contactmethod: contactMethod,
+      user: currentUser === 'trainer' ? "trainer" : currentUser === 'customer' ? "customer" : "visitor"
+    };
+    console.log(contactToAddToDB);
 
     setFirstName('');
     setLastName('');
@@ -168,24 +189,6 @@ const ContactUsForm = () => {
     setMessage('');
     setGender('');
     setContactMethod('');
-
-    const capitalizeFirstLowercaseRest = str => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-    const capitalizedFirstName = capitalizeFirstLowercaseRest(firstName);
-    const capitalizedLastName = capitalizeFirstLowercaseRest(lastName);
-
-    const contactToAddToDB = {
-      firstname: capitalizedFirstName,
-      lastname: capitalizedLastName,
-      email: email,
-      phone: phone,
-      messagetitle: messageTitle,
-      message: message,
-      gender: gender,
-      contactmethod: contactMethod,
-    };
-    console.log(contactToAddToDB);
 
     axios({
       method: 'post',
@@ -198,15 +201,70 @@ const ContactUsForm = () => {
         setSubmitted(true);
       })
       .catch(err => console.log(err));
-
   });
 
+  const gatAllCustomersData = async () => {
+    try {
+      const allCustomersUrl = 'http://localhost:8000/customer/contactUs/customers';
+      const response = await axios.get(allCustomersUrl);
+      console.log(response);
+      const data = await response.data;
+      data.map((customer) => {
+        return customer.id === customerID && setCustomerDetails(customer);
+      })
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }
+
+  const gatAllTrainersData = async () => {
+    try {
+      const allTrainersUrl = 'http://localhost:8000/trainer/contactUs/trainers';
+      const response = await axios.get(allTrainersUrl);
+      console.log(response);
+      const data = await response.data;
+      console.log("Trainer ID: ", trainerID);
+      data.map((trainer) => {
+        return trainer.id === trainerID && setTrainerDetails(trainer);
+      })
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }
+
   useEffect(() => {
+    customerID !== "" && gatAllCustomersData();
+    trainerID !== "" && gatAllTrainersData();
+
     const id = setTimeout(() => {
       setSubmitted(false);
     }, 3000);
     return () => clearTimeout(id)
   }, [submitted]);
+
+
+
+  useEffect(() => {
+    if (trainerDetails) {
+      setFirstName(trainerDetails.firstName);
+      setLastName(trainerDetails.lastName);
+      setEmail(trainerDetails.email);
+      setPhone(trainerDetails.phone);
+      setGender(trainerDetails.gender);
+      trainerDetails.firstName && setCurrentUser("trainer");
+    }
+  }, [trainerDetails])
+
+  useEffect(() => {
+    if (customerDetails) {
+      setFirstName(customerDetails.firstName);
+      setLastName(customerDetails.lastName);
+      setEmail(customerDetails.email);
+      setPhone(customerDetails.phone);
+      setGender(customerDetails.gender);
+      customerDetails.firstName && setCurrentUser("customer");
+    }
+  }, [customerDetails]);
 
   return (
     <div className="form-container">
@@ -218,13 +276,25 @@ const ContactUsForm = () => {
           <p className="success-message">
             Success! Thank you for contacting us, We'll contact you back as soon as possible.
           </p>}
-
         <input
-          className="form-field"
+          className={(customerID || trainerID) ? "form-field existUser-field" : "form-field"}
           type="text"
           placeholder="First Name"
-          value={firstName}
-          onChange={(e) => { setFirstName(e.target.value) }} />
+          value={
+            trainerID
+              ? trainerDetails.firstName
+              : customerID
+                ? customerDetails.firstName
+                : firstName
+          }
+          onChange={
+            trainerID || customerID
+              ? null
+              : (e) => {
+                setFirstName(e.target.value);
+              }
+          }
+        />
         {mandatoryErrors[firstName] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
             Name feild is mandatory!
@@ -237,11 +307,24 @@ const ContactUsForm = () => {
         }
 
         <input
-          className="form-field"
+          className={(customerID || trainerID) ? "form-field existUser-field" : "form-field"}
           type="text"
           placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => { setLastName(e.target.value) }} />
+          value={
+            customerID
+              ? customerDetails.lastName
+              : trainerID
+                ? trainerDetails.lastName
+                : lastName
+          }
+          onChange={
+            (customerID || trainerID)
+              ? null
+              : (e) => {
+                setLastName(e.target.value);
+              }
+          }
+        />
         {mandatoryErrors[lastName] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
             Last Name feild is mandatory!
@@ -254,11 +337,24 @@ const ContactUsForm = () => {
         }
 
         <input
-          className="form-field"
+          className={(customerID || trainerID) ? "form-field existUser-field" :"form-field"}
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => { setEmail(e.target.value) }} />
+          value={
+            customerID
+              ? customerDetails.email
+              : trainerID
+                ? trainerDetails.email
+                : email
+          }
+          onChange={
+            (customerID || trainerID)
+              ? null
+              : (e) => {
+                setEmail(e.target.value);
+              }
+          }
+        />
         {mandatoryErrors[email] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
             Email feild is mandatory!
@@ -271,11 +367,24 @@ const ContactUsForm = () => {
         }
 
         <input
-          className="form-field"
+          className={(customerID || trainerID) ? "form-field existUser-field" : "form-field"}
           type="number"
           placeholder="Phone"
-          value={phone}
-          onChange={(e) => { setPhone(e.target.value) }} />
+          value={
+            customerID
+              ? customerDetails.phone
+              : trainerID
+                ? trainerDetails.phone
+                : phone
+          }
+          onChange={
+            (customerID || trainerID)
+              ? null
+              : (e) => {
+                setPhone(e.target.value);
+              }
+          }
+        />
         {mandatoryErrors[phone] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
             Phone feild is mandatory!
@@ -325,22 +434,6 @@ const ContactUsForm = () => {
         <select
           className="label-select-holder"
           type="text"
-          placeholder="Gender"
-          value={gender}
-          onChange={(e) => { setGender(e.target.value) }}>
-          <option>Choose your Gender please</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-        {mandatoryErrors[gender] ?
-          <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
-            Gender feild is mandatory!
-          </p> : ''
-        }
-
-        <select
-          className="label-select-holder"
-          type="text"
           placeholder="Preferred contact method"
           value={contactMethod}
           onChange={(e) => { setContactMethod(e.target.value) }}>
@@ -351,6 +444,35 @@ const ContactUsForm = () => {
         {mandatoryErrors[contactMethod] ?
           <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
             Contact Method feild is mandatory!
+          </p> : ''
+        }
+
+        <select
+          className={(customerID || trainerID) ? "existUser-field" : "label-select-holder"}
+          type="text"
+          placeholder="Gender"
+          value={
+            customerID
+              ? customerDetails.gender
+              : trainerID
+                ? trainerDetails.gender
+                : gender
+          }
+          onChange={
+            (customerID || trainerID)
+              ? null
+              : (e) => {
+                setGender(e.target.value);
+              }
+          }
+        >
+          <option>Choose your Gender please</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        {mandatoryErrors[gender] ?
+          <p style={{ fontSize: "12px", color: "red", paddingLeft: "0.3em", marginTop: "0" }}>
+            Gender feild is mandatory!
           </p> : ''
         }
 

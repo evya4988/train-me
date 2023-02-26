@@ -156,13 +156,33 @@ module.exports = {
     }
   },
 
-  // TODO?
-  updateCustomer: (req, res) => {
-    const customerID = req.params.customerId;
-
-    res.status(200).json({
-      message: "Update Customer - ${customerId}",
-    });
+  getAllCustomersForContactUsForm: async (req, res) => {
+    try {
+      const allCustomers = await Customer.find({});
+      const filteredCustomersData = [];
+      allCustomers.map((customer) => {
+        const tempObj = {};
+        tempObj.id = customer._id;
+        tempObj.firstName = customer.firstname;
+        tempObj.lastName = customer.lastname;
+        tempObj.email = customer.email;
+        tempObj.phone = customer.phone;
+        tempObj.gender = customer.gender;
+        filteredCustomersData.push(tempObj);
+      })
+      return serverResponse(res, 200, filteredCustomersData);
+    } catch (e) {
+      return serverResponse(res, 500, { message: "internal error occured " + e });
+    }
   },
+
+  // TODO?
+  // updateCustomer: (req, res) => {
+  //   const customerID = req.params.customerId;
+
+  //   res.status(200).json({
+  //     message: "Update Customer - ${customerId}",
+  //   });
+  // },
 
 };

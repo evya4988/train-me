@@ -10,7 +10,7 @@ const contactUsSchema = new mongoose.Schema({
   contactmethod: { type: String, required: true },
   gender: {
     type: String,
-    enum: ['Male', 'Female'],
+    enum: ['male', 'female'],
     required: true
   },
   createdat: {
@@ -18,6 +18,7 @@ const contactUsSchema = new mongoose.Schema({
     default: new Intl.DateTimeFormat('he-IL',
       { dateStyle: 'full', timeStyle: 'long' }).format(Date.now())
   },
+  user: { type: String, default: 'visitor' },
 });
 
 const ContactUs = mongoose.model("Contacts", contactUsSchema);
