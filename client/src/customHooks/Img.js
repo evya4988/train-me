@@ -6,7 +6,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 // Import required actions.
 // another option to check: scale, fill
-import { thumbnail, scale } from "@cloudinary/url-gen/actions/resize";
+import { thumbnail, scale, fill } from "@cloudinary/url-gen/actions/resize";
 import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
 // import { sepia } from "@cloudinary/url-gen/actions/effect";
 // import { source } from "@cloudinary/url-gen/actions/overlay";
@@ -54,7 +54,7 @@ const Img = (props) => {
 
   const customerImage = cld.image(customerAvatar);
   customerImage
-    .resize(thumbnail().width(150).height(150).gravity(focusOn(face())))  // Crop the image.
+    .resize(fill().width(150).height(150).gravity(focusOn(face())))  // Crop the image.
     .roundCorners(byRadius(30))   // Round the corners.
     .rotate(byAngle(12)).backgroundColor("whitesmoke");
 
@@ -85,17 +85,19 @@ const Img = (props) => {
   customerCoursePageImage
     .resize(scale().width(1200).height(1200))
     .roundCorners(byRadius(20));
-    
+
   const usersIconImage = cld.image(usersIconAvatar);
   usersIconImage
-    .resize(thumbnail().width(40).height(40).gravity(focusOn(face())))  // Crop the image.
-    .roundCorners(byRadius("max"))   // Round the corners.
+    // .border("1px_solid_black")
+    .effect(opacity(100))
+    .effect(brightness(10))
+    .resize(thumbnail().width(40).height(40).gravity(focusOn(face())))
+    .roundCorners(byRadius("max"))
     .rotate(byAngle(12))
     .backgroundColor("whitesmoke")
-    // .effect(opacity(100))
 
-    // .effect(brightness(10));
-  
+
+  const opacityStyle = 1; // set opacity value
 
 
   return (
@@ -138,13 +140,13 @@ const Img = (props) => {
         />}
       {customerCoursePageAvatar &&
         <AdvancedImage
-        className="customer-display-coursePageImage"
+          className="customer-display-coursePageImage"
           cldImg={customerCoursePageImage}
         />}
       {usersIconAvatar &&
         <AdvancedImage
-        // className="icon-image"
-        cldImg={usersIconImage}
+          // className="icon-image"
+          cldImg={usersIconImage}
         />}
     </>
   )

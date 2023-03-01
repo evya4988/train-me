@@ -139,13 +139,6 @@ const Routing = () => {
                         {
                             (!isAdminLoggedIn && !isTrainerLoggedIn && !isCustomerLoggedIn) ?
                                 <Popup trigger={<button className="active-link">Account</button>} position="bottom right">
-                                    {/* {close => (
-                                    <div>
-                                        <button className="close-account-popup" onClick={close}>
-                                            &times;
-                                        </button>
-                                    </div>
-                                )} */}
                                     <AccountBox />
                                 </Popup> : <IconNavigate />
                         }

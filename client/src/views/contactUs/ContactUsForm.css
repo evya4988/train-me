@@ -126,6 +126,10 @@
     text-indent: 10px;
 }
 
+.existUser-field-gender-label {
+    visibility: hidden;
+}
+
 .label-select-holder {
     margin: 0 0 3px 0;
     padding: 12px;

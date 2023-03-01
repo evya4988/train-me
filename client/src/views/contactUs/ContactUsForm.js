@@ -272,10 +272,6 @@ const ContactUsForm = () => {
         <img className="imageSize imageSize-m-queries" src="https://thumb.tildacdn.com/tild3565-6466-4861-b364-396363393665/-/resize/916x/-/format/webp/Frame_522-min.jpg" alt="workout pic"></img>
       </div>
       <form className="contactUs-form">
-        {submitted &&
-          <p className="success-message">
-            Success! Thank you for contacting us, We'll contact you back as soon as possible.
-          </p>}
         <input
           className={(customerID || trainerID) ? "form-field existUser-field" : "form-field"}
           type="text"
@@ -448,7 +444,7 @@ const ContactUsForm = () => {
         }
 
         <select
-          className={(customerID || trainerID) ? "existUser-field" : "label-select-holder"}
+          className={(customerID || trainerID) ? "existUser-field-gender-label" : "label-select-holder"}
           type="text"
           placeholder="Gender"
           value={
@@ -481,6 +477,10 @@ const ContactUsForm = () => {
             className="btn-container"
             type="submit" onClick={(handleSubmitContactAdding)}>Send Us a Message</button>
         </div>
+        {submitted &&
+          <p className="success-message">
+            Success! Thank you for contacting us, We'll contact you back as soon as possible.
+          </p>}
       </form>
     </div>
   )

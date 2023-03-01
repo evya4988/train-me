@@ -434,7 +434,7 @@ module.exports = {
         } catch (e) {
             return serverResponse(res, 500, { message: "internal error occured " + e });
         }
-    }
+    },
 
     // deleteAllCourses: async (req, res) => {
     //     try {

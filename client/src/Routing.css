@@ -146,4 +146,12 @@ a:focus {
     display: flex;
     justify-content: center;
     width: 4em;
+    cursor: pointer;
+    opacity: 1 !important;
 }
+
+.icon-image-div:hover {
+    border: 1.5px dotted rgb(155, 179, 189);
+    border-radius: 20em;
+}
+

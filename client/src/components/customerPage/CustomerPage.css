@@ -123,6 +123,7 @@
 
 .myCourses-customerPage-container:hover {
     opacity: 0.8;
+    cursor: pointer;
 }
 
 .my_all_Courses-courseName-title {

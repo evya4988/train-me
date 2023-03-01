@@ -7,6 +7,7 @@ import { Marginer } from '../marginer';
 import axios from 'axios';
 import '../trainerPage/UpdateModal.css';
 import BackToTopBtn from '../../customHooks/BackToTopBtn';
+import PropTypes from 'prop-types';
 
 const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   const [contactCardExist, setContactCardExist] = useState(true);
@@ -30,6 +31,8 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   const [trainerLabelID, setTrainerLabelID] = useState('');
   const [isFilteredById, setIsFilteredById] = useState(true);
   const [isFilteredContactsBtnPressed, setIsFilteredContactsBtnPressed] = useState(false);
+  const [allContactUsForAllFilteredOption, setAllContactUsForAllFilteredOption] = useState([]);
+  const [filteredUserDataEmpty, setFilteredUserDataEmpty] = useState(false);
 
   const {
     adminName,
@@ -70,38 +73,50 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }, [contactUsData, customersData, trainersData, coursesData]);
 
 
-  const getContactUsApiAnswer = async () => {
-    // Disable 'Contact Us messages' Button when pressed again!
-    if (!contactCardExist) return;
+  const getContactUsApiAnswer = async (e) => {
+    e.preventDefault();
 
-    setLoading(true);
-    try {
-      const contactUsUrl = 'http://localhost:8000/contactUs';
-      const response = await axios.get(contactUsUrl);
-      console.log(response);
-      const data = await response.data;
-      setContactUsData(data);
-      setContactCardExist(true);
-      setContactMessageFlag(true);
+    // Disable 'Contact Us messages' Button when pressed again. Only be able if the filtered button is clicked.
+    if (!contactCardExist && !isFilteredContactsBtnPressed) return;
 
-      setCustomersData([]);
-      setCustomerCardExist(true);
-      setCustomersCardEmpty(false);
-      setCustomerMessageFlag(false);
+    if (!contactCardExist && (allContactUsForAllFilteredOption.length === contactUsData.length)) {
+      setIsFilteredContactsBtnPressed(!isFilteredContactsBtnPressed);
+      console.log("isFilteredContactsBtnPressed: ", isFilteredContactsBtnPressed);
+    } else {
+      setLoading(true);
+      try {
+        const contactUsUrl = 'http://localhost:8000/contactUs';
+        const response = await axios.get(contactUsUrl);
+        // console.log(response);
+        const data = await response.data;
+        setContactUsData(data);
+        setAllContactUsForAllFilteredOption(data);
+        setContactCardExist(true);
+        setContactMessageFlag(true);
 
-      setTrainersData([]);
-      setTrainersCardEmpty(false);
-      setTrainerCardExist(true);
-      setTrainerMessageFlag(false);
+        setCustomersData([]);
+        setCustomerCardExist(true);
+        setCustomersCardEmpty(false);
+        setCustomerMessageFlag(false);
 
-      setCoursesData([]);
-      setCoursesCardExist(true);
-      setCoursesCardEmpty(false);
-      setCoursesMessageFlag(false);
+        setTrainersData([]);
+        setTrainersCardEmpty(false);
+        setTrainerCardExist(true);
+        setTrainerMessageFlag(false);
 
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+        setCoursesData([]);
+        setCoursesCardExist(true);
+        setCoursesCardEmpty(false);
+        setCoursesMessageFlag(false);
+
+        if (isFilteredContactsBtnPressed) {
+          // console.log("isFilteredContactsBtnPressed: ", isFilteredContactsBtnPressed);
+          setIsFilteredContactsBtnPressed(false);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -109,8 +124,9 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     setContactCardExist(true);
     setContactUsData([]);
     setContactMessageFlag(false);
+    setContactUsEmpty(false);
   }
-
+  //Todo
   const deleteAllContactHandler = async () => {
     try {
       const contactUsUrl = 'http://localhost:8000/contactUs';
@@ -126,43 +142,100 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   const deleteContactById = async (id) => {
     try {
-      console.log(id);
+      // console.log(id);
+      let userKind = "";
+      contactUsData.filter((contact) => {
+        if (contact._id === id) {
+          userKind = contact.user;
+        }
+      });
+
       const contactUsUrl = `http://localhost:8000/contactUs/${id}`;
       const response = await axios.delete(contactUsUrl);
-      console.log(response);
-      const data = await response.data
+      // console.log(response);
+      const data = await response.data;
+      setAllContactUsForAllFilteredOption(data);
+      const tempArr = [];
+      for (const i in data) {
+        if (data[i].user === userKind) {
+          tempArr.push(data[i]);
+        }
+      }
+
       console.log(data);
-      setContactUsData(data);
+      data.length !== tempArr.length ? setContactUsData(tempArr) : setContactUsData(data);
       setContactUsEmpty(true);
-      setContactCardExist(true);
+      setContactCardExist(false);
+
     } catch (error) {
       console.log(error);
     }
   }
 
-  // const filterContactUsByTrainers = () => {
-  //   console.log("contactUsData: ", contactUsData);
-  //   const tempArr = contactUsData;
-  //   console.log("tempArr: ", tempArr);
-  //   tempArr.map((contact) => {
-  //     let tempObj = {}
-  //     if (contact.user === "trainer") {
-  //       tempObj = contact;
-  //       console.log("tempObj: ", tempObj);
-  //     }
-  //     return tempArr.push(tempObj);
-  //   })
-  //   // setContactUsData(tempArr);
-  //   console.log("tempArr is: ", tempArr);
-  // }
+  const filterContactUsByTrainers = (e) => {
+    e.preventDefault();
 
-  // const filterContactUsByCustomers = () => {
+    // console.log("allContactUsForAllFilteredOption: ", allContactUsForAllFilteredOption);
+    const tempArr = [];
+    for (const i in allContactUsForAllFilteredOption) {
+      if (allContactUsForAllFilteredOption[i].user === "trainer") {
+        tempArr.push(allContactUsForAllFilteredOption[i]);
+      }
+    }
+    setContactUsData(tempArr);
+    tempArr.length === 0 && setFilteredUserDataEmpty(true);
+    // console.log("tempArr is: ", tempArr);
+  }
 
-  // }
+  const filterContactUsByCustomers = (e) => {
+    e.preventDefault();
+    const tempArr = [];
+    for (const i in allContactUsForAllFilteredOption) {
+      if (allContactUsForAllFilteredOption[i].user === "customer") {
+        tempArr.push(allContactUsForAllFilteredOption[i]);
+      }
+    }
+    setContactUsData(tempArr);
+    tempArr.length === 0 && setFilteredUserDataEmpty(true);
+    // console.log("tempArr is: ", tempArr);
+  }
 
-  // const filterContactUsByVisitors = () => {
+  const filterContactUsByVisitors = (e) => {
+    e.preventDefault();
+    const tempArr = [];
+    for (const i in allContactUsForAllFilteredOption) {
+      if (allContactUsForAllFilteredOption[i].user === "visitor") {
+        tempArr.push(allContactUsForAllFilteredOption[i]);
+      }
+    }
+    setContactUsData(tempArr);
+    tempArr.length === 0 && setFilteredUserDataEmpty(true);
+    // console.log("tempArr is: ", tempArr);
+  }
 
-  // }
+
+  // Todo-----------------
+  const deleteAllFilteredContactHandler = async () => {
+    console.log("from delete ------------");
+    const contactIdData = [];
+    contactUsData.map((contact) => {
+      return contactIdData.push(contact._id);
+    })
+    axios({
+      method: 'delete',
+      url: "http://localhost:8000/contactUs/allUsers/deleteAllFilteredContactUs",
+      headers: { 'content-type': 'application/json' },
+      data: contactIdData
+    }).then((res) => {
+      console.log(res);
+      setContactUsData(res.data);
+      const data = res.data;
+      setAllContactUsForAllFilteredOption(data);
+      setContactUsEmpty(false);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
   const getTrainersApiAnswer = async () => {
     // Disable 'List of Trainers' Button when pressed again!
@@ -437,6 +510,14 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }
   }
 
+  const toggleFilteredContactData = (e) => {
+    if (allContactUsForAllFilteredOption.length === contactUsData.length) {
+      setIsFilteredContactsBtnPressed(!isFilteredContactsBtnPressed);
+    } else {
+      getContactUsApiAnswer(e);
+    }
+  }
+
 
   return (
     <>
@@ -468,7 +549,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
               <button className="actions-btn" onClick={() => getCoursesApiAnswer()}>
                 List of Courses
               </button>
-              <button className="actions-btn" onClick={() => getContactUsApiAnswer()}>
+              <button className="actions-btn" onClick={(e) => getContactUsApiAnswer(e)}>
                 Contact Us messages
               </button>
             </div>
@@ -682,35 +763,44 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
               ]
             }
 
-            {(contactUsEmpty && contactUsData.length === 0) &&
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <div className="cardEmpty-message">There are not Contact messages!</div>
-                {/* <span className="close-message" onClick={closeMessageHandler}>✖</span> */}
-              </div>
-            }
-            {!contactCardExist &&
+            {(!contactCardExist) &&
               [
                 loading && <section className="smooth spinner" >{ }</section>,
-                <div className="innerPage-topBar">
-                  {/* {isFilteredContactsBtnPressed &&
-                    [<button onClick={() => { filterContactUsByTrainers() }}>Trainers</button>,
-                    <button onClick={() => { filterContactUsByCustomers() }}>Customers</button>,
-                    <button onClick={() => { filterContactUsByVisitors() }}>Visitors</button>]
-                  } */}
-                  <button
-                    className='sendEmail-btn'
-                    onClick={() => { setIsFilteredContactsBtnPressed(!isFilteredContactsBtnPressed) }}>
-                    {!isFilteredContactsBtnPressed ? 'Filter Contact' : 'Unfiltered'}
-                  </button>
-                  <button
-                    className='sendEmail-btn'
-                    onClick={() => window.location = `mailto:${contactUsData.map((contact) => {
-                      return contact.email
-                    })}?subject=Mail from Train Me`}>Send E-Mail to All
-                  </button>
-                  <button onClick={deleteAllContactHandler} className="deleteAllCards-btn">Delete All</button>
-                  <div className='amount-container'>Contact Amount:
-                    <span className="amount-item">{contactUsData.length}</span>
+                <div className="innerPage-topBar contactUs-topBar">
+                  <div style={{ display: 'flex' }}>
+                    <button
+                      className='sendEmail-btn'
+                      onClick={(e) => toggleFilteredContactData(e)}>
+                      {!isFilteredContactsBtnPressed ? 'Filter Contact' : 'Unfiltered'}
+                    </button>
+                    {isFilteredContactsBtnPressed &&
+                      [<button onClick={(e) => { filterContactUsByTrainers(e) }} className="contactUs-filtered-btn trainer-filtered-btn">Trainers</button>,
+                      <button onClick={(e) => { filterContactUsByCustomers(e) }} className="contactUs-filtered-btn customer-filtered-btn">Customers</button>,
+                      <button onClick={(e) => { filterContactUsByVisitors(e) }} className="contactUs-filtered-btn visitor-filtered-btn">Visitors</button>]
+                    }
+                  </div>
+                  <div style={{display: 'flex'}}>
+                    {
+                      contactUsData.length !== 0 ?
+                        [
+                          <button
+                            className='sendEmail-btn'
+                            onClick={() => window.location = `mailto:${contactUsData.map((contact) => {
+                              return contact.email
+                            })}?subject=Mail from Train Me`}>Send E-Mail to All
+                          </button>,
+                          <button
+                            onClick={isFilteredContactsBtnPressed ?
+                              deleteAllFilteredContactHandler :
+                              deleteAllContactHandler}
+                            className="deleteAllCards-btn">Delete All
+                          </button>
+                        ]
+                        : null
+                    }
+                    <div className='amount-container'>Contact Amount:
+                      <span className="amount-item">{contactUsData.length}</span>
+                    </div>
                   </div>
                 </div>,
                 contactUsData.map((item) =>
@@ -735,17 +825,22 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                 <BackToTopBtn />
               ]
             }
+            {(contactUsEmpty && contactUsData.length === 0) &&
+              <div style={{ display: "flex", justifyContent: "center"}}>
+                <div className="cardEmpty-message">There are not Contact messages!</div>
+              </div>
+            }
           </div>
 
           {
-            (!contactCardExist && contactUsData) &&
+            (!contactCardExist) &&
             <div style={{ display: "block", flexDirection: "row" }}>
               <button onClick={closeContactPageHandler} className="close-card-btn users-close-btn"></button>
             </div>
           }
 
           {
-            (contactUsEmpty && contactUsData.length === 0) &&
+              (contactUsEmpty && contactUsData.length === 0 && !filteredUserDataEmpty) &&
             <span className="close-message" onClick={closeMessageHandler}>✖</span>
           }
 

@@ -94,6 +94,10 @@
     background: linear-gradient(to right, #6B6A72 0%, #A5A5A5 50%, #B9B7B9 100%);
 }
 
+.contactUs-topBar {
+    justify-content: space-between;
+}
+
 .allAdminCoursesCards-container {
     display: flex;
     align-items: center;
@@ -426,12 +430,30 @@
     margin-top: 1em;
     font-size: 25px;
     border-radius: 20px;
-    background-color: rgb(40, 21, 64);
-    color: rgb(162, 162, 113);
+    background-color: rgba(40, 21, 64, 0.926);
+    color: rgba(162, 162, 113);
     width: 20em;
     height: 3em;
     /* padding: 3em; */
+
+    /* opacity: 0.7;
+    transition: opacity 2s ease; */
+    /* animation: fadeInOutAnimation 1.5s infinite;
+    animation-direction: alternate-reverse;
+    animation-timing-function: ease-in-out; */
 }
+
+/** In use at - .cardEmpty-message  */
+/* @keyframes fadeInOutAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+} */
+
 
 .amount-container {
     font-size: 13px;
@@ -452,14 +474,13 @@
 .sendEmail-btn {
     height: 1.2em;
     /* padding: 1em; */
-    margin: 0 0.2em 0 0;
+    margin: 0 0.2em 0 0.2em;
     background-color: lightgray;
     display: flex;
     align-items: center;
     border: 1px solid rgb(185, 121, 121);
     cursor: pointer;
     border-radius: 50em;
-
 }
 
 .sendEmail-btn:hover {
@@ -468,6 +489,35 @@
     opacity: 0.8;
     transition: color 0.5s;
     border-bottom-right-radius: 25px;
+}
+
+.contactUs-filtered-btn {
+    margin-left: 0.2em;
+    border: none;
+}
+
+.visitor-filtered-btn {
+    background-color: rgb(237, 249, 185);
+}
+
+.trainer-filtered-btn {
+    background-color: rgb(135, 169, 238);
+}
+
+.customer-filtered-btn {
+    background-color: rgb(207, 247, 147);
+}
+
+.visitor-filtered-btn:hover, .trainer-filtered-btn:hover, .customer-filtered-btn:hover {
+    color: white;
+    background-color: rgb(60, 56, 56);
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+.visitor-filtered-btn:focus, .trainer-filtered-btn:focus, .customer-filtered-btn:focus {
+    background-color: rgb(60, 56, 56);
+    color: white;
 }
 
 .courses-navbar {
