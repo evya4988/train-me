@@ -1,4 +1,5 @@
 const Trainer = require("../models/trainer");
+const Course = require("../models/course");
 const serverResponse = require("../utils/serverResponse");
 const { allowedUpdates } = require('../../constants/allowedUpdates');
 const bcrypt = require("bcrypt");
@@ -184,9 +185,26 @@ module.exports = {
   },
 
   deleteTrainerById: async (req, res) => {
+    //Todo - All courses belonging to this Trainer should be deleted.
+
     try {
       const id = req.params.trainerId;
       console.log(id)
+
+      const allCourses = await Course.find({});
+
+      for (const course in allCourses) {
+        // console.log("course: ", allCourses[course].trainer);
+        if (allCourses[course].trainer.equals(id)) {
+          // console.log("Course name: ", allCourses[course].name);
+          await Course.findOneAndDelete({ _id: allCourses[course]._id });
+          const imgId = allCourses[course].picture.public_id;
+          if (imgId) {
+            await cloudinary.uploader.destroy(imgId);
+          }
+        } 
+      }
+
       const trainerID = await Trainer.findById(id);
       console.log(trainerID)
       const imgId = trainerID.profilepic.public_id;
@@ -220,6 +238,40 @@ module.exports = {
       return serverResponse(res, 200, filteredTrainersData);
     } catch (e) {
       return serverResponse(res, 500, { message: "internal error occured " + e });
+    }
+  },
+
+  rateTheTrainer: async (req, res) => {
+    try {
+      const trainerID = req.body.trainerId;
+      const courseID = req.body.courseId;
+      const customerID = req.body.customerID;
+      // console.log("trainerID: ", trainerID);
+      // console.log("courseID: ", courseID);
+      // console.log("customerID: ", customerID);
+
+      const course = await Course.findOne({ _id: courseID });
+      course.ratingProviders.filter(async (ratingCustomerId) => {
+        if (ratingCustomerId !== customerID) {
+          course.ratingProviders.push(customerID);
+          await course.save();
+          const trainer = await Trainer.findOne({ _id: trainerID });
+          trainer.rating.count = trainer.rating.count + 1;
+          await trainer.save();
+          // const dataToClient = {
+          //   course,
+          //   trainer
+          // }
+          // console.log(dataToClient);
+          return serverResponse(res, 200, "Success!");
+        }
+        //  else {
+        //   return serverResponse(res, 500, { message: "You have already rated the Trainer!" });
+        // }
+      })
+
+    } catch (error) {
+      return serverResponse(res, 500, { message: "internal error occured " + error });
     }
   },
 

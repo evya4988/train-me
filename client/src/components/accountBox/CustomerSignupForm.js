@@ -21,7 +21,7 @@ import CapitalizeFirstLowercaseRest from '../../customHooks/CapitalizeFirstLower
 
 export function CustomerSignupForm() {
   const { switchToSignin, switchToTrainerSignup } = useContext(AccountContext);
-  const { setCustomerName, customerAvatarHandler, setLoading, loading } = useContext(MyContext);
+  const { setCustomerName, customerAvatarHandler, setLoading, loading, setCustomerID } = useContext(MyContext);
   // setLoading(false);
   const navigate = useNavigate();
 
@@ -235,6 +235,7 @@ export function CustomerSignupForm() {
       // console.log('Posting a New Customer ', res.data);
       const uploadedImg = res.data.cloImageResult.public_id;
       customerAvatarHandler(uploadedImg);
+      setCustomerID(res.data.result._id)
       if (isValid) {
         setLoading(false);
         navigate(`/customer`);

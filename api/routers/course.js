@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const { 
+const {
     addNewCourse,
     updateCourse,
     // getAllCourses,
@@ -14,6 +14,7 @@ const {
     getAllTrainersCoursesWithoutCustomers,
     getAllCoursesForCustomersPage,
     getAllCustomerCoursesRegistered,
+    registerForTheCourse,
     // deleteAllCourses
 } = require("../controllers/course");
 
@@ -29,6 +30,7 @@ app.get("/:courseId", getCourseById);
 app.delete("/:courseId", deleteCourseById);
 app.get("/customer/allCoursesForCustomerPage", getAllCoursesForCustomersPage);
 app.post("/registeredCourses", getAllCustomerCoursesRegistered);
+app.post("/registerToCourse", registerForTheCourse);
 // app.delete("/", deleteAllCourses);
 
 module.exports = app;

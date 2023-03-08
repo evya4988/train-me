@@ -336,7 +336,7 @@ module.exports = {
         try {
             const allCourses = await Course.find({})
             const allTrainers = await Trainer.find({});
-            
+
             let filteredArr = [];
             for (const course in allCourses) {
                 /** item = item inside course such as name, image, lessontime... */
@@ -435,6 +435,36 @@ module.exports = {
             return serverResponse(res, 500, { message: "internal error occured " + e });
         }
     },
+
+    registerForTheCourse: async (req, res) => {
+        try {
+            const customerID = req.body.customerId;
+            const courseID = req.body.courseId;
+            // console.log("Customer ID: ", customerID);
+            // console.log("Course ID: ", courseID);
+
+            const designatedCourse = await Course.findById(courseID);
+            let isCustomerRegister = false;
+            designatedCourse.customers.map(async (customer) => {
+                if (customer == customerID) {
+                    isCustomerRegister = true
+                }
+            });
+            // console.log("designatedCourse: ", designatedCourse);
+            // console.log("isCustomerRegister: ", isCustomerRegister);
+
+            if (isCustomerRegister) {
+                return serverResponse(res, 500, { message: "The customer has already registered for this course"});
+            } 
+            else {
+                designatedCourse.customers.push(customerID);
+                await designatedCourse.save();
+                return serverResponse(res, 200, designatedCourse);
+            }
+        } catch (error) {
+            return serverResponse(res, 500, { message: "internal error occured " + error });
+        }
+    }
 
     // deleteAllCourses: async (req, res) => {
     //     try {

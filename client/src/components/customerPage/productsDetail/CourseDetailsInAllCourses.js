@@ -6,14 +6,17 @@ import './CourseDetailsInAllCourses.css';
 import axios from 'axios';
 
 const CourseDetailsInAllCourses = () => {
-    const { customerCoursesDataForCoursePage } = useContext(MyContext);
+    const { customerCoursesDataForCoursePage, customerID } = useContext(MyContext);
 
     const { id } = useParams();
     const navigate = useNavigate();
     const [singleCourse, setSingleCourse] = useState({});
 
     const { state } = useLocation();
-    const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1)
+    const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1);
+
+    const [isSuccessRegistered, setIsSuccessRegistered] = useState(false);
+    const [unsuccessRegistered, setUnsuccessRegistered] = useState(false);
 
     const [trainerData, setTrainerData] = useState({});
     const getTrainerById = async (id) => {
@@ -30,6 +33,35 @@ const CourseDetailsInAllCourses = () => {
         }
     }
 
+    const registerToCourse = () => {
+
+        const dataToServer = {
+            courseId: singleCourse.id,
+            customerId: customerID
+        };
+        // console.log(dataToServer);
+
+        axios({
+            method: 'post',
+            url: "http://localhost:8000/course/registerToCourse",
+            headers: { 'content-type': 'application/json' },
+            data: dataToServer
+        }).then((res) => {
+            console.log(res);
+            console.log("res.data: ", res.data);
+            res.status === 200 && setIsSuccessRegistered(true);
+        }).catch((error) => {
+            if (error.response) {
+                // console.log(error.response)
+                error.response.data.message === "The customer has already registered for this course" && setUnsuccessRegistered(true);
+            } else if (error.request) {
+                console.log(error.request);
+            } else if (error.message) {
+                console.log(error.message);
+            }
+        });
+    }
+
     const [counter, setCounter] = useState(0);
 
     useEffect(() => {
@@ -43,21 +75,9 @@ const CourseDetailsInAllCourses = () => {
                 getTrainerById(itemPage.trainer_id);
                 setCounter(counter + 1);
             }
+            // console.log("customerID: ", customerID);
             // console.log("CustomerCoursesDataForCoursePage: ", customerCoursesDataForCoursePage);
         }
-
-        /** setting and filtering the single course item of my course. */
-        // if (customerMyCoursesDataForCoursePage.length > 0 && id !== undefined) {
-        //     const itemPage = customerMyCoursesDataForCoursePage.find((course) => course.id === id);
-        //     // console.log("Item page: ", itemPage);
-        //     setSingleCourse(itemPage);
-        //     if (counter === 0 && itemPage.trainer_id !== "") {
-        //         // console.log("itemPage.trainer_id: ", itemPage.trainer_id);
-        //         getTrainerById(itemPage.trainer_id);
-        //         setCounter(counter + 1);
-        //     }
-        //     // console.log("CustomerCoursesDataForCoursePage: ", customerCoursesDataForCoursePage);
-        // }
 
         /** Setting a state with the scroll position of the prev page to locate it and navigate to it. */
         if (state !== null) {
@@ -65,7 +85,17 @@ const CourseDetailsInAllCourses = () => {
             setScrollPositionToSentBack(state.scrollPosition);
             // scrollPositionToSentBack !== -1 && console.log("State from CustomerPage component!!  ", scrollPositionToSentBack);
         }
-    }, [customerCoursesDataForCoursePage, id, state, scrollPositionToSentBack])
+
+        if (isSuccessRegistered) {
+            const successId = setTimeout(() => {
+                setIsSuccessRegistered(false);
+                navigate('/customer', { state: { customerCoursesDataForCoursePage, scrollPositionToSentBack } })
+            }, 3000);
+            return () => clearTimeout(successId)
+        }
+
+        // console.log("isSuccessRegistered: ", isSuccessRegistered);
+    }, [customerCoursesDataForCoursePage, id, state, scrollPositionToSentBack, isSuccessRegistered])
 
     return (
         singleCourse.picture !== undefined ?
@@ -134,7 +164,27 @@ const CourseDetailsInAllCourses = () => {
                             </div>
                         </div>
                     </div>}
-                <button className="coursePage-goBack-btn" onClick={() => navigate('/customer', { state: { customerCoursesDataForCoursePage, scrollPositionToSentBack } })}>	&#171; Back</button>
+                <button
+                    className="coursePage-goBack-btn"
+                    onClick={() => navigate('/customer', { state: { customerCoursesDataForCoursePage, scrollPositionToSentBack } })}>
+                    &#171; Back
+                </button>
+                <button
+                    className="coursePage-register-btn"
+                    onClick={registerToCourse}>Register now
+                </button>
+                {
+                    isSuccessRegistered &&
+                    <div className="registered-message-alert" style={{ backgroundColor: "lightgreen" }}>
+                        You have successfully registered for the course
+                    </div>
+                }
+                {
+                    unsuccessRegistered &&
+                    <div className="registered-message-alert" style={{ backgroundColor: "lightcoral" }}>
+                        You're already registered for this course
+                    </div>
+                }
             </div> : null
     )
 }

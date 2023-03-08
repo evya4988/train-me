@@ -7,7 +7,6 @@ import { Marginer } from '../marginer';
 import axios from 'axios';
 import '../trainerPage/UpdateModal.css';
 import BackToTopBtn from '../../customHooks/BackToTopBtn';
-import PropTypes from 'prop-types';
 
 const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   const [contactCardExist, setContactCardExist] = useState(true);
@@ -214,7 +213,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }
 
 
-  // Todo-----------------
   const deleteAllFilteredContactHandler = async () => {
     console.log("from delete ------------");
     const contactIdData = [];
@@ -840,7 +838,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
           }
 
           {
-              (contactUsEmpty && contactUsData.length === 0 && !filteredUserDataEmpty) &&
+              (contactUsEmpty && contactUsData.length === 0 && filteredUserDataEmpty && !customerCardExist) &&
             <span className="close-message" onClick={closeMessageHandler}>✖</span>
           }
 

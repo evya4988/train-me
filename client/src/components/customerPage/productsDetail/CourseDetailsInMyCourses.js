@@ -3,10 +3,11 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import MyContext from '../../../MyContext';
 import Img from '../../../customHooks/Img';
 import './CourseDetailsInMyCourses.css';
+import './CourseDetailsInAllCourses.css';
 import axios from 'axios';
 
 const CourseDetailsInMyCourses = () => {
-    const { customerMyCoursesDataForCoursePage } = useContext(MyContext);
+    const { customerMyCoursesDataForCoursePage, customerID } = useContext(MyContext);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -52,7 +53,27 @@ const CourseDetailsInMyCourses = () => {
             setScrollPositionToSentBack(state.scrollPosition);
             // scrollPositionToSentBack !== -1 && console.log("State from CustomerPage component!!  ", scrollPositionToSentBack);
         }
-    }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack])
+    }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack]);
+
+
+    const rateTrainer = () => {
+        const dataToServer = {
+            trainerId: singleCourse.trainer_id,
+            courseId: id,
+            customerID,
+        }
+        axios({
+            method: 'post',
+            url: "http://localhost:8000/trainer/rateTrainer",
+            headers: { 'content-type': 'application/json' },
+            data: dataToServer
+        }).then((res) => {
+            console.log('result ', res.data);
+            
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
     return (
         singleCourse.picture !== undefined ?
@@ -102,7 +123,12 @@ const CourseDetailsInMyCourses = () => {
                                 <div className="coursePage-allCourse-trainerTitles-container">
                                     <span className="coursePage-title">Email</span>
                                     <span className="coursePage-title-arrow">&gt;</span>
-                                    <span className="coursePage-title-name">{trainerData.email}</span>
+                                    {/* <span className="coursePage-title-name">Click Here</span> */}
+                                    <a
+                                        className="coursePage-title-name"
+                                        href={`mailto:${trainerData.email}?subject=Mail from Train Me customer`}>
+                                        {trainerData.email}
+                                    </a>
                                 </div>
                                 <div className="coursePage-allCourse-trainerTitles-container">
                                     <span className="coursePage-title">Age</span>
@@ -114,6 +140,18 @@ const CourseDetailsInMyCourses = () => {
                                     <span className="coursePage-title-arrow">&gt;</span>
                                     <div className="c-rating-elements" ><span>Rate</span> <span style={{ color: "rgb(75, 68, 68)" }}>{trainerData.rating.rate}</span></div>
                                     <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div>
+                                </div>
+                                <div className="rate-div">Rate Trainer
+                                    <span className="rate-buttons-holder">
+                                        <button
+                                            onClick={() => { rateTrainer() }}
+                                            className="rate-counter">+
+                                        </button>
+                                        <button
+                                            onClick={() => { }}
+                                            className="rate-counter">-
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                             <div style={{ marginLeft: "2em", width: "25rem" }}>

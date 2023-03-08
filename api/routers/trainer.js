@@ -9,7 +9,8 @@ const {
   getAllTrainersPartialDataForCustomers,
   updateTrainer,
   deleteTrainerById,
-  getAllTrainersForContactUsForm
+  getAllTrainersForContactUsForm,
+  rateTheTrainer,
 } = require("../controllers/trainer");
 
 app.post("/signup", signup);
@@ -20,4 +21,5 @@ app.get("/", getAllTrainers);
 app.get("/contactUs/trainers", getAllTrainersForContactUsForm);
 app.patch("/:trainerId", updateTrainer);
 app.delete("/:trainerId", deleteTrainerById);
+app.post("/rateTrainer", rateTheTrainer);
 module.exports = app;

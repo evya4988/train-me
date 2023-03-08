@@ -1,0 +1,25 @@
+.rate-div {
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    align-items: space-between;
+}
+
+.rate-buttons-holder{
+    display: inline-flex;
+    margin-left: 1em;
+    width: 4.5em;
+    justify-content: space-between;
+} 
+
+.rate-counter {
+    width: 3em;
+    color: red;
+    border: 1px solid rgb(232, 140, 140);
+    background-color: black;
+}
+
+.rate-counter:hover {
+    background-color: rgb(64, 61, 61);
+    border: 1px solid red;
+
+}
