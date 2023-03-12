@@ -337,42 +337,47 @@ module.exports = {
             const allCourses = await Course.find({})
             const allTrainers = await Trainer.find({});
 
-            let filteredArr = [];
-            for (const course in allCourses) {
-                /** item = item inside course such as name, image, lessontime... */
-                for (const item in allCourses[course]) {
-                    if (item == 'trainer') {
-                        // console.log("allCourses[course][item]: ", allCourses[course][item]);
-                        /** allCourses[course][item] = customers array inside course*/
-                        const courseTrainer = allCourses[course][item];
-                        allTrainers.map((trainer) => {
-                            if (courseTrainer.equals(trainer._id)) {
-                                allCourses[course]['trainer_id'] = `${trainer._id}`;
-                                allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
-                                // console.log("trainer._id: ", trainer._id);
-                            }
-                        })
-                        filteredArr.push(allCourses[course]);
+            if (allCourses.length === 0) {
+
+                return serverResponse(res, 500, "no courses");
+            } else {
+                let filteredArr = [];
+                for (const course in allCourses) {
+                    /** item = item inside course such as name, image, lessontime... */
+                    for (const item in allCourses[course]) {
+                        if (item == 'trainer') {
+                            // console.log("allCourses[course][item]: ", allCourses[course][item]);
+                            /** allCourses[course][item] = customers array inside course*/
+                            const courseTrainer = allCourses[course][item];
+                            allTrainers.map((trainer) => {
+                                if (courseTrainer.equals(trainer._id)) {
+                                    allCourses[course]['trainer_id'] = `${trainer._id}`;
+                                    allCourses[course]['trainer_name'] = `${trainer.firstname} ${trainer.lastname}`;
+                                    // console.log("trainer._id: ", trainer._id);
+                                }
+                            })
+                            filteredArr.push(allCourses[course]);
+                        }
                     }
                 }
-            }
 
-            const afterFilteringArr = [];
-            filteredArr.map((course) => {
-                const tempObj = {};
-                tempObj.id = course._id;
-                tempObj.name = course.name;
-                tempObj.category = course.category;
-                tempObj.description = course.description;
-                tempObj.picture = course.picture;
-                tempObj.lessontime = course.lessontime;
-                tempObj.cost = course.cost;
-                tempObj.trainer_id = course['trainer_id'];
-                tempObj.trainer = course['trainer_name'];
-                afterFilteringArr.push(tempObj);
-                // console.log("course._id: ", course._id);
-            })
-            return serverResponse(res, 200, afterFilteringArr);
+                const afterFilteringArr = [];
+                filteredArr.map((course) => {
+                    const tempObj = {};
+                    tempObj.id = course._id;
+                    tempObj.name = course.name;
+                    tempObj.category = course.category;
+                    tempObj.description = course.description;
+                    tempObj.picture = course.picture;
+                    tempObj.lessontime = course.lessontime;
+                    tempObj.cost = course.cost;
+                    tempObj.trainer_id = course['trainer_id'];
+                    tempObj.trainer = course['trainer_name'];
+                    afterFilteringArr.push(tempObj);
+                    // console.log("course._id: ", course._id);
+                })
+                return serverResponse(res, 200, afterFilteringArr);
+            }
         } catch (e) {
             return serverResponse(res, 500, { message: "internal error occurred " + e });
         }
@@ -454,8 +459,8 @@ module.exports = {
             // console.log("isCustomerRegister: ", isCustomerRegister);
 
             if (isCustomerRegister) {
-                return serverResponse(res, 500, { message: "The customer has already registered for this course"});
-            } 
+                return serverResponse(res, 500, { message: "The customer has already registered for this course" });
+            }
             else {
                 designatedCourse.customers.push(customerID);
                 await designatedCourse.save();

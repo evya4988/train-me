@@ -346,3 +346,11 @@
     border-bottom: double;
     border-color: #5db367;
 }
+
+.emptyData-message {
+    display: flex;
+    align-items: center;
+    margin-right: 13em;
+    font-size: 24px;
+    color: brown;
+}

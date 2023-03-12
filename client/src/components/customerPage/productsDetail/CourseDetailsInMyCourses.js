@@ -5,6 +5,7 @@ import Img from '../../../customHooks/Img';
 import './CourseDetailsInMyCourses.css';
 import './CourseDetailsInAllCourses.css';
 import axios from 'axios';
+import StarRating from '../starRating/StarRating';
 
 const CourseDetailsInMyCourses = () => {
     const { customerMyCoursesDataForCoursePage, customerID } = useContext(MyContext);
@@ -69,7 +70,7 @@ const CourseDetailsInMyCourses = () => {
             data: dataToServer
         }).then((res) => {
             console.log('result ', res.data);
-            
+
         }).catch((error) => {
             console.log(error);
         });
@@ -100,6 +101,11 @@ const CourseDetailsInMyCourses = () => {
                             <span className="coursePage-title">Description</span>
                             <span className="coursePage-title-arrow">&gt;</span>
                             <div className="coursePage-title-name">{singleCourse.description}</div>
+                        </div>
+                        <div className="coursePage-rate-courseTitle" >
+                            Rate the Course
+                            <StarRating />
+                            <button>confirm</button>
                         </div>
                     </div>
                     <div style={{ marginLeft: "2em", width: "25rem" }}>
@@ -141,17 +147,26 @@ const CourseDetailsInMyCourses = () => {
                                     <div className="c-rating-elements" ><span>Rate</span> <span style={{ color: "rgb(75, 68, 68)" }}>{trainerData.rating.rate}</span></div>
                                     <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div>
                                 </div>
-                                <div className="rate-div">Rate Trainer
-                                    <span className="rate-buttons-holder">
-                                        <button
-                                            onClick={() => { rateTrainer() }}
-                                            className="rate-counter">+
-                                        </button>
-                                        <button
-                                            onClick={() => { }}
-                                            className="rate-counter">-
-                                        </button>
-                                    </span>
+                                <div className="rate-div">
+                                    <div style={{display: "flex", justifyContent: "center"}}>
+                                        Rate the Trainer
+                                    </div>
+                                    <div className='txt-and-thumbs'>
+                                        <span style={{ fontSize: "14px", fontFamily: "Helvetica", textAlign: "center", width: "12em"}}>
+                                            If you liked the trainer, please click the like button
+                                        </span>
+                                        <div
+                                            // onClick={() => { rateTrainer() }}
+                                            className="rate-container">
+                                        </div>
+                                        {/* <button
+                                                onClick={() => { }}
+                                                className="rate-container">-
+                                            </button> */}
+                                        {/* <span className="rate-buttons-holder">
+                                            
+                                        </span> */}
+                                    </div>
                                 </div>
                             </div>
                             <div style={{ marginLeft: "2em", width: "25rem" }}>

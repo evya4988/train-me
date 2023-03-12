@@ -1,25 +1,61 @@
+.coursePage-rate-courseTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: rgba(92, 93, 140, 0.715);
+    border: 1px solid transparent;
+    border-radius: 50px;
+    color: rgba(230, 234, 240, 0.715);
+    font-size: 18px;
+}
+
+.coursePage-rate-courseTitle:hover {
+    background-color: rgba(230, 234, 240, 0.715);
+    color: rgba(92, 93, 140, 0.715);
+    /* border-bottom: 1px dotted rgba(92, 93, 140, 0.715); */
+}
+
 .rate-div {
     font-size: 20px;
     font-family: 'Courier New', Courier, monospace;
-    align-items: space-between;
 }
 
-.rate-buttons-holder{
+/* .rate-buttons-holder {
     display: inline-flex;
     margin-left: 1em;
     width: 4.5em;
     justify-content: space-between;
-} 
+} */
 
-.rate-counter {
-    width: 3em;
-    color: red;
-    border: 1px solid rgb(232, 140, 140);
-    background-color: black;
+.txt-and-thumbs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.6em;
 }
 
-.rate-counter:hover {
-    background-color: rgb(64, 61, 61);
-    border: 1px solid red;
+.rate-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.4em;
+    height: 2.5em;
+    color: red;
+    margin-left:1em; 
+    /* border: 0.01px transparent; */
+    background-color: rgb(235, 235, 235);
+    /* object-fit: cover; */
+    background-image: url('../../../images/like.png');
+    /* background-image: url('../../../images/dislike.png'); */
 
+    /* background-image: url('../../../images/clicked_like.png'); */
+    /* background-image: url('../../../images/clicked_dislike.png'); */
+
+}
+
+.rate-container:hover {
+    background-color: rgb(64, 61, 61);
+    /* border: 1px solid red; */
+    border-radius: 20%;
 }

@@ -145,19 +145,23 @@ module.exports = {
   getAllTrainersPartialDataForCustomers: async (req, res) => {
     try {
       const allTrainers = await Trainer.find({});
-      const trainersPartialDataArr = [];
-      // console.log(trainersPartialDataArr);
-      allTrainers.map((trainer) => {
-        const tempObj = {};
-        tempObj.firstname = trainer.firstname;
-        tempObj.lastname = trainer.lastname;
-        tempObj.profilepic = trainer.profilepic;
-        tempObj.gender = trainer.gender;
-        tempObj.rating = trainer.rating;
-        trainersPartialDataArr.unshift(tempObj);
-      })
-      // console.log(trainersPartialDataArr);
-      return serverResponse(res, 200, trainersPartialDataArr);
+      if (allTrainers.length === 0) {
+        return serverResponse(res, 500, "empty");
+      } else {
+        const trainersPartialDataArr = [];
+        // console.log(trainersPartialDataArr);
+        allTrainers.map((trainer) => {
+          const tempObj = {};
+          tempObj.firstname = trainer.firstname;
+          tempObj.lastname = trainer.lastname;
+          tempObj.profilepic = trainer.profilepic;
+          tempObj.gender = trainer.gender;
+          tempObj.rating = trainer.rating;
+          trainersPartialDataArr.unshift(tempObj);
+        })
+        // console.log(trainersPartialDataArr);
+        return serverResponse(res, 200, trainersPartialDataArr);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -202,7 +206,7 @@ module.exports = {
           if (imgId) {
             await cloudinary.uploader.destroy(imgId);
           }
-        } 
+        }
       }
 
       const trainerID = await Trainer.findById(id);

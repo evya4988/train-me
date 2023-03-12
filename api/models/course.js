@@ -4,11 +4,11 @@ const courseSchema = new mongoose.Schema({
   name: { type: String, required: true },
   category: { type: String, required: true },
   description: { type: String, required: true },
-  picture: 
-    {
-      image: { type: String, required: true },
-      public_id: { type: String, required: true }
-    }
+  picture:
+  {
+    image: { type: String, required: true },
+    public_id: { type: String, required: true }
+  }
   ,
   lessontime: { type: Number, required: true },
   cost: { type: Number, required: true },
@@ -20,10 +20,18 @@ const courseSchema = new mongoose.Schema({
       default: 'Not yet registered for course'
     },
   ],
-  ratingProviders: {
-    type: Array,
-    default: 0,
-  },
+  rate: [
+    {
+      ref: "ratingProviders",
+      type: Array,
+      default: [],
+    },
+    {
+      ref: "ratingStars",
+      type: Array,
+      default: [],
+    }
+  ],
   // location: {}
 });
 

@@ -635,8 +635,10 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
             }
 
             {coursesCardEmpty &&
-              [<span className="close-message" onClick={closeMessageHandler}>✖</span>,
-              <div className="cardEmpty-message">There are not Courses!</div>]
+              [
+                <div className="cardEmpty-message">There are not Courses!</div>,
+                <span className="close-message" onClick={closeMessageHandler}>✖</span>
+              ]
             }
             {(!coursesCardExist && courseTrainerData) &&
               [
@@ -777,7 +779,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                       <button onClick={(e) => { filterContactUsByVisitors(e) }} className="contactUs-filtered-btn visitor-filtered-btn">Visitors</button>]
                     }
                   </div>
-                  <div style={{display: 'flex'}}>
+                  <div style={{ display: 'flex' }}>
                     {
                       contactUsData.length !== 0 ?
                         [
@@ -824,7 +826,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
               ]
             }
             {(contactUsEmpty && contactUsData.length === 0) &&
-              <div style={{ display: "flex", justifyContent: "center"}}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <div className="cardEmpty-message">There are not Contact messages!</div>
               </div>
             }
@@ -838,7 +840,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
           }
 
           {
-              (contactUsEmpty && contactUsData.length === 0 && filteredUserDataEmpty && !customerCardExist) &&
+            (contactUsEmpty && contactUsData.length === 0 && filteredUserDataEmpty && !customerCardExist) &&
             <span className="close-message" onClick={closeMessageHandler}>✖</span>
           }
 

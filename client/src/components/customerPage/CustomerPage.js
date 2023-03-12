@@ -9,7 +9,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useScrollPosition from "../../customHooks/useScrollPosition";
 
 const CustomerPage = ({ customerAvatar }) => {
-  const { customerName, customerID, setCustomerCoursesDataForCoursePage, setCustomerMyCoursesDataForCoursePage } = useContext(MyContext);
+  const {
+    customerName,
+    customerID,
+    setCustomerCoursesDataForCoursePage,
+    setCustomerMyCoursesDataForCoursePage } = useContext(MyContext);
   const navigate = useNavigate();
   const { state } = useLocation();
   let scrollPosition = useScrollPosition();
@@ -25,11 +29,12 @@ const CustomerPage = ({ customerAvatar }) => {
     // console.log("Time is: ", today.getHours());
   }
 
-  const [allTrainersPartialData, setAllTrainersPartialData] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [myCourses, setMyCourses] = useState([]);
+  const [allTrainersPartialData, setAllTrainersPartialData] = useState([]);
   const [filterTrainersByGender, setFilterTrainersByGender] = useState([]);
   const [isFemale, setIsFemale] = useState(false);
+  const [emptyDataMessage, setEmptyDataMessage] = useState("");
 
   const getMyCourses = async (customerId) => {
     if (myCourses.length > 0) return;
@@ -81,6 +86,8 @@ const CustomerPage = ({ customerAvatar }) => {
       setFilterTrainersByGender([]);
     } catch (error) {
       console.log("error: ", error);
+      setMyCourses([]);
+      setEmptyDataMessage(error.response.data)
     }
   }
 
@@ -130,6 +137,8 @@ const CustomerPage = ({ customerAvatar }) => {
       setFilterTrainersByGender([]);
     } catch (error) {
       console.log(error);
+      setMyCourses([]);
+      setEmptyDataMessage(error.response.data);
     }
   }
 
@@ -139,12 +148,12 @@ const CustomerPage = ({ customerAvatar }) => {
 
   useEffect(() => {
     // Set the initial scroll position when the component mounts
-      if (state !== null) {
-        console.log("State: ", state);
-        setScrollPositionToNavigate(state.scrollPositionToSentBack);
-        state.customerCoursesDataForCoursePage && setAllCourses(state.customerCoursesDataForCoursePage);
-        state.customerMyCoursesDataForCoursePage && setMyCourses(state.customerMyCoursesDataForCoursePage);
-      }
+    if (state !== null) {
+      console.log("State: ", state);
+      setScrollPositionToNavigate(state.scrollPositionToSentBack);
+      state.customerCoursesDataForCoursePage && setAllCourses(state.customerCoursesDataForCoursePage);
+      state.customerMyCoursesDataForCoursePage && setMyCourses(state.customerMyCoursesDataForCoursePage);
+    }
 
     // Update the scroll position whenever the state property changes
     if (state !== null && state.scrollPositionToSentBack !== scrollPosition) {
@@ -164,7 +173,7 @@ const CustomerPage = ({ customerAvatar }) => {
         <div className="customer-page-container">
           {
             myCourses === 'empty' ?
-              <div>
+                <div className='emptyData-message'>
                 You have not registered for any course yet !
               </div>
               : (myCourses.length > 0 && myCourses !== 'empty') ?
@@ -208,134 +217,142 @@ const CustomerPage = ({ customerAvatar }) => {
                     </div>
                   </div>
                 </div>
-                : allTrainersPartialData.length ?
-                  <div>
-                    <div className="allTrainers-topBar">
-                      <button className="close-allTrainers-container" onClick={closeAllTrainersPage}></button>
-                      <div style={{ display: "flex" }}>
-                        <button
-                          // className=filterTrainersByGender.length === 0 ?"filterByGender-btn": ""
-                          className={`${filterTrainersByGender.length === 0 ? "filterByGender-btn" : isFemale ? "maleGender-btn" : "femaleGender-btn"}`}
-                          onClick={filterByGender}>
-                          {filterTrainersByGender.length === 0 ? "Sort by Gender" : isFemale ? "Male" : "Female"}
-                        </button>
-                        <span className='amount-statement'>
-                          {filterTrainersByGender.length === 0 ? 'Trainers Amount'
-                            : isFemale ? 'Female Trainers Amount' : 'Male Trainers Amount'}
-                        </span>
-                        <Marginer direction="horizontal" margin="0.3em" />
-                        &gt;
-                        <Marginer direction="horizontal" margin="0.3em" />
-                        <span>
-                          {
-                            filterTrainersByGender.length > 0 ?
-                              filterTrainersByGender.length :
-                              allTrainersPartialData.length
-                          }
-                        </span>
-                      </div>
-                    </div>
-                    <div className='allCardsPages-customerPage-container'>
-                      {
-                        filterTrainersByGender.length > 0 ?
-                          [
-                              filterTrainersByGender.map((trainer, index) => {
-                              return (
-                                <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                                  <div className="allCards-customerPage-container">
-                                    <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                      <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
-                                    </div>
-                                    <div className="customer-trainersCards-trainerName">
-                                      <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
-                                    </div>
-                                    {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
-                                    <div className={`${isFemale ? "customer-trainersCards-title rating-female-title" : "customer-trainersCards-title rating-male-title"}`}>Rating
-                                      <div className="trainer-rating-items">
-                                        <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                        <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )
-                            }),
-                            <BackToTopBtn />
-                          ]
-                          :
-                          [
-                            allTrainersPartialData.map((trainer, index) => {
-                              return (
-                                <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
-                                  <div className="allCards-customerPage-container">
-                                    <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                      <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
-                                    </div>
-                                    <div className="customer-trainersCards-trainerName">
-                                      <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
-                                    </div>
-                                    {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
-                                    <div className="customer-trainersCards-title">Rating
-                                      <div className="trainer-rating-items">
-                                        <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                        <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )
-                            })
-                            ,
-                            <BackToTopBtn />
-                          ]
-                      }
-                    </div>
+                : allTrainersPartialData.length === 0 && emptyDataMessage === 'empty' ?
+                    <div className='emptyData-message'>
+                      There are not Trainer yet !
                   </div>
-                  : allCourses.length > 0 ?
+                  : allTrainersPartialData.length > 0 ?
                     <div>
                       <div className="allTrainers-topBar">
-                        <button className="close-allTrainers-container" onClick={closeAllCoursesPage}></button>
+                        <button className="close-allTrainers-container" onClick={closeAllTrainersPage}></button>
                         <div style={{ display: "flex" }}>
-                          <span className="amount-statement">All Courses Amount</span>
+                          <button
+                            // className=filterTrainersByGender.length === 0 ?"filterByGender-btn": ""
+                            className={`${filterTrainersByGender.length === 0 ? "filterByGender-btn" : isFemale ? "maleGender-btn" : "femaleGender-btn"}`}
+                            onClick={filterByGender}>
+                            {filterTrainersByGender.length === 0 ? "Sort by Gender" : isFemale ? "Male" : "Female"}
+                          </button>
+                          <span className='amount-statement'>
+                            {filterTrainersByGender.length === 0 ? 'Trainers Amount'
+                              : isFemale ? 'Female Trainers Amount' : 'Male Trainers Amount'}
+                          </span>
                           <Marginer direction="horizontal" margin="0.3em" />
                           &gt;
                           <Marginer direction="horizontal" margin="0.3em" />
-                          {allCourses.length}
+                          <span>
+                            {
+                              filterTrainersByGender.length > 0 ?
+                                filterTrainersByGender.length :
+                                allTrainersPartialData.length
+                            }
+                          </span>
                         </div>
                       </div>
                       <div className='allCardsPages-customerPage-container'>
-                        {allCourses.map((course) => {
-                          return (
-                            <div
-                              key={course.id}
-                              style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}
-                              onClick={() => { navigate(`/customer/allcourses/${course.id}`, { state: { scrollPosition } }) }}>
-                              <div className="allCards-customerPage-container allCoursesCards" >
-                                <div className="my_all_Courses-courseName-title">{course.name}</div>
-                                <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
-                                  <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
-                                </div>
-                                <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
-                                <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
-                                <div style={{ margin: "0 0.4em 0 0.4em", color: "rgb(136, 116, 116)", display: "flex", flexDirection: "column", alignItems: "center" }}>Description:
-                                  <span className="data-item" style={{ marginBottom: "1em" }}>{course.description}
-                                  </span>
-                                </div>
-                                <div
-                                  className="allCoursesCards-trainerLabel"
-                                  style={{ textAlign: "center" }}>Trainer
-                                  <span className="trainerName-data-item">{course.trainer}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        })}
-                        <BackToTopBtn />
+                        {
+                          filterTrainersByGender.length > 0 ?
+                            [
+                              filterTrainersByGender.map((trainer, index) => {
+                                return (
+                                  <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                    <div className="allCards-customerPage-container">
+                                      <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                        <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
+                                      </div>
+                                      <div className="customer-trainersCards-trainerName">
+                                        <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
+                                      </div>
+                                      {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                      <div className={`${isFemale ? "customer-trainersCards-title rating-female-title" : "customer-trainersCards-title rating-male-title"}`}>Rating
+                                        <div className="trainer-rating-items">
+                                          <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                          <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )
+                              }),
+                              <BackToTopBtn />
+                            ]
+                            :
+                            [
+                              allTrainersPartialData.map((trainer, index) => {
+                                return (
+                                  <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                    <div className="allCards-customerPage-container">
+                                      <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                        <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
+                                      </div>
+                                      <div className="customer-trainersCards-trainerName">
+                                        <span className="customer-allTrainers-trainerName">{trainer.firstname + " " + trainer.lastname}</span>
+                                      </div>
+                                      {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
+                                      <div className="customer-trainersCards-title">Rating
+                                        <div className="trainer-rating-items">
+                                          <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                          <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )
+                              })
+                              ,
+                              <BackToTopBtn />
+                            ]
+                        }
                       </div>
                     </div>
-                    :
-                    <div className="customer-image-home-container"></div>
+                      : allCourses.length === 0 && emptyDataMessage === 'no courses' ?
+                      <div className='emptyData-message'>
+                        There are not Courses yet !
+                      </div>
+                      : allCourses.length > 0 ?
+                        <div>
+                          <div className="allTrainers-topBar">
+                            <button className="close-allTrainers-container" onClick={closeAllCoursesPage}></button>
+                            <div style={{ display: "flex" }}>
+                              <span className="amount-statement">All Courses Amount</span>
+                              <Marginer direction="horizontal" margin="0.3em" />
+                              &gt;
+                              <Marginer direction="horizontal" margin="0.3em" />
+                              {allCourses.length}
+                            </div>
+                          </div>
+                          <div className='allCardsPages-customerPage-container'>
+                            {allCourses.map((course) => {
+                              return (
+                                <div
+                                  key={course.id}
+                                  style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}
+                                  onClick={() => { navigate(`/customer/allcourses/${course.id}`, { state: { scrollPosition } }) }}>
+                                  <div className="allCards-customerPage-container allCoursesCards" >
+                                    <div className="my_all_Courses-courseName-title">{course.name}</div>
+                                    <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
+                                      <Img courseAvatar={course.picture.public_id} alt="Course avatar"></Img>
+                                    </div>
+                                    <div className="customer-allCoursesCards-title">Lesson Time: <span className="data-item">{course.lessontime}</span></div>
+                                    <div className="customer-allCoursesCards-title">Price: <span className="data-item">{course.cost}</span></div>
+                                    <div style={{ margin: "0 0.4em 0 0.4em", color: "rgb(136, 116, 116)", display: "flex", flexDirection: "column", alignItems: "center" }}>Description:
+                                      <span className="data-item" style={{ marginBottom: "1em" }}>{course.description}
+                                      </span>
+                                    </div>
+                                    <div
+                                      className="allCoursesCards-trainerLabel"
+                                      style={{ textAlign: "center" }}>Trainer
+                                      <span className="trainerName-data-item">{course.trainer}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                            })}
+                            <BackToTopBtn />
+                          </div>
+                        </div>
+                        :
+                        <div className="customer-image-home-container"></div>
           }
 
           <div className="customer-actions-container">

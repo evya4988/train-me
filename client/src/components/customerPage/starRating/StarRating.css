@@ -1,0 +1,26 @@
+.allStars-container {
+    display: flex;
+    justify-content: center;
+}
+
+.star-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.on {
+    /* color: #000; */
+    color: rgba(76, 79, 132, 0.647);
+    filter: drop-shadow(0 0 0.25rem rgba(21, 29, 178));
+}
+
+.off {
+    color: rgb(204, 204, 204);
+    filter: drop-shadow(0 0 0.45rem rgb(204, 204, 204));
+}
+
+.stars {
+    font-size: 22px;
+}
