@@ -20,13 +20,6 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-/* .rate-buttons-holder {
-    display: inline-flex;
-    margin-left: 1em;
-    width: 4.5em;
-    justify-content: space-between;
-} */
-
 .txt-and-thumbs {
     display: flex;
     flex-direction: row;
@@ -39,13 +32,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2.4em;
+    width: 2.45em;
     height: 2.5em;
-    color: red;
-    margin-left:1em; 
-    /* border: 0.01px transparent; */
+    margin-left: 1em;
     background-color: rgb(235, 235, 235);
-    /* object-fit: cover; */
     background-image: url('../../../images/like.png');
     /* background-image: url('../../../images/dislike.png'); */
 
@@ -56,6 +46,37 @@
 
 .rate-container:hover {
     background-color: rgb(64, 61, 61);
+
     /* border: 1px solid red; */
+    border: 2px dotted rgb(173, 200, 173);
     border-radius: 20%;
+}
+
+.rateCourse-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(230, 234, 240, 0.715);
+    color: rgb(44, 38, 38);
+    border: 4px solid transparent;
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+
+}
+
+.rateCourse-btn:hover {
+    background-color: rgba(61, 63, 65, 0.715);
+    border-radius: 2em;
+    border-right: 4px solid rgb(196, 209, 12);
+    border-top: none;
+    border-bottom: none;
+    outline: 1px solid #b39075;
+    color: rgba(230, 234, 240, 0.715);
+}
+
+.confirmBtn-smile {
+    font-size: 6px;
+    margin: 0 -0.2em 0 0.4em;
+    color: rgb(196, 209, 12);
 }

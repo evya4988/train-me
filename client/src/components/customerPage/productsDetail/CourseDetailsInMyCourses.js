@@ -15,7 +15,9 @@ const CourseDetailsInMyCourses = () => {
     const [singleCourse, setSingleCourse] = useState({});
 
     const { state } = useLocation();
-    const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1)
+    const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1);
+
+    const [starsAmount, setStarsAmount] = useState(0);
 
     const [trainerData, setTrainerData] = useState({});
     const getTrainerById = async (id) => {
@@ -54,8 +56,33 @@ const CourseDetailsInMyCourses = () => {
             setScrollPositionToSentBack(state.scrollPosition);
             // scrollPositionToSentBack !== -1 && console.log("State from CustomerPage component!!  ", scrollPositionToSentBack);
         }
+        console.log("starsAmount: ", starsAmount);
+
     }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack]);
 
+
+    const rateTheCourse = (starsAmount) => {
+        if (starsAmount === 0) return;
+        console.log("starsAmount: ", starsAmount);
+
+        const dataToServer = {
+            starsAmount,
+            courseId: id,
+            customerId: customerID,
+        }
+        
+        axios({
+            method: 'post',
+            url: "http://localhost:8000/course/rateCourse",
+            headers: { 'content-type': 'application/json' },
+            data: dataToServer
+        }).then((res) => {
+            console.log('result ', res.data);
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
     const rateTrainer = () => {
         const dataToServer = {
@@ -104,8 +131,16 @@ const CourseDetailsInMyCourses = () => {
                         </div>
                         <div className="coursePage-rate-courseTitle" >
                             Rate the Course
-                            <StarRating />
-                            <button>confirm</button>
+                            <StarRating setStarsAmount={setStarsAmount} />
+                            <button
+                                className="rateCourse-btn"
+                                onClick={() => { rateTheCourse(starsAmount) }}>Confirm
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span className="confirmBtn-smile">&#9737;</span>
+                                    <span className="confirmBtn-smile">&#9737;</span>
+                                </div>
+                            </button>
+                            {/* {starsAmount !== 0 && <div style={{ fontSize: '12px' }}>{starsAmount}</div>} */}
                         </div>
                     </div>
                     <div style={{ marginLeft: "2em", width: "25rem" }}>
@@ -148,11 +183,11 @@ const CourseDetailsInMyCourses = () => {
                                     <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div>
                                 </div>
                                 <div className="rate-div">
-                                    <div style={{display: "flex", justifyContent: "center"}}>
+                                    <div style={{ display: "flex", justifyContent: "center" }}>
                                         Rate the Trainer
                                     </div>
                                     <div className='txt-and-thumbs'>
-                                        <span style={{ fontSize: "14px", fontFamily: "Helvetica", textAlign: "center", width: "12em"}}>
+                                        <span style={{ fontSize: "14px", fontFamily: "Helvetica", textAlign: "center", width: "12em" }}>
                                             If you liked the trainer, please click the like button
                                         </span>
                                         <div

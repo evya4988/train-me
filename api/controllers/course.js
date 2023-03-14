@@ -469,6 +469,30 @@ module.exports = {
         } catch (error) {
             return serverResponse(res, 500, { message: "internal error occured " + error });
         }
+    },
+
+    rateTheCourse: async (req, res) => {
+        try {
+            const courseID = req.body.courseId;
+            const stars = req.body.starsAmount;
+            const customerID = req.body.customerId;
+            console.log("courseID ", courseID);
+            console.log("stars ", stars);
+            console.log("customerID ", customerID);
+
+            const course = await Course.findOne({ _id: courseID });
+            course.rate.ratingProviders.push(customerID);
+            course.rate.ratingStars += stars;
+
+            await course.save();
+
+            console.log("type of : ", typeof course.rate.ratingStars);
+
+            console.log("Rating stars: ", course.rate.ratingStars);
+            return serverResponse(res, 200, course);
+        } catch (error) {
+            return serverResponse(res, 500, { message: "internal error occured " + error });
+        }
     }
 
     // deleteAllCourses: async (req, res) => {

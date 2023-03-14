@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './StarRating.css';
 
-const StarRating = () => {
+const StarRating = (props) => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
+
+
+    //Todo
+    useEffect(() => {
+        props.setStarsAmount(rating);
+        // console.log("Stars Amount: ", props.starsAmount);
+        console.log("rating: ", rating);
+    }, [rating]);
+
     return (
         <div className="allStars-container">
             {[...Array(5)].map((star, index) => {

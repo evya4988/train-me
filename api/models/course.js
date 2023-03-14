@@ -20,18 +20,21 @@ const courseSchema = new mongoose.Schema({
       default: 'Not yet registered for course'
     },
   ],
-  rate: [
-    {
-      ref: "ratingProviders",
+
+  rate: {
+    ratingProviders: {
       type: Array,
+      ref: "ratingProviders",
       default: [],
     },
-    {
+    ratingStars: {
+      type: Number,
       ref: "ratingStars",
-      type: Array,
-      default: [],
-    }
-  ],
+      default: 0,
+    },
+  },
+
+
   // location: {}
 });
 
