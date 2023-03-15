@@ -7,6 +7,69 @@
     border-radius: 50px;
     color: rgba(230, 234, 240, 0.715);
     font-size: 18px;
+    animation: fadeIn 5s;
+}
+
+.coursePage-courseTitle-succsesMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(67, 105, 62, 0.715);
+    border: 1px solid transparent;
+    border-radius: 50px;
+    color: rgba(230, 234, 240, 0.715);
+    font-size: 18px;
+    animation: fadeIn 5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .coursePage-rate-courseTitle:hover {

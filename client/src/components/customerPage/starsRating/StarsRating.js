@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './StarRating.css';
+import './StarsRating.css';
 
 const StarRating = (props) => {
     const [rating, setRating] = useState(0);
@@ -10,7 +10,7 @@ const StarRating = (props) => {
     useEffect(() => {
         props.setStarsAmount(rating);
         // console.log("Stars Amount: ", props.starsAmount);
-        console.log("rating: ", rating);
+        // console.log("rating: ", rating);
     }, [rating]);
 
     return (

@@ -176,6 +176,7 @@ module.exports = {
             console.log(req.params);
             const courseID = req.params.courseId;
             const course = await Course.findOne({ _id: courseID });
+            console.log("walla!!!");
             return serverResponse(res, 200, course);
         } catch (e) {
             return serverResponse(res, 500, { message: "internal error occurred " + e });
@@ -386,6 +387,7 @@ module.exports = {
     /** Customer Page */
     getAllCustomerCoursesRegistered: async (req, res) => {
         try {
+            // console.log("req.body: ", req.body);
             const customerID = req.body.customerId
             console.log("Customer ID: ", customerID)
             const allCourses = await Course.find({});
@@ -431,6 +433,7 @@ module.exports = {
                 tempObj.cost = course.cost;
                 tempObj.trainer = course["trainer_name"];
                 tempObj.trainer_id = course['trainer_id'];
+                tempObj.rate = course.rate;
                 afterFilteringArr.push(tempObj);
             })
             // console.log(afterFilteringArr);
@@ -441,6 +444,7 @@ module.exports = {
         }
     },
 
+    /** Customer Page */
     registerForTheCourse: async (req, res) => {
         try {
             const customerID = req.body.customerId;
@@ -471,25 +475,23 @@ module.exports = {
         }
     },
 
+    /** Customer Page */
     rateTheCourse: async (req, res) => {
         try {
             const courseID = req.body.courseId;
             const stars = req.body.starsAmount;
             const customerID = req.body.customerId;
-            console.log("courseID ", courseID);
-            console.log("stars ", stars);
-            console.log("customerID ", customerID);
+            // console.log("courseID ", courseID);
+            // console.log("stars ", stars);
+            // console.log("customerID ", customerID);
 
             const course = await Course.findOne({ _id: courseID });
             course.rate.ratingProviders.push(customerID);
             course.rate.ratingStars += stars;
-
+            // console.log("Rating stars: ", course.rate.ratingStars);
             await course.save();
 
-            console.log("type of : ", typeof course.rate.ratingStars);
-
-            console.log("Rating stars: ", course.rate.ratingStars);
-            return serverResponse(res, 200, course);
+            return serverResponse(res, 200, "success");
         } catch (error) {
             return serverResponse(res, 500, { message: "internal error occured " + error });
         }

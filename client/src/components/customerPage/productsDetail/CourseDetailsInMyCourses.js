@@ -5,10 +5,10 @@ import Img from '../../../customHooks/Img';
 import './CourseDetailsInMyCourses.css';
 import './CourseDetailsInAllCourses.css';
 import axios from 'axios';
-import StarRating from '../starRating/StarRating';
+import StarsRating from '../starsRating/StarsRating';
 
 const CourseDetailsInMyCourses = () => {
-    const { customerMyCoursesDataForCoursePage, customerID } = useContext(MyContext);
+    const { customerMyCoursesDataForCoursePage, setCustomerMyCoursesDataForCoursePage, customerID } = useContext(MyContext);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ const CourseDetailsInMyCourses = () => {
     const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1);
 
     const [starsAmount, setStarsAmount] = useState(0);
+    const [isCustomerHasRate, setIsCustomerHasRate] = useState(false);
 
     const [trainerData, setTrainerData] = useState({});
     const getTrainerById = async (id) => {
@@ -47,6 +48,14 @@ const CourseDetailsInMyCourses = () => {
                 getTrainerById(itemPage.trainer_id);
                 setCounter(counter + 1);
             }
+            // console.log(itemPage.rate.ratingProviders);
+            // console.log(customerID);
+            itemPage.rate.ratingProviders.forEach((courseId) => {
+                if (courseId === customerID) {
+                    return (setIsCustomerHasRate(true))
+                }
+            })
+
             // console.log("customerMyCoursesDataForCoursePage: ", customerMyCoursesDataForCoursePage);
         }
 
@@ -56,21 +65,21 @@ const CourseDetailsInMyCourses = () => {
             setScrollPositionToSentBack(state.scrollPosition);
             // scrollPositionToSentBack !== -1 && console.log("State from CustomerPage component!!  ", scrollPositionToSentBack);
         }
-        console.log("starsAmount: ", starsAmount);
+        // console.log("starsAmount: ", starsAmount);
 
-    }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack]);
+    }, [customerMyCoursesDataForCoursePage, id, state, scrollPositionToSentBack, setIsCustomerHasRate]);
 
 
     const rateTheCourse = (starsAmount) => {
         if (starsAmount === 0) return;
-        console.log("starsAmount: ", starsAmount);
+        // console.log("starsAmount: ", starsAmount);
 
         const dataToServer = {
             starsAmount,
             courseId: id,
             customerId: customerID,
         }
-        
+
         axios({
             method: 'post',
             url: "http://localhost:8000/course/rateCourse",
@@ -78,7 +87,7 @@ const CourseDetailsInMyCourses = () => {
             data: dataToServer
         }).then((res) => {
             console.log('result ', res.data);
-
+            setIsCustomerHasRate(true);
         }).catch((error) => {
             console.log(error);
         });
@@ -103,17 +112,41 @@ const CourseDetailsInMyCourses = () => {
         });
     }
 
+    /** update the ratingProviders inside my 
+     * courses to prevent from customer 
+     * to rate the course again. */
+    const getMyCourses = async () => {
+        const customerId = {}
+        customerId.customerId = customerID
+        axios({
+            method: 'post',
+            url: "http://localhost:8000/Course/registeredCourses",
+            headers: { 'content-type': 'application/json' },
+            data: customerId
+        }).then((res) => {
+            console.log(res);
+            // console.log("res.data: ", res.data);
+            // console.log("myCourses: ", myCourses);
+            setCustomerMyCoursesDataForCoursePage(res.data);
+        }).catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } else if (error.request) {
+                console.log(error.request);
+            } else if (error.message) {
+                console.log(error.message);
+            }
+        });
+    }
+
     return (
         singleCourse.picture !== undefined ?
             <div className="courseDetailsPage-container">
                 <div className="courseDetails-container">
                     <div className="coursePage-allTitles">
-                        <div className='courseName-outerDiv'><div className="coursePage-courseName">{singleCourse.name}</div></div>
-                        {/* <div className="coursePage-allCourseTitles-container">
-                            <span className="coursePage-title">Trainer</span>
-                            <span className="coursePage-title-arrow">&gt;</span>
-                            <span className="coursePage-title-name">{singleCourse.trainer}</span>
-                        </div> */}
+                        <div className='courseName-outerDiv'>
+                            <div className="coursePage-courseName">{singleCourse.name}</div>
+                        </div>
                         <div className="coursePage-allCourseTitles-container">
                             <span className="coursePage-title">Price</span>
                             <span className="coursePage-title-arrow">&gt;</span>
@@ -129,19 +162,28 @@ const CourseDetailsInMyCourses = () => {
                             <span className="coursePage-title-arrow">&gt;</span>
                             <div className="coursePage-title-name">{singleCourse.description}</div>
                         </div>
-                        <div className="coursePage-rate-courseTitle" >
-                            Rate the Course
-                            <StarRating setStarsAmount={setStarsAmount} />
-                            <button
-                                className="rateCourse-btn"
-                                onClick={() => { rateTheCourse(starsAmount) }}>Confirm
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span className="confirmBtn-smile">&#9737;</span>
-                                    <span className="confirmBtn-smile">&#9737;</span>
+
+                        {
+                            !isCustomerHasRate ?
+                                <div className="coursePage-rate-courseTitle" >
+                                    Rate the Course
+                                    <StarsRating setStarsAmount={setStarsAmount} />
+                                    <button
+                                        className="rateCourse-btn"
+                                        onClick={() => { rateTheCourse(starsAmount) }}>Confirm
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <span className="confirmBtn-smile">&#9737;</span>
+                                            <span className="confirmBtn-smile">&#9737;</span>
+                                        </div>
+                                    </button>
+                                    {/* {starsAmount !== 0 && <div style={{ fontSize: '12px' }}>{starsAmount}</div>} */}
+                                </div> :
+                                <div className="coursePage-courseTitle-succsesMessage" >
+                                    You have successfully rated this course
                                 </div>
-                            </button>
-                            {/* {starsAmount !== 0 && <div style={{ fontSize: '12px' }}>{starsAmount}</div>} */}
-                        </div>
+
+                        }
+
                     </div>
                     <div style={{ marginLeft: "2em", width: "25rem" }}>
                         <Img customerCoursePageAvatar={singleCourse?.picture.public_id} alt="Course avatar"></Img>
@@ -209,8 +251,12 @@ const CourseDetailsInMyCourses = () => {
                             </div>
                         </div>
                     </div>}
-                <button className="coursePage-goBack-btn" onClick={() => navigate('/customer', { state: { customerMyCoursesDataForCoursePage, scrollPositionToSentBack } })}>	&#171; Back</button>
-            </div> : null
+                <button
+                    className="coursePage-goBack-btn"
+                    onClick={() => { getMyCourses(); navigate('/customer', { state: { customerMyCoursesDataForCoursePage, scrollPositionToSentBack } }) }}>
+                    &#171; Back
+                </button>
+            </div > : null
     )
 }
 

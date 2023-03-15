@@ -52,7 +52,7 @@ const CustomerPage = ({ customerAvatar }) => {
       setMyCourses(res.data);
       console.log("res.data: ", res.data);
       // console.log("myCourses: ", myCourses);
-      setCustomerMyCoursesDataForCoursePage(res.data)
+      setCustomerMyCoursesDataForCoursePage(res.data);
       setAllCourses([]);
       setAllTrainersPartialData([]);
       setFilterTrainersByGender([]);
@@ -147,7 +147,7 @@ const CustomerPage = ({ customerAvatar }) => {
   }
 
   useEffect(() => {
-    // Set the initial scroll position when the component mounts
+    // Set the initial scroll position when the component mounts.
     if (state !== null) {
       console.log("State: ", state);
       setScrollPositionToNavigate(state.scrollPositionToSentBack);
@@ -155,13 +155,13 @@ const CustomerPage = ({ customerAvatar }) => {
       state.customerMyCoursesDataForCoursePage && setMyCourses(state.customerMyCoursesDataForCoursePage);
     }
 
-    // Update the scroll position whenever the state property changes
+    // Update the scroll position whenever the state property changes.
     if (state !== null && state.scrollPositionToSentBack !== scrollPosition) {
       setScrollPositionToNavigate(state.scrollPositionToSentBack);
     }
   }, [state]);
 
-  // Use the scrollPosition state to set the scroll position
+  // Use the scrollPosition state to set the scroll position.
   useEffect(() => {
     window.scrollTo(0, scrollPositionToNavigate);
   }, [scrollPositionToNavigate]);

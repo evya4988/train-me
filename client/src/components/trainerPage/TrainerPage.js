@@ -229,6 +229,8 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
   }
 
   const closePostCourseHandler = () => {
+    setLoading(false);
+
     setShowTrainerHomePage(true);
     // setSubmitted(false);
     setPostCoursePage(false);
