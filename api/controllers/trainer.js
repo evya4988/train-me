@@ -18,14 +18,17 @@ module.exports = {
         return res.status(422).json({ error: "This Email is already taken!" });
       }
     }
-
+    
+    const timestamp = new Date().getTime();
+    const publicId = `${email}_avatar_${timestamp}`;
     let cloImageResult = '';
     await cloudinary.uploader.upload(pictureToDB,
       {
         folder: "trainme_trainers_avatar",
         upload_preset: 'unsigned_upload_trainer',
-        public_id: `${email}_avatar`,
-        allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
+        public_id: publicId,
+        overwrite: true,
+        allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp'],
       },
       function (error, result) {
         if (error) {
@@ -36,7 +39,6 @@ module.exports = {
           // console.log("result.public_id : " + result.public_id)
           console.log("No Error from cloudinary");
         }
-
       }
     );
 
@@ -193,7 +195,7 @@ module.exports = {
 
     try {
       const id = req.params.trainerId;
-      console.log(id)
+      console.log(id);
 
       const allCourses = await Course.find({});
 
@@ -204,18 +206,29 @@ module.exports = {
           await Course.findOneAndDelete({ _id: allCourses[course]._id });
           const imgId = allCourses[course].picture.public_id;
           if (imgId) {
+            // await cloudinary.uploader.destroy(imgId);
             await cloudinary.uploader.destroy(imgId);
           }
         }
       }
 
-      const trainerID = await Trainer.findById(id);
-      console.log(trainerID)
-      const imgId = trainerID.profilepic.public_id;
+      const trainer = await Trainer.findById(id);
+      // console.log("Trainer: ", trainer);
+      const imgId = trainer.profilepic.public_id;
       if (imgId) {
-        await cloudinary.uploader.destroy(imgId);
+        await cloudinary.uploader.destroy(imgId,
+          function (error, result) {
+            if (error) {
+              console.log("error from cloudinary");
+              console.log(error);
+            } else {
+              console.log("No Error from cloudinary");
+              console.log("result: ", result);
+              console.log("result.public_id : " + result.public_id)
+            }
+          });
       }
-      await Trainer.findOneAndDelete({ _id: trainerID });
+      await Trainer.findOneAndDelete({ _id: trainer });
 
       const allTrainers = await Trainer.find({});
 

@@ -97,9 +97,6 @@ const Img = (props) => {
     .backgroundColor("whitesmoke")
 
 
-  const opacityStyle = 1; // set opacity value
-
-
   return (
     <>
       {adminAvatar &&

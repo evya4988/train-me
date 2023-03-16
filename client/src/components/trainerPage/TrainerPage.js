@@ -332,7 +332,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
       console.log('Fetching customers ', res.data);
       setCustomersData(res.data);
       toggleCustomersModal(!customersModal);
-      // console.log("Customers Data:  ", customersData);
+      console.log("Customers Data:  ", customersData);
     }).catch((error) => {
       console.log(error);
     });

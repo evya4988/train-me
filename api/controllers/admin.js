@@ -16,12 +16,14 @@ module.exports = {
       return res.status(422).json({ error: "There is Admin already!" });
     };
 
+    const timestamp = new Date().getTime();
+    const publicId = `${email}_avatar_${timestamp}`;
     let cloImageResult = '';
     await cloudinary.uploader.upload(profilepic,
       {
         folder: "trainme_admin_avatar",
         upload_preset: 'unsigned_upload_admin',
-        public_id: `${email}_avatar`,
+        public_id: publicId,
         allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
       },
       function (error, result) {

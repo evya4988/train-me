@@ -1,4 +1,5 @@
 const Customer = require("../models/customer");
+const Course = require("../models/course");
 const { allowedUpdates } = require('../../constants/allowedUpdates');
 const serverResponse = require('../utils/serverResponse');
 const bcrypt = require("bcrypt");
@@ -18,12 +19,14 @@ module.exports = {
       }
     }
 
+    const timestamp = new Date().getTime();
+    const publicId = `${email}_avatar_${timestamp}`;
     let cloImageResult = '';
     await cloudinary.uploader.upload(pictureToDB,
       {
         folder: "trainme_customers_avatar",
         upload_preset: 'unsigned_upload_customer',
-        public_id: `${email}_avatar`,
+        public_id: publicId,
         allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
       },
       function (error, result) {
@@ -66,7 +69,7 @@ module.exports = {
         .save()
         .then((result) => {
           // console.log(result);
-            console.log("Customer created");
+          console.log("Customer created");
           res.status(201).json({
             cloImageResult,
             result
@@ -139,12 +142,25 @@ module.exports = {
   deleteCustomerById: async (req, res) => {
     try {
       const id = req.params.customerId;
-      console.log(id)
+      console.log("ID: ", id)
       const customer = await Customer.findById(id);
-      console.log(customer)
+      // console.log(customer)
       const imgId = customer.profilepic.public_id;
       if (imgId) {
         await cloudinary.uploader.destroy(imgId);
+      }
+
+      const allCourses = await Course.find({});
+      // console.log(allCourses);
+      for (const x in allCourses) {
+        const objWithIdIndex = allCourses[x].customers.findIndex((customerId) => customerId == id);
+        // console.log("objWithIdIndex: ", objWithIdIndex);
+        if (objWithIdIndex !== -1) {
+          // console.log("allCourses[x].customers: ", allCourses[x].customers);
+          allCourses[x].customers.splice(objWithIdIndex, 1);
+          // console.log("allCourses[x].customers - After: ", allCourses[x].customers);
+          await allCourses[x].save();
+        }
       }
       await Customer.findOneAndDelete({ _id: customer });
 
