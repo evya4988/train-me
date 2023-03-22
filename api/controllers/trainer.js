@@ -20,15 +20,15 @@ module.exports = {
     }
     
     const timestamp = new Date().getTime();
-    const publicId = `${email}_avatar_${timestamp}`;
+    const publicId = `${email}_${timestamp}_avatar`;
     let cloImageResult = '';
     await cloudinary.uploader.upload(pictureToDB,
       {
         folder: "trainme_trainers_avatar",
         upload_preset: 'unsigned_upload_trainer',
         public_id: publicId,
-        overwrite: true,
-        allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp'],
+        // overwrite: true,
+        allowed_formats: ['jpeg', 'jpg', 'png', 'svg', 'ico', 'jfif', 'webp'],
       },
       function (error, result) {
         if (error) {
@@ -101,10 +101,13 @@ module.exports = {
                 // const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET)
                 // const { _id, name, email, role } = savedUser
                 // res.json({ token, user: { _id, email, name, role } })
+
+                // console.log("trainerUser: ", trainerUser.profilepic.public_id);
                 return res.status(200).json({
                   message: "Welcome Trainer",
                   name: `${trainerUser.firstname} ${trainerUser.lastname}`,
-                  trainerUser: `${trainerUser._id}`
+                  trainerUser: `${trainerUser._id}`,
+                  profilepic: `${trainerUser.profilepic.public_id}`
                 });
               } else {
                 return res.status(422).json({ error: "Invalid Email or Password" })
@@ -130,6 +133,7 @@ module.exports = {
       return serverResponse(res, 500, { message: "internal error occured " + e });
     }
   },
+  
   //Shows all trainer colleagues at the Trainer page.
   // getAllTrainersPartialData: async (req, res) => {
   //   try {
@@ -206,7 +210,6 @@ module.exports = {
           await Course.findOneAndDelete({ _id: allCourses[course]._id });
           const imgId = allCourses[course].picture.public_id;
           if (imgId) {
-            // await cloudinary.uploader.destroy(imgId);
             await cloudinary.uploader.destroy(imgId);
           }
         }

@@ -117,10 +117,11 @@ export function LoginForm() {
       data: userDetailToValidate
     }).then((response) => {
       console.log("response: ", response);
+      // console.log("image public_id: ", response.data.profilepic);
       customerMessage = response.data.message;
       console.log(customerMessage);
       setCustomerID(response.data.customerUser);
-      customerAvatarHandler(`trainme_customers_avatar/${email}_avatar`);
+      customerAvatarHandler(response.data.profilepic);
       setCustomerName(response.data.name);
       setLoading(false);
       customerMessage === 'Welcome Customer' && navigate(`/customer`);
@@ -142,10 +143,11 @@ export function LoginForm() {
       data: userDetailToValidate
     }).then((response) => {
       console.log("response: " ,response);
+      // console.log("image public_id: ", response.data.profilepic);
       trainerMessage = response.data.message;
       console.log(trainerMessage);
       setTrainerID(response.data.trainerUser);
-      trainerAvatarHandler(`trainme_trainers_avatar/${email}_avatar`);
+      trainerAvatarHandler(response.data.profilepic);
       setLoading(false);
       setTrainerName(response.data.name);
       trainerMessage === 'Welcome Trainer' && navigate(`/trainer`);

@@ -104,7 +104,7 @@ export function AdminLogin() {
             console.log(message);
 
             console.log("res: ", response.data);
-            adminAvatarHandler(`trainme_admin_avatar/${email}_avatar`);
+            adminAvatarHandler(response.data.profilepic);
             setAdminName(response.data.name);
             setAdminId(response.data.id);
             setLoading(false);

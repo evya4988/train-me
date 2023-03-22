@@ -11,7 +11,6 @@ const IconNavigate = () => {
     const isTrainerLoggedIn = (trainerAvatar !== "" && adminAvatar === "" && customerAvatar === "");
     const isCustomerLoggedIn = (customerAvatar !== "" && adminAvatar === "" && trainerAvatar === "");
 
-
     return (
         isAdminLoggedIn ?
             <div className="icon-image-div" onClick={() => navigate('/admin')}>
@@ -19,11 +18,11 @@ const IconNavigate = () => {
             </div>
             : isTrainerLoggedIn ?
                 <div className="icon-image-div" onClick={() => navigate('/trainer')}>
-                    <Img className="icon-image" usersIconAvatar={trainerAvatar} alt="Admin avatar"></Img>
+                    <Img className="icon-image" usersIconAvatar={trainerAvatar} alt="Trainer avatar"></Img>
                 </div>
                 : isCustomerLoggedIn ?
                     <div className="icon-image-div" onClick={() => navigate('/customer')}>
-                        <Img className="icon-image" usersIconAvatar={customerAvatar} alt="Admin avatar"></Img>
+                        <Img className="icon-image" usersIconAvatar={customerAvatar} alt="Customer avatar"></Img>
                     </div>
                     : null
     )

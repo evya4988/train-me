@@ -52,11 +52,13 @@ const Routing = () => {
     }
 
     const customerAvatarHandler = (publicId) => {
+        console.log("typeof publicId: ",typeof publicId );
         setCustomerAvatar(publicId);
     }
 
     const trainerAvatarHandler = (publicId) => {
         setTrainerAvatar(publicId);
+        console.log("publicId: ", publicId);
     }
 
 

@@ -46,13 +46,16 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     setCoursesData
   } = useContext(MyContext);
 
-  //setting the time for once, for greeting the appropriate greeting.
+  // Setting the time once, to greet the appropriate greeting.
   const [time, setTime] = useState(0);
   const [isTimeChecked, setIsTimeChecked] = useState(false);
   if (!isTimeChecked) {
     const today = new Date();
     setTime(today.getHours());
     console.log("Time is: ", time);
+    console.log("adminId: ", adminId);
+    console.log("adminName: ", adminName);
+
     setIsTimeChecked(true);
   }
 
@@ -125,7 +128,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     setContactMessageFlag(false);
     setContactUsEmpty(false);
   }
-  //Todo
+
   const deleteAllContactHandler = async () => {
     try {
       const contactUsUrl = 'http://localhost:8000/contactUs';
@@ -211,7 +214,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     tempArr.length === 0 && setFilteredUserDataEmpty(true);
     // console.log("tempArr is: ", tempArr);
   }
-
 
   const deleteAllFilteredContactHandler = async () => {
     console.log("from delete ------------");
@@ -408,6 +410,22 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       console.log(error);
     });
   }
+  //Todo
+  // const deleteCustomerFromCourse = async () => {
+  //   setLoading(true);
+  //   axios({
+  //     method: 'post',
+  //     url: "http://localhost:8000/course/courseCustomers",
+  //     headers: { 'content-type': 'application/json' },
+  //     data: 
+  //   }).then((res) => {
+  //     console.log('Fetching customers ', res.data);
+
+  //     setLoading(false);
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   });
+  // }
 
   const FilteredCoursesWithCustomers = async () => {
     try {
@@ -743,6 +761,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                       <div key={index} className="customers-modal-card">
                                         <span style={{ fontSize: "15px", color: "white" }}>{customerData.firstname + " " + customerData.lastname}</span>
                                         <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
+                                        <button
+                                          className="adminPage-customersModalCard-btn"
+                                          // onClick={() => { deleteCustomerFromCourse() }}
+                                        >
+                                          Remove from course
+                                        </button>
                                       </div>
                                     )
                                   })

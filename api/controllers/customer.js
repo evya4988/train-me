@@ -20,13 +20,14 @@ module.exports = {
     }
 
     const timestamp = new Date().getTime();
-    const publicId = `${email}_avatar_${timestamp}`;
+    const publicId = `${email}_${timestamp}_avatar`;
     let cloImageResult = '';
     await cloudinary.uploader.upload(pictureToDB,
       {
         folder: "trainme_customers_avatar",
         upload_preset: 'unsigned_upload_customer',
         public_id: publicId,
+        // overwrite: true,
         allowed_formats: ['jpeg, jpg, png, svg, ico, jfif, webp']
       },
       function (error, result) {
@@ -102,7 +103,8 @@ module.exports = {
                 return res.status(200).json({
                   message: "Welcome Customer",
                   name: `${customerUser.firstname} ${customerUser.lastname}`,
-                  customerUser: `${customerUser._id}`
+                  customerUser: `${customerUser._id}`,
+                  profilepic: `${customerUser.profilepic.public_id}`
                 });
               } else {
                 return res.status(422).json({ error: "Invalid Email or Password" })
@@ -142,7 +144,7 @@ module.exports = {
   deleteCustomerById: async (req, res) => {
     try {
       const id = req.params.customerId;
-      console.log("ID: ", id)
+      // console.log("ID: ", id)
       const customer = await Customer.findById(id);
       // console.log(customer)
       const imgId = customer.profilepic.public_id;

@@ -185,9 +185,10 @@ export function AdminSignup() {
         }).then((res) => {
             console.log('Posting a New Admin ', res.data);
             const uploadedImg = res.data.cloImageResult.public_id;
-            console.log("Uploaded Img: ", uploadedImg);
+            // console.log("Uploaded Img: ", uploadedImg);
             adminAvatarHandler(uploadedImg);
-            setAdminId(res.data._id);
+            // console.log("res.data.result._id - ", res.data.result._id);
+            setAdminId(res.data.result._id);
             if (isValid) {
                 setLoading(false);
                 // console.log("Admin Error ", adminExistErr);
