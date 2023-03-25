@@ -91,7 +91,7 @@
     margin-top: 0.6em;
 }
 
-.rate-container {
+.rate-container-like-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,19 +100,45 @@
     margin-left: 1em;
     background-color: rgb(235, 235, 235);
     background-image: url('../../../images/like.png');
-    /* background-image: url('../../../images/dislike.png'); */
-
     /* background-image: url('../../../images/clicked_like.png'); */
-    /* background-image: url('../../../images/clicked_dislike.png'); */
-
 }
 
-.rate-container:hover {
-    background-color: rgb(64, 61, 61);
+.rate-container-dislike-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.45em;
+    height: 2.5em;
+    margin-left: 1em;
+    background-color: rgb(235, 235, 235);
+    background-image: url('../../../images/dislike.png');
+    /* background-image: url('../../../images/clicked_dislike.png'); */
+}
 
-    /* border: 1px solid red; */
+.rate-container-like-btn:hover, .rate-container-dislike-btn:hover {
+    background-color: rgb(64, 61, 61);
     border: 2px dotted rgb(173, 200, 173);
     border-radius: 20%;
+}
+
+.rate-container-like-btn-visited {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.45em;
+    height: 2.5em;
+    margin-left: 1em;
+    background-image: url('../../../images/clicked_like.png');
+}
+
+.rate-container-dislike-btn-visited {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.45em;
+    height: 2.5em;
+    margin-left: 1em;
+    background-image: url('../../../images/clicked_dislike.png');
 }
 
 .rateCourse-btn {

@@ -18,7 +18,7 @@ module.exports = {
         return res.status(422).json({ error: "This Email is already taken!" });
       }
     }
-    
+
     const timestamp = new Date().getTime();
     const publicId = `${email}_${timestamp}_avatar`;
     let cloImageResult = '';
@@ -133,9 +133,9 @@ module.exports = {
       return serverResponse(res, 500, { message: "internal error occured " + e });
     }
   },
-  
+
   //Shows all trainer colleagues at the Trainer page.
-  // getAllTrainersPartialData: async (req, res) => {
+  // getAllTrainersPartialDataForTrainers: async (req, res) => {
   //   try {
   //     const trainerId = req.body
   //     // console.log("Trainer ID: ", trainerId);
@@ -186,7 +186,7 @@ module.exports = {
       trainer.gender = tempTrainerObj.gender
       trainer.phone = tempTrainerObj.phone
       trainer.profilepic = tempTrainerObj.profilepic
-      trainer.rating = tempTrainerObj.rating
+      trainer.ratingProviders = tempTrainerObj.ratingProviders
       // console.log(trainer);
       return serverResponse(res, 200, trainer);
     } catch (e) {
@@ -261,35 +261,43 @@ module.exports = {
     }
   },
 
-  rateTheTrainer: async (req, res) => {
+  rateTheTrainer_thumbsUp: async (req, res) => {
     try {
       const trainerID = req.body.trainerId;
-      const courseID = req.body.courseId;
       const customerID = req.body.customerID;
       // console.log("trainerID: ", trainerID);
-      // console.log("courseID: ", courseID);
       // console.log("customerID: ", customerID);
 
-      const course = await Course.findOne({ _id: courseID });
-      course.ratingProviders.filter(async (ratingCustomerId) => {
-        if (ratingCustomerId !== customerID) {
-          course.ratingProviders.push(customerID);
-          await course.save();
-          const trainer = await Trainer.findOne({ _id: trainerID });
-          trainer.rating.count = trainer.rating.count + 1;
-          await trainer.save();
-          // const dataToClient = {
-          //   course,
-          //   trainer
-          // }
-          // console.log(dataToClient);
-          return serverResponse(res, 200, "Success!");
+      const trainer = await Trainer.findOne({ _id: trainerID });
+      for (const i in trainer.ratingProviders) {
+        if (trainer.ratingProviders[i] === customerID) {
+          return serverResponse(res, 500, { message: "You have already rated the Trainer!" });
         }
-        //  else {
-        //   return serverResponse(res, 500, { message: "You have already rated the Trainer!" });
-        // }
-      })
+      }
+      trainer.ratingProviders.push(customerID);
+      await trainer.save();
+      return serverResponse(res, 200, "succsses");
+    } catch (error) {
+      return serverResponse(res, 500, { message: "internal error occured " + error });
+    }
+  },
 
+  rateTheTrainer_thumbsDown: async (req, res) => {
+    try {
+      const trainerID = req.body.trainerId;
+      const customerID = req.body.customerID;
+      // console.log("trainerID: ", trainerID);
+      // console.log("customerID: ", customerID);
+
+      const trainer = await Trainer.findOne({ _id: trainerID });
+      for (const i in trainer.ratingProviders) {
+        if (trainer.ratingProviders[i] === customerID) {
+          trainer.ratingProviders.shift(customerID);
+          await trainer.save();
+          return serverResponse(res, 200, "succsses");
+        }
+      }
+      return serverResponse(res, 500, { message: "problem here!" });
     } catch (error) {
       return serverResponse(res, 500, { message: "internal error occured " + error });
     }

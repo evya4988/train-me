@@ -13,6 +13,7 @@ const CourseDetailsInMyCourses = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [singleCourse, setSingleCourse] = useState({});
+    const [thumbsState, setThumbsState] = useState(false);
 
     const { state } = useLocation();
     const [scrollPositionToSentBack, setScrollPositionToSentBack] = useState(-1);
@@ -27,7 +28,7 @@ const CourseDetailsInMyCourses = () => {
             const response = await axios.get(allTrainersUrl);
             // console.log("response", response);
             const data = await response.data;
-            // console.log("data: ", data);
+            console.log("data: ", data);
             setTrainerData(data);
 
         } catch (error) {
@@ -50,8 +51,8 @@ const CourseDetailsInMyCourses = () => {
             }
             // console.log(itemPage.rate.ratingProviders);
             // console.log(customerID);
-            itemPage.rate.ratingProviders.forEach((courseId) => {
-                if (courseId === customerID) {
+            itemPage.rate.ratingProviders.forEach((ratersId) => {
+                if (ratersId === customerID) {
                     return (setIsCustomerHasRate(true))
                 }
             })
@@ -93,22 +94,43 @@ const CourseDetailsInMyCourses = () => {
         });
     }
 
-    const rateTrainer = () => {
+    const giveTrainerThumbsUp = () => {
         const dataToServer = {
             trainerId: singleCourse.trainer_id,
-            courseId: id,
             customerID,
         }
         axios({
             method: 'post',
-            url: "http://localhost:8000/trainer/rateTrainer",
+            url: "http://localhost:8000/trainer/rateTrainerThumbsUp",
             headers: { 'content-type': 'application/json' },
             data: dataToServer
         }).then((res) => {
             console.log('result ', res.data);
-
+            setThumbsState(true)
         }).catch((error) => {
-            console.log(error);
+            error.response.data.message === "You have already rated the Trainer!"
+                ? console.log(error.response.data.message) :
+                console.log(error);
+        });
+    }
+
+    const giveTrainerThumbsDown = () => {
+        const dataToServer = {
+            trainerId: singleCourse.trainer_id,
+            customerID,
+        }
+        axios({
+            method: 'post',
+            url: "http://localhost:8000/trainer/rateTrainerThumbsDown",
+            headers: { 'content-type': 'application/json' },
+            data: dataToServer
+        }).then((res) => {
+            console.log('result ', res.data);
+            setThumbsState(true)
+        }).catch((error) => {
+            error.response.data.message === "You have already rated the Trainer!"
+                ? console.log(error.response.data.message) :
+                console.log(error);
         });
     }
 
@@ -218,31 +240,53 @@ const CourseDetailsInMyCourses = () => {
                                     <span className="coursePage-title-arrow">&gt;</span>
                                     <div className="coursePage-title-name">{trainerData.age}</div>
                                 </div>
-                                <div className="coursePage-allCourse-trainerTitles-container">
+                                {/* <div className="coursePage-allCourse-trainerTitles-container">
                                     <span className="coursePage-title">Rating</span>
                                     <span className="coursePage-title-arrow">&gt;</span>
-                                    <div className="c-rating-elements" ><span>Rate</span> <span style={{ color: "rgb(75, 68, 68)" }}>{trainerData.rating.rate}</span></div>
-                                    <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div>
-                                </div>
+                                </div> */}
                                 <div className="rate-div">
                                     <div style={{ display: "flex", justifyContent: "center" }}>
                                         Rate the Trainer
                                     </div>
                                     <div className='txt-and-thumbs'>
-                                        <span style={{ fontSize: "14px", fontFamily: "Helvetica", textAlign: "center", width: "12em" }}>
-                                            If you liked the trainer, please click the like button
-                                        </span>
-                                        <div
-                                            // onClick={() => { rateTrainer() }}
-                                            className="rate-container">
-                                        </div>
-                                        {/* <button
-                                                onClick={() => { }}
-                                                className="rate-container">-
-                                            </button> */}
-                                        {/* <span className="rate-buttons-holder">
-                                            
-                                        </span> */}
+                                        {!trainerData.ratingProviders.includes(customerID) ?
+                                            !thumbsState ?
+                                                <>
+                                                    <span
+                                                        style={{
+                                                            fontSize: "14px",
+                                                            fontFamily: "Helvetica",
+                                                            textAlign: "center",
+                                                            width: "12em"
+                                                        }}>
+                                                        If you liked the trainer, please click the Like button
+                                                    </span>
+                                                    <div
+                                                        onClick={() => { giveTrainerThumbsUp() }}
+                                                        className="rate-container-like-btn"
+                                                    >
+                                                    </div>
+                                                </>
+                                                : <div className="rate-container-like-btn-visited">
+                                                </div>
+                                            :
+                                            !thumbsState ?
+                                                <>
+                                                    <span style={{ fontSize: "14px", fontFamily: "Helvetica", textAlign: "center", width: "12em" }}>
+                                                        Changed your mind? Please click the dislike button
+                                                    </span>
+                                                    <div
+                                                        onClick={() => { giveTrainerThumbsDown() }}
+                                                        className="rate-container-dislike-btn"
+                                                    >
+                                                    </div>
+                                                </>
+                                                :
+                                                <div
+                                                    className="rate-container-dislike-btn-visited"
+                                                >
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

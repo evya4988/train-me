@@ -52,10 +52,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   if (!isTimeChecked) {
     const today = new Date();
     setTime(today.getHours());
-    console.log("Time is: ", time);
-    console.log("adminId: ", adminId);
-    console.log("adminName: ", adminName);
-
     setIsTimeChecked(true);
   }
 
@@ -74,6 +70,22 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   }, [contactUsData, customersData, trainersData, coursesData]);
 
+  useEffect(() => {
+    //Todo
+    // AllRegisteredCustomers !== 0 && setAllRegisteredCustomers(0);
+    let courseCustomersLengthCounter = 0;
+    (AllRegisteredCustomers === 0 && coursesData.length > 0) && coursesData.forEach((course) => {
+      Object.keys(course).map((item) => {
+        if (item === "customers") {
+          console.log("course[item].length: ", course[item].length);
+          courseCustomersLengthCounter += course[item].length;
+        }
+      })
+    })
+    console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
+    setAllRegisteredCustomers(courseCustomersLengthCounter);
+  }, [coursesData])
+  
 
   const getContactUsApiAnswer = async (e) => {
     e.preventDefault();
@@ -380,8 +392,11 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       // console.log("data: ", data);
       setCoursesData(data[0]);
       // console.log("coursesData: ", coursesData);
+
+
       setCourseTrainerData(data[1]);
       // console.log("CourseTrainerData: ", courseTrainerData);
+      console.log("data[1]: ", data[1]);
 
       commonSettingDefinitionForCourses();
       setIsFilteredById(true);
@@ -534,6 +549,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }
   }
 
+  const [AllRegisteredCustomers, setAllRegisteredCustomers] = useState(0);
 
   return (
     <>
@@ -718,11 +734,16 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                     <div className="course-trainerDetails">
                                       <span style={{ color: "#334598" }}>ID:</span>
                                       <span style={{ fontSize: "12px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
-                                      <div style={{ color: "#334598" }}> Rate:
+                                      {/* <div style={{ color: "#334598" }}> Rate:
                                         {trainer.rating.rate}
                                       </div>
                                       <div style={{ color: "#334598" }}>Count:
                                         {trainer.rating.count}
+                                      </div> */}
+                                      <div style={{ color: "#334598" }}> Liked:
+                                        {trainer.ratingProviders.length !== 0 ?
+                                          `${(trainer.ratingProviders.length / AllRegisteredCustomers) * 100}%` 
+                                          : "0%"}
                                       </div>
                                     </div>
                                   </div>
@@ -763,7 +784,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                         <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
                                         <button
                                           className="adminPage-customersModalCard-btn"
-                                          // onClick={() => { deleteCustomerFromCourse() }}
+                                        // onClick={() => { deleteCustomerFromCourse() }}
                                         >
                                           Remove from course
                                         </button>

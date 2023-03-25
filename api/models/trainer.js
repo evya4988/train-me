@@ -18,10 +18,15 @@ const trainerSchema = new mongoose.Schema({
     public_id: { type: String, required: true }
   },
   password: { type: String, required: true },
-  rating: {
-    rate: { type: Number, default: 0 },
-    count: { type: Number, default: 0 },
+  ratingProviders: {
+    type: Array,
+    ref: "ratingProviders",
+    default: [],
   },
+  // rating: {
+  //   rate: { type: Number, default: 0 },
+  //   count: { type: Number, default: 0 },
+  // },
   gender: {
     type: String,
     enum: ['male', 'female'],

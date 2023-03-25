@@ -265,8 +265,8 @@ const CustomerPage = ({ customerAvatar }) => {
                                       {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
                                       <div className={`${isFemale ? "customer-trainersCards-title rating-female-title" : "customer-trainersCards-title rating-male-title"}`}>Rating
                                         <div className="trainer-rating-items">
-                                          <div>Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                          <div>Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                          <div>Rate: <span className="item-rating-number">{"njhihihihihihi"}</span></div>
+                                          <div>Count: <span className="item-rating-number">{"ijijii jjhiji"}</span></div>
                                         </div>
                                       </div>
                                     </div>
@@ -290,8 +290,8 @@ const CustomerPage = ({ customerAvatar }) => {
                                       {/* <div className="customer-trainersCards-title">Gender: <span className="item">{trainer.gender}</span></div> */}
                                       <div className="customer-trainersCards-title">Rating
                                         <div className="trainer-rating-items">
-                                          <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
-                                          <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div>
+                                          {/* <div >Rate: <span className="item-rating-number">{trainer.rating.rate}</span></div>
+                                          <div >Count: <span className="item-rating-number">{trainer.rating.count}</span></div> */}
                                         </div>
                                       </div>
                                     </div>

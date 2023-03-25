@@ -10,7 +10,8 @@ const {
   updateTrainer,
   deleteTrainerById,
   getAllTrainersForContactUsForm,
-  rateTheTrainer,
+  rateTheTrainer_thumbsUp,
+  rateTheTrainer_thumbsDown,
 } = require("../controllers/trainer");
 
 app.post("/signup", signup);
@@ -21,5 +22,7 @@ app.get("/", getAllTrainers);
 app.get("/contactUs/trainers", getAllTrainersForContactUsForm);
 app.patch("/:trainerId", updateTrainer);
 app.delete("/:trainerId", deleteTrainerById);
-app.post("/rateTrainer", rateTheTrainer);
+app.post("/rateTrainerThumbsUp", rateTheTrainer_thumbsUp);
+app.post("/rateTrainerThumbsDown", rateTheTrainer_thumbsDown);
+
 module.exports = app;

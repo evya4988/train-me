@@ -43,7 +43,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
   if (!isTimeChecked) {
     const today = new Date();
     setTime(today.getHours());
-    console.log("Time is: ", time);
+    // console.log("Time is: ", time);
     setIsTimeChecked(true);
   }
 

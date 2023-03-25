@@ -155,8 +155,8 @@ const CourseDetailsInAllCourses = () => {
                                 <div className="coursePage-allCourse-trainerTitles-container">
                                     <span className="coursePage-title">Rating</span>
                                     <span className="coursePage-title-arrow">&gt;</span>
-                                    <div className="c-rating-elements" ><span>Rate</span> <span style={{ color: "rgb(75, 68, 68)" }}>{trainerData.rating.rate}</span></div>
-                                    <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div>
+                                    {/* <div className="c-rating-elements" ><span>Rate</span> <span style={{ color: "rgb(75, 68, 68)" }}>{trainerData.rating.rate}</span></div>
+                                    <div className="c-rating-elements" ><span>Count </span><span style={{ color: "rgb(75, 68, 68)" }}> {trainerData.rating.count}</span></div> */}
                                 </div>
                             </div>
                             <div style={{ marginLeft: "2em", width: "25rem" }}>
