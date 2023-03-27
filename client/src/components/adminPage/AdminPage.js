@@ -71,8 +71,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   }, [contactUsData, customersData, trainersData, coursesData]);
 
   useEffect(() => {
-    //Todo
-    // AllRegisteredCustomers !== 0 && setAllRegisteredCustomers(0);
     let courseCustomersLengthCounter = 0;
     (AllRegisteredCustomers === 0 && coursesData.length > 0) && coursesData.forEach((course) => {
       Object.keys(course).map((item) => {
@@ -85,7 +83,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
     setAllRegisteredCustomers(courseCustomersLengthCounter);
   }, [coursesData])
-  
+
 
   const getContactUsApiAnswer = async (e) => {
     e.preventDefault();
@@ -381,7 +379,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   const getCoursesApiAnswer = async () => {
     // Disable 'List of Courses' Button when pressed again!
-    if (coursesData.length > 0 && toggleFilteredCourses) return;
+    if (coursesData.length > 0 && toggleFilteredCourses) {
+      console.log("coursesData.length", coursesData.length);
+      console.log("toggleFilteredCourses", toggleFilteredCourses);
+
+      return;
+    };
 
     setLoading(true);
     try {
@@ -404,6 +407,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
         setToggleFilteredCourses(!toggleFilteredCourses)
       }
       setLoading(false);
+      setAllRegisteredCustomers(0);
     } catch (error) {
       console.log(error);
     }
@@ -467,6 +471,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       commonSettingDefinitionForCourses();
       setIsFilteredById(true);
       setLoading(false);
+      setAllRegisteredCustomers(0);
     } catch (err) {
       console.log(err);
     }
@@ -502,6 +507,8 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
       } else {
         setCoursesData(res.data);
         setIsFilteredById(true);
+        setAllRegisteredCustomers(0);
+        setToggleFilteredCourses(false);
       }
     }).catch((error) => {
       console.log(error);
@@ -711,7 +718,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                       <div className='courseCard-details-1'>
                         <div className="course-name">{item.name}</div>
                         <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
-                        <div className="course-titles"><span className="admin-price">{item.cost} ₪</span></div>
+                        <div className="course-titles"><span className="admin-price">{item.cost}$</span></div>
                       </div>
                       <div className="courseCard-details-2">
                         <div className="course-titles">Description: <span className="items">{item.description}</span></div>
@@ -730,20 +737,44 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                     <Img courseTrainerAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                   </div>
                                   <div style={{ display: "block", alignItems: "center", marginLeft: "0.5em" }}>
-                                    <div style={{ fontSize: "15px", color: "whitesmoke", marginBottom: "1em", fontFamily: "Lucida Sans", fontWeight: "bold" }}>{trainer.firstname + " " + trainer.lastname}</div>
+                                    <div style={{ fontSize: "15px", color: "whitesmoke", marginBottom: "0.4em", fontFamily: "Lucida Sans", fontWeight: "bold" }}>{trainer.firstname + " " + trainer.lastname}</div>
                                     <div className="course-trainerDetails">
-                                      <span style={{ color: "#334598" }}>ID:</span>
-                                      <span style={{ fontSize: "12px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
-                                      {/* <div style={{ color: "#334598" }}> Rate:
-                                        {trainer.rating.rate}
+                                      <div style={{ textDecoration: "underLine", textDecorationColor: "yellow" }}>
+                                        <span style={{ color: "#334598" }}>ID:</span>
+                                        <span style={{ fontSize: "14px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
                                       </div>
-                                      <div style={{ color: "#334598" }}>Count:
-                                        {trainer.rating.count}
-                                      </div> */}
-                                      <div style={{ color: "#334598" }}> Liked:
-                                        {trainer.ratingProviders.length !== 0 ?
-                                          `${(trainer.ratingProviders.length / AllRegisteredCustomers) * 100}%` 
-                                          : "0%"}
+                                      <div
+                                        className='course-trainerDetails-allLabelsHolder'> Liked:
+                                        {trainer.ratingProviders.length !== 0
+                                          ?
+                                          <span className="course-trainerDetails-valueLabel">
+                                            {`${Math.trunc((trainer.ratingProviders.length / AllRegisteredCustomers) * 100)}%`}
+                                          </span>
+                                          :
+                                          <span className="course-trainerDetails-valueLabel" >
+                                            0%
+                                          </span>
+                                        }
+                                      </div>
+                                      <div className='course-trainerDetails-allLabelsHolder'>
+                                        Raters Amount:
+                                        <span className="course-trainerDetails-valueLabel">{item.rate.ratingProviders.length}</span>
+                                      </div>
+                                      <div className='course-trainerDetails-allLabelsHolder'>
+                                        Stars Amount:
+                                        <span className="course-trainerDetails-valueLabel">{item.rate.ratingStars}</span>
+                                      </div>
+                                      <div className='course-trainerDetails-allLabelsHolder'>
+                                        Score:
+                                        {item.rate.ratingProviders.length !== 0 ?
+                                          <span className="course-trainerDetails-valueLabel" >
+                                            {Math.trunc((item.rate.ratingStars / (item.customers.length * 5)) * 100)}
+                                          </span>
+                                          :
+                                          <span className="course-trainerDetails-valueLabel">
+                                            None
+                                          </span>
+                                        }
                                       </div>
                                     </div>
                                   </div>

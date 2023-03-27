@@ -126,9 +126,10 @@
     display: flex;
     flex-direction: row;
     width: 52em;
-    justify-content: center;
+    height: 14em;
+    justify-content: space-between;
     align-items: center;
-    margin: 0 0.1em 1em 0;
+    margin: 0 0 1em 0;
     padding: 0.3em 0.3em 0.3em 0.3em;
     /* border: 5px rgb(235, 180, 180);
     border-style: dashed; */
@@ -152,7 +153,7 @@
     display: flex;
     flex-direction: column;
     width: 7em;
-    height: 7em;
+    height: 8em;
     padding: 0 0 0 0.8em;
     justify-content: space-evenly;
     margin-bottom: 0.5em;
@@ -161,9 +162,9 @@
 .courseCard-details-2 {
     display: flex;
     flex-direction: column;
-    height: 6em;
-    width: 15em;
-    padding: 0 1em 1em 0em;
+    height: 8em;
+    width: 13em;
+    /* padding: 0 1em 0em 0em; */
     justify-content: space-between;
     /* margin-bottom: 0.5em; */
 
@@ -221,13 +222,34 @@
     background-color: rgb(121, 120, 120);
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
-    /* border-bottom-right-radius: 15px; */
+    line-height: 1.3em;
     opacity: 0.7;
     /* Needed for IE */
     box-shadow: 5px 5px 5px rgba(231, 157, 193, 0.3);
     -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
     filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3, MakeShadow=true, ShadowOpacity=0.30);
     zoom: 1;
+
+}
+
+.course-trainerDetails-allLabelsHolder {
+    display: flex;
+    justify-content: space-between;
+    color: #112da6;
+    text-decoration: underline;
+    text-decoration-color: whitesmoke;
+    margin-right: 0.4em;
+    margin-left: 0.4em;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.course-trainerDetails-valueLabel {
+    /* display: inline-flex; */
+    color: whitesmoke;
+    text-decoration: underline;
+    text-decoration-color: #334598;
+    /* margin-left: 0.3em; */
 }
 
 .courseCustomer-title {
@@ -276,7 +298,7 @@
     color: #3c2ff180;
     display: inline-block;
     max-width: calc(100% - 4px);
-    text-decoration: underLine;
+    /* text-decoration: underLine; */
     font-size: 18px;
     font-weight: bold;
     font-family: cursive;
@@ -324,7 +346,7 @@
     margin-top: 1em;
     font-size: 10px;
     background-color: rgba(238, 139, 119, 0.593);
-    color:rgb(52, 51, 51);
+    color: rgb(52, 51, 51);
 }
 
 .lineHeight {

@@ -518,7 +518,7 @@ const TrainerPage = ({ trainerAvatar, setLoading, loading }) => {
                       <input
                         className="popupForm-field"
                         type="number"
-                        placeholder="Price"
+                          placeholder="Price $"
                         value={cost}
                         onChange={(e) => { setCost(e.target.value) }} />
                       {mandatoryErrors[cost] ?
