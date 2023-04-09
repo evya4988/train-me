@@ -65,6 +65,7 @@
     font-weight: bold;
     color: rgb(70, 48, 70);
     text-shadow: none;
+    line-break: anywhere;
     /* background-color: white; */
 }
 

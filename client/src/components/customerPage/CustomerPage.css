@@ -220,6 +220,7 @@
 
 .customer-trainersCards-title .customer-allCoursesCards-title .customer-myCoursesCards-title, .data-item {
     word-wrap: break-word;
+    line-break: anywhere;
     display: flex;
     max-width: calc(100% - 4px);
     color: rgb(79, 79, 77);

@@ -20,7 +20,7 @@ body.active-modal {
 }
 
 .modal, .overlay-customers, .overlay {
-    width: 100vw;
+    width: 100vh;
     height: 100vh;
     top: 7.2vh;
     left: 0;
@@ -46,7 +46,6 @@ body.active-modal {
     box-shadow: 2px 0px 20px 8px rgb(34, 31, 83) inset;
     border-radius: 3px;
     z-index: 2;
-
 }
 
 .modal-labels {
@@ -148,8 +147,10 @@ body.active-modal {
 }
 
 .modal-customer-container {
-    height: 30rem;
-    width: 40rem;
+    height: min-content;
+    max-height: 40rem;
+    width: min-content;
+    min-width: 40rem;
     overflow: scroll;
     display: block;
     text-align: center;
@@ -162,10 +163,10 @@ body.active-modal {
     z-index: 1;
     line-height: 1.8;
     /* background: #f1f1f1; */
-    box-shadow: 2px 0px 20px 8px rgb(195, 240, 198) inset;
+    box-shadow: 2px 0px 20px 8px rgb(188, 213, 190) inset;
     border-radius: 15px;
 }
 
 .overlay-customers {
-    background: rgba(52, 54, 52, 0.534);
+    background: rgba(40, 39, 39, 0.8);
 }

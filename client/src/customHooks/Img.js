@@ -78,7 +78,7 @@ const Img = (props) => {
 
   const courseTrainerImage = cld.image(courseTrainerAvatar);
   courseTrainerImage
-    .resize(thumbnail().width(150).height(150).gravity(focusOn(face())))
+    .resize(thumbnail().width(200).height(200).gravity(focusOn(face())))
     .roundCorners(byRadius(30));
 
   const customerCoursePageImage = cld.image(customerCoursePageAvatar);

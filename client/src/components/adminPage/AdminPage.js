@@ -646,9 +646,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                 <div className="innerPage-topBar">
                   <button
                     className='sendEmail-btn'
-                    onClick={() => window.location = `mailto:${trainersData.map((trainer) => {
-                      return trainer.email
-                    })}`}>Send E-Mail to All
+                    onClick={
+                      () => window.location = `mailto:${trainersData.map((trainer) => {
+                        return trainer.email
+                      })}`
+                    }
+                  >Send E-Mail to All
                   </button>
                   <div className="amount-container">Trainers Amount:
                     <span className="amount-item">{trainersData.length}</span>
@@ -717,12 +720,12 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                       <Marginer direction="vertical" margin="0.5em" />
                       <div className='courseCard-details-1'>
                         <div className="course-name">{item.name}</div>
-                        <div className="course-titles" style={{ marginBottom: "0.5em" }}>Category: <span className="items">{item.category}</span></div>
                         <div className="course-titles"><span className="admin-price">{item.cost}$</span></div>
                       </div>
                       <div className="courseCard-details-2">
-                        <div className="course-titles">Description: <span className="items">{item.description}</span></div>
                         <div className="course-titles" style={{ marginTop: "1em" }}>Lesson Time: <span className="admin-numeric-items" >{item.lessontime} Minutes</span></div>
+                        <div className="course-titles">Category: <span className="items">{item.category}</span></div>
+                        <div className="course-titles">Description: <span className="items">{item.description}</span></div>
                       </div>
                     </div>
                     <div className="course-titles courseUsers-title">
@@ -732,16 +735,16 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                             return (
                               <>
                                 <div style={{ display: "flex", flexDirection: "row" }}>
-                                  <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                  <div key={index} style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                                     <span style={{ paddingBottom: "0.3em", fontFamily: "Lucida Sans" }}>Trainer</span>
                                     <Img courseTrainerAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
                                   </div>
                                   <div style={{ display: "block", alignItems: "center", marginLeft: "0.5em" }}>
-                                    <div style={{ fontSize: "15px", color: "whitesmoke", marginBottom: "0.4em", fontFamily: "Lucida Sans", fontWeight: "bold" }}>{trainer.firstname + " " + trainer.lastname}</div>
+                                    <div className="courseDetails-trainerName">{trainer.firstname + " " + trainer.lastname}</div>
                                     <div className="course-trainerDetails">
                                       <div style={{ textDecoration: "underLine", textDecorationColor: "yellow" }}>
                                         <span style={{ color: "#334598" }}>ID:</span>
-                                        <span style={{ fontSize: "14px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
+                                        <span style={{ fontSize: "10px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
                                       </div>
                                       <div
                                         className='course-trainerDetails-allLabelsHolder'> Liked:
@@ -804,7 +807,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                             >View Customers
                             </button>,
                             (customersModal && courseCustomersData) &&
-                            <div className="modal" >
+                            <div className="overlay" >
                               <div className="overlay-customers" onClick={toggleModal}></div>
                               <div className="modal-customer-container" >
                                 {
@@ -948,6 +951,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 }
 
 export default AdminPage
+
 
 
 

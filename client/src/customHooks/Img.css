@@ -65,8 +65,8 @@
 }
 
 .course-display-trainer-image {
-    width: 5em;
-    height: 5em;
+    width: 7em;
+    height: 7em;
     border: 2px solid transparent;
     border-radius: 1em;
     background: linear-gradient(to right, red, blue);
