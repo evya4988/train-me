@@ -72,15 +72,24 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
 
   useEffect(() => {
     let courseCustomersLengthCounter = 0;
-    (AllRegisteredCustomers === 0 && coursesData.length > 0) && coursesData.forEach((course) => {
-      Object.keys(course).map((item) => {
-        if (item === "customers") {
-          console.log("course[item].length: ", course[item].length);
-          courseCustomersLengthCounter += course[item].length;
+
+    const tempTrainerIDArr = [];
+    courseTrainerData.forEach((trainer) => {
+      trainer.all_Registered_Customers = 0
+      tempTrainerIDArr.push(trainer._id);
+    });
+    console.log("tempTrainerIDArr: ", tempTrainerIDArr);
+    console.log("courseTrainerData: ", courseTrainerData);
+
+    (AllRegisteredCustomers === 0 && coursesData.length > 0) && courseTrainerData.forEach((trainer) => {
+      coursesData.forEach((course) => {
+        if (trainer._id === course.trainer) {
+          trainer.all_Registered_Customers = (trainer.all_Registered_Customers + course.customers.length);
         }
       })
     })
-    console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
+    console.log("Course Trainer Data: ", courseTrainerData);
+    // console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
     setAllRegisteredCustomers(courseCustomersLengthCounter);
   }, [coursesData])
 
@@ -382,7 +391,6 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     if (coursesData.length > 0 && toggleFilteredCourses) {
       console.log("coursesData.length", coursesData.length);
       console.log("toggleFilteredCourses", toggleFilteredCourses);
-
       return;
     };
 
@@ -450,7 +458,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     try {
       const allCoursesUrl = 'http://localhost:8000/course/admincourses';
       const response = await axios.get(allCoursesUrl);
-      // console.log(response);
+      console.log(response);
       const data = await response.data;
 
       const filteredCourses = []
@@ -749,9 +757,11 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                       <div
                                         className='course-trainerDetails-allLabelsHolder'> Liked:
                                         {trainer.ratingProviders.length !== 0
-                                          ?
+                                          ? /** keep goin */
                                           <span className="course-trainerDetails-valueLabel">
-                                            {`${Math.trunc((trainer.ratingProviders.length / AllRegisteredCustomers) * 100)}%`}
+                                            {/* {trainer.ratingProviders.length} */}
+                                            {/* {trainer.all_Registered_Customers} */}
+                                            {Math.trunc((trainer.ratingProviders.length / trainer.all_Registered_Customers) * 100)}%
                                           </span>
                                           :
                                           <span className="course-trainerDetails-valueLabel" >
@@ -771,7 +781,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                         Score:
                                         {item.rate.ratingProviders.length !== 0 ?
                                           <span className="course-trainerDetails-valueLabel" >
-                                            {Math.trunc((item.rate.ratingStars / (item.customers.length * 5)) * 100)}
+                                            {Math.trunc((item.rate.ratingStars / (item.customers.length * 5)) * 100)}%
                                           </span>
                                           :
                                           <span className="course-trainerDetails-valueLabel">
