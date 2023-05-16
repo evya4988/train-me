@@ -32,6 +32,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
   const [isFilteredContactsBtnPressed, setIsFilteredContactsBtnPressed] = useState(false);
   const [allContactUsForAllFilteredOption, setAllContactUsForAllFilteredOption] = useState([]);
   const [filteredUserDataEmpty, setFilteredUserDataEmpty] = useState(false);
+  const [courseItem, setCourseItem] = useState('');
 
   const {
     adminName,
@@ -91,7 +92,8 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     console.log("Course Trainer Data: ", courseTrainerData);
     // console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
     setAllRegisteredCustomers(courseCustomersLengthCounter);
-  }, [coursesData])
+  }, [coursesData]);
+  
 
 
   const getContactUsApiAnswer = async (e) => {
@@ -421,8 +423,9 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }
   }
 
-  const getCourseCustomersData = async (courseItems) => {
+  const getCourseCustomersData = async (courseItems, item) => {
     setLoading(true);
+    console.log("courseItems: ", courseItems);
     axios({
       method: 'post',
       url: "http://localhost:8000/course/courseCustomers",
@@ -431,28 +434,37 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     }).then((res) => {
       console.log('Fetching customers ', res.data);
       setCourseCustomersData(res.data);
+      //Set the course item to be retrieved when the customer is removed from the course.
+      setCourseItem(item);
       setCustomersModal(!customersModal);
       setLoading(false);
     }).catch((error) => {
       console.log(error);
     });
   }
-  //Todo
-  // const deleteCustomerFromCourse = async () => {
-  //   setLoading(true);
-  //   axios({
-  //     method: 'post',
-  //     url: "http://localhost:8000/course/courseCustomers",
-  //     headers: { 'content-type': 'application/json' },
-  //     data: 
-  //   }).then((res) => {
-  //     console.log('Fetching customers ', res.data);
 
-  //     setLoading(false);
-  //   }).catch((error) => {
-  //     console.log(error);
-  //   });
-  // }
+  const deleteCustomerFromCourse = async (courseItem, customerId) => {
+    const dataIdToServer = {
+      courseItem,
+      customerId
+    }
+    console.log("dataIdToServer: ", dataIdToServer);
+    setLoading(true);
+    axios({
+      method: 'post',
+      url: "http://localhost:8000/course/courseCustomerId",
+      headers: { 'content-type': 'application/json' },
+      data: dataIdToServer
+    }).then((res) => {
+      // console.log("res.data: ", res.data);
+      console.log(`Deleted customer ${customerId} from course ${res.data.name}`);
+      setCourseCustomersData(courseCustomersData);
+
+      setLoading(false);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
   const FilteredCoursesWithCustomers = async () => {
     try {
@@ -779,10 +791,14 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                       </div>
                                       <div className='course-trainerDetails-allLabelsHolder'>
                                         Score:
-                                        {item.rate.ratingProviders.length !== 0 ?
+                                        {(item.rate.ratingProviders.length !== 0 && item.customers.length !== 0) ?
                                           <span className="course-trainerDetails-valueLabel" >
                                             {Math.trunc((item.rate.ratingStars / (item.customers.length * 5)) * 100)}%
                                           </span>
+                                          : item.customers.length === 0 ? 
+                                            <span className="course-trainerDetails-valueLabel" >
+                                              No Customers
+                                            </span>
                                           :
                                           <span className="course-trainerDetails-valueLabel">
                                             None
@@ -813,7 +829,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                             </div>,
                             <button
                               className="course-customer-btn"
-                              onClick={() => { getCourseCustomersData(item.customers) }}
+                              onClick={() => { getCourseCustomersData(item.customers, item) }}
                             >View Customers
                             </button>,
                             (customersModal && courseCustomersData) &&
@@ -828,7 +844,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                         <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
                                         <button
                                           className="adminPage-customersModalCard-btn"
-                                        // onClick={() => { deleteCustomerFromCourse() }}
+                                          onClick={() => { deleteCustomerFromCourse(courseItem, customerData._id)}}
                                         >
                                           Remove from course
                                         </button>

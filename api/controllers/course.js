@@ -182,6 +182,41 @@ module.exports = {
             return serverResponse(res, 500, { message: "internal error occurred " + e });
         }
     },
+    //Todo- need to fix bug: always get the incorrect id of course
+    removeCustomerFromCourseById: async (req, res) => {
+        try {
+            // console.log("customer ID: ", req.body.customerId);
+            // console.log("Course: ", req.body.courseItem);
+
+            const customerID = req.body.customerId;
+            const courseID = req.body.courseItem._id
+            
+            const updatedCourse = await Course.findOneAndUpdate(
+                { _id: courseID },
+                { $pull: { customers: customerID } },
+                { new: true } // Return the updated document
+            );
+
+            // const courseToUpdate = await Course.findOne({ _id: courseID }); 
+            // for (const i in courseToUpdate) {
+            //     if (i === "customers"){
+            //         console.log("Items before: ", courseToUpdate[i])
+            //         console.log("Im in");
+            //         for (const item in courseToUpdate[i]){
+            //             console.log("Item: ", courseToUpdate[i][item]);
+            //             if (courseToUpdate[i][item] == customerID){
+            //                 console.log("Yes: ", courseToUpdate[i][item]);
+            //             }
+            //         }
+            //     }
+            // }
+
+            // console.log("updated document: ", updatedCourse);
+            return serverResponse(res, 200, updatedCourse);
+        } catch (e) {
+            return serverResponse(res, 500, { message: "internal error occurred " + e });
+        }
+    },
 
     /** Trainer Page */
     deleteCourseById: async (req, res) => {
