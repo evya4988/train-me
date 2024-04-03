@@ -93,7 +93,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
     // console.log("courseCustomersLengthCounter: ", courseCustomersLengthCounter);
     setAllRegisteredCustomers(courseCustomersLengthCounter);
   }, [coursesData]);
-  
+
 
 
   const getContactUsApiAnswer = async (e) => {
@@ -762,17 +762,17 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                   <div style={{ display: "block", alignItems: "center", marginLeft: "0.5em" }}>
                                     <div className="courseDetails-trainerName">{trainer.firstname + " " + trainer.lastname}</div>
                                     <div className="course-trainerDetails">
-                                      <div style={{ textDecoration: "underLine", textDecorationColor: "yellow" }}>
+                                      <div style={{ textDecoration: "underLine", textDecorationColor: "yellow", marginLeft: "0.4em" }}>
                                         <span style={{ color: "#334598" }}>ID:</span>
                                         <span style={{ fontSize: "10px", color: "white", overflowWrap: "break-word" }}>{trainer._id}</span>
                                       </div>
                                       <div
                                         className='course-trainerDetails-allLabelsHolder'> Liked:
-                                        {trainer.ratingProviders.length !== 0
+                                        {(trainer.ratingProviders.length !== 0 && trainer.all_Registered_Customers !== 0)
                                           ? /** keep goin */
                                           <span className="course-trainerDetails-valueLabel">
-                                            {/* {trainer.ratingProviders.length} */}
-                                            {/* {trainer.all_Registered_Customers} */}
+                                            {/* {trainer.ratingProviders.length}
+                                            {trainer.all_Registered_Customers} */}
                                             {Math.trunc((trainer.ratingProviders.length / trainer.all_Registered_Customers) * 100)}%
                                           </span>
                                           :
@@ -793,16 +793,18 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                         Score:
                                         {(item.rate.ratingProviders.length !== 0 && item.customers.length !== 0) ?
                                           <span className="course-trainerDetails-valueLabel" >
-                                            {Math.trunc((item.rate.ratingStars / (item.customers.length * 5)) * 100)}%
+                                            {/* {console.log("item.rate.ratingProviders", item.rate.ratingProviders)} */}
+                                            {Math.trunc((item.rate.ratingStars / ((item.rate.ratingProviders.length) * 5)) * 100)}%
                                           </span>
-                                          : item.customers.length === 0 ? 
-                                            <span className="course-trainerDetails-valueLabel" >
+                                          :
+                                          item.customers.length === 0 ?
+                                            <span className="course-trainerDetails-scoreLabel" >
                                               No Customers
                                             </span>
-                                          :
-                                          <span className="course-trainerDetails-valueLabel">
-                                            None
-                                          </span>
+                                            :
+                                            <span className="course-trainerDetails-valueLabel">
+                                              None
+                                            </span>
                                         }
                                       </div>
                                     </div>
@@ -844,7 +846,7 @@ const AdminPage = ({ loading, setLoading, adminAvatar }) => {
                                         <Img customersDisplayAvatar={customerData.profilepic.public_id} alt="Customer avatar"></Img>
                                         <button
                                           className="adminPage-customersModalCard-btn"
-                                          onClick={() => { deleteCustomerFromCourse(courseItem, customerData._id)}}
+                                          onClick={() => { deleteCustomerFromCourse(courseItem, customerData._id) }}
                                         >
                                           Remove from course
                                         </button>

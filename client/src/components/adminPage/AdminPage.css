@@ -273,6 +273,14 @@
     /* margin-left: 0.3em; */
 }
 
+.course-trainerDetails-scoreLabel {
+    color: rgb(237, 97, 97);
+    font-family: Arial, sans-serif;
+    text-decoration: underline;
+    text-decoration-color: #334598;
+    margin-left: 0.4em;
+}
+
 .courseCustomer-title {
     color: rgb(106, 225, 124);
     display: inline-flex;

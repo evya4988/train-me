@@ -144,9 +144,9 @@ module.exports = {
   deleteCustomerById: async (req, res) => {
     try {
       const id = req.params.customerId;
-      // console.log("ID: ", id)
+      console.log("ID: ", id)
       const customer = await Customer.findById(id);
-      // console.log(customer)
+      console.log(customer)
       const imgId = customer.profilepic.public_id;
       if (imgId) {
         await cloudinary.uploader.destroy(imgId);
@@ -157,10 +157,19 @@ module.exports = {
       for (const x in allCourses) {
         const objWithIdIndex = allCourses[x].customers.findIndex((customerId) => customerId == id);
         // console.log("objWithIdIndex: ", objWithIdIndex);
-        if (objWithIdIndex !== -1) {
+        const objWithIdOfRaterIndex = allCourses[x].rate.ratingProviders.findIndex((customerId) => customerId == id);
+        console.log("objWithIdOfRaterIndex: ", objWithIdOfRaterIndex);
+
+
+        if ((objWithIdIndex !== -1 && objWithIdOfRaterIndex !== -1)) {
           // console.log("allCourses[x].customers: ", allCourses[x].customers);
+          console.log("allCourses[x].rate.ratingProviders: ", allCourses[x].rate.ratingProviders);
           allCourses[x].customers.splice(objWithIdIndex, 1);
+          allCourses[x].rate.ratingProviders.splice(objWithIdOfRaterIndex, 1);
+
           // console.log("allCourses[x].customers - After: ", allCourses[x].customers);
+          console.log("allCourses[x].rate.ratingProviders - After: ", allCourses[x].rate.ratingProviders);
+
           await allCourses[x].save();
         }
       }

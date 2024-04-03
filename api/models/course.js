@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-const courseSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const courseSchema = new Schema({
   name: { type: String, required: true },
   category: { type: String, required: true },
   description: { type: String, required: true },
@@ -34,6 +36,11 @@ const courseSchema = new mongoose.Schema({
     },
   },
 
+  rater: {
+    type: Map,
+    of: Number,
+    default: {}
+  }
 
   // location: {}
 });

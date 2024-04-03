@@ -80,7 +80,7 @@ const CustomerPage = ({ customerAvatar }) => {
       console.log(response);
       const data = await response.data;
       setAllTrainersPartialData(data);
-      console.log(allTrainersPartialData);
+      // console.log("allTrainers-PartialData: ", data);
       setAllCourses([]);
       setMyCourses([]);
       setFilterTrainersByGender([]);
@@ -280,6 +280,7 @@ const CustomerPage = ({ customerAvatar }) => {
                               allTrainersPartialData.map((trainer, index) => {
                                 return (
                                   <div key={index} style={{ display: "flex", flexDirection: "column", padding: "0.2em" }}>
+                                  {/* {console.log("allTrainersPartialData: ", allTrainersPartialData)} */}
                                     <div className="allCards-customerPage-container">
                                       <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5em", marginBottom: "0.5em" }}>
                                         <Img trainersDisplayAvatar={trainer.profilepic.public_id} alt="Trainer avatar"></Img>
