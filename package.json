@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/barshay/train-me.git"
+    "url": "git+https://github.com/evya4988/train-me.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/barshay/train-me/issues"
+    "url": "https://github.com/evya4988/train-me/issues"
   },
-  "homepage": "https://github.com/barshay/train-me#readme",
+  "homepage": "https://github.com/evya4988/train-me#readme",
   "dependencies": {
     "@cloudinary/base": "^1.0.0-beta.4",
     "bcrypt": "^5.0.1",
