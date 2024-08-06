@@ -304,12 +304,12 @@ module.exports = {
   },
 
   // TODO?
-  updateTrainer: (req, res) => {
-    const trainerID = req.params.trainerId;
+  // updateTrainer: (req, res) => {
+  //   const trainerID = req.params.trainerId;
 
-    res.status(200).json({
-      message: "Update Trainer - ${trainerId}",
-    });
-  },
+  //   res.status(200).json({
+  //     message: "Update Trainer - ${trainerId}",
+  //   });
+  // },
 
 };

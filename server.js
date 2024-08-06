@@ -33,7 +33,7 @@ app.use("/trainer", trainerRoutes);
 //   res.sendFile(__dirname + "/client/build/index.html")
 // })
 
-mongoose.connect("mongodb://127.0.0.1:27017/test", {
+mongoose.connect("mongodb://127.0.0.1:27017/train-me", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

@@ -80,7 +80,7 @@ module.exports = {
 
   },
 
-  login: (req, res) => {
+  login: async (req, res) => {
     const { email, password } = req.body
     console.log('password: ', password);
     try {
